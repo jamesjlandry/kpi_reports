@@ -16,25 +16,25 @@ function App() {
           "ZEROPN": 41, 
         },
         "MDB": {
-          "2PN": 192,
-          "1PN": 8,
+          "TWOPN": 192,
+          "ONEPN": 8,
           "Abnormal": 4,
           "DGen" : 2,
-          "0PN": 27, 
+          "ZEROPN": 27, 
         },
         "ECM": {
-          "2PN": 107,
-          "1PN": 4,
+          "TWOPN": 107,
+          "ONEPN": 4,
           "Abnormal": 2,
           "DGen" : 4,
-          "0PN": 9,
+          "ZEROPN": 9,
         },
         "MDB/ECM": {
-          "2PN": 71,
-          "1PN": 6,
+          "TWOPN": 71,
+          "ONEPN": 6,
           "Abnormal": 2,
           "DGen" : 2,
-          "0PN": 4,
+          "ZEROPN": 4,
         }
       }
     }

@@ -27,13 +27,41 @@ let FertRates = (props) => {
             
         ]
     }
+
+    let technicians = Object.keys(props.chartData.fertRates.ICSITech)
+    technicians = technicians.filter(tech => tech !== "Total")
+    
    
     return (
         <div>
+            {console.log(technicians)}
             ICSI'd Total
-            <PieChart fertData={fertData} displayTitle={props.displayTitle} />
+            <PieChart fertData={fertData}  />
             <div>
-                {/* {technicians.map(technician => <PieChart chartData={technician.chartData} displayTitle={technician.displayTitle}/>)} */}
+                {technicians.map(tech => <PieChart fertData= {{
+                    labels: ["2PN", "1PN", "Abnormal", "DGen", "0PN"],
+                    datasets: [
+                        {
+                            data: [
+                                props.chartData.fertRates.ICSITech[tech].TWOPN,
+                                props.chartData.fertRates.ICSITech[tech].ONEPN,
+                                props.chartData.fertRates.ICSITech[tech].Abnormal,
+                                props.chartData.fertRates.ICSITech[tech].DGen,
+                                props.chartData.fertRates.ICSITech[tech].ZEROPN
+            
+                            ],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.9',
+                                'rgba(54, 162, 235, 0.9',
+                                'rgba(255, 206, 86, 0.9',
+                                'rgba(255,159,64, 0.9',
+                                'rgba(75, 192, 192, 0.9',
+                                'rgba(153, 102, 255, 0.9'
+                              ]
+                        }
+                    ]
+                }
+                } />)}
             </div>
         </div>
     )
