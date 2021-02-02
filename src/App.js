@@ -87,14 +87,14 @@ const [fertData, setFertData] = useState()
       let dgen = 0
       let zeroPN = 0
       let fertRateKeys = Object.keys(arr1)
-      fertRateKeys = fertRateKeys.filter( key => arr1[key]['2PN'] !== 'n/a')
+      fertRateKeys = fertRateKeys.filter( key => arr1[key]['# 2PN'] !== 'n/a')
       fertRateKeys.forEach(key => {
-        console.log(arr1[key])
-        twoPN += arr1[key]['2PN']
-        onePN += arr1[key['1PN']]
-        abn += arr1[key]['abnormal']
-        dgen += arr1[key]['deg']
-        zeroPN += arr1[key]['0PN']
+        
+        twoPN += arr1[key]['# 2PN']
+        onePN += arr1[key]['#1PN']
+        abn += arr1[key]['# abnormal']
+        dgen += arr1[key]['# deg']
+        zeroPN += arr1[key]['# 0PN']
       })
       // console.log(arr1)
       setFertData({
