@@ -1,54 +1,65 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import PieChart from './PieChart'
 
 let FertRates = (props) => {
-
-    // console.log(props.fertData)
-    // let fertData = {
-    //     labels: ["2PN", "1PN", "Abnormal", "DGen", "0PN"],
-    //     datasets: [
-    //         {
-    //             data: [
-               
-    //                 props.chartData.fertRates.ICSITech.Total.TWOPN,
-    //                 props.chartData.fertRates.ICSITech.Total.ONEPN,
-    //                 props.chartData.fertRates.ICSITech.Total.Abnormal,
-    //                 props.chartData.fertRates.ICSITech.Total.DGen,
-    //                 props.chartData.fertRates.ICSITech.Total.ZEROPN
-    //             ],
-    //             backgroundColor: [
-    //                 'rgba(255, 99, 132, 0.9',
-    //                 'rgba(54, 162, 235, 0.9',
-    //                 'rgba(255, 206, 86, 0.9',
-    //                 'rgba(255,159,64, 0.9',
-    //                 'rgba(75, 192, 192, 0.9',
-    //                 'rgba(153, 102, 255, 0.9'
-    //               ]
-    //         }
-            
-    //     ]
-    // }
-
-    // let technicians = Object.keys(props.chartData.fertRates.ICSITech)
-    // technicians = technicians.filter(tech => tech !== "Total")
+    
+    let techs = Object.keys(props.fertData)
+    let twoPN = 0
+    let onePN = 0
+    let abn = 0
+    let dgen = 0
+    let zeroPN = 0
+    console.log(techs)
+    
+    techs.forEach( tech => {
+        twoPN += props.fertData[tech]['twoPN']
+        onePN += props.fertData[tech]['onePN']
+        abn += props.fertData[tech]['abn']
+        dgen += props.fertData[tech]['dgen']
+        zeroPN += props.fertData[tech]['zeroPN']
+        }  
+    )
+   
+    let total = {
+        labels: ["2PN", "1PN", "> 2PN", "DGen", "0PN"],
+        datasets: [
+            {
+                data: [
+                    twoPN,
+                    onePN,
+                    abn,
+                    dgen,
+                    zeroPN 
+                ],
+                backgroundColor: [
+                            'rgba(255, 99, 132, 0.9',
+                            'rgba(54, 162, 235, 0.9',
+                            'rgba(255, 206, 86, 0.9',
+                            'rgba(255,159,64, 0.9',
+                            'rgba(75, 192, 192, 0.9',
+                            'rgba(153, 102, 255, 0.9'
+                          ]
+            }
+        ]
+    }
     
    
     return (
         <div>
            
             ICSI'd Total
-            <PieChart fertData={props.fertData}  />
+            <PieChart fertData={total}  />
             <div>
-                {/* {technicians.map(tech => <div> {tech} <PieChart fertData= {{
-                    labels: ["2PN", "1PN", "Abnormal", "DGen", "0PN"],
+                {techs.map(tech => <div> {tech} <PieChart fertData= {{
+                    labels: ["2PN", "1PN", "> 2PN", "DGen", "0PN"],
                     datasets: [
                         {
                             data: [
-                                props.chartData.fertRates.ICSITech[tech].TWOPN,
-                                props.chartData.fertRates.ICSITech[tech].ONEPN,
-                                props.chartData.fertRates.ICSITech[tech].Abnormal,
-                                props.chartData.fertRates.ICSITech[tech].DGen,
-                                props.chartData.fertRates.ICSITech[tech].ZEROPN
+                                props.fertData[tech].twoPN,
+                                props.fertData[tech].onePN,
+                                props.fertData[tech].abn,
+                                props.fertData[tech].dgen,
+                                props.fertData[tech].zeroPN
             
                             ],
                             backgroundColor: [
@@ -62,7 +73,7 @@ let FertRates = (props) => {
                         }
                     ]
                 }
-                } /></div>)} */}
+                } /></div>)}
             </div>
         </div>
     )
