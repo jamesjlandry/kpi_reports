@@ -5,7 +5,7 @@ import * as XLSX from 'xlsx';
 
 function App() {
 
-const [chartData, setChartData] = useState()
+const [totalFertData, setTotalFertData] = useState()
 const [fertData, setFertData] = useState()
 
 
@@ -40,14 +40,34 @@ const [fertData, setFertData] = useState()
     })
 
     promise.then((data) => {
-      // setChartData(data)
+      
       let arr1 = data[0]
       let arr2 = data[1]
-     
       let fertRateKeys = Object.keys(arr1)
       let totalICSID = fertRateKeys.filter( key => arr1[key]['# 2PN'] !== 'n/a')
-      let fData = {}
+      let fData = {
+        "Total ICSI'D": {
+          twoPN: 0,
+          onePN: 0,
+          abn: 0,
+          dgen: 0,
+          zeroPN: 0
+        }
+      }
       totalICSID.forEach(key => {
+        
+       fData["Total ICSI'D"]['twoPN'] += arr1[key]['# 2PN'] 
+       fData["Total ICSI'D"]['onePN'] += arr1[key]['#1PN'] 
+       fData["Total ICSI'D"]['abn'] += arr1[key]['# abnormal'] 
+       fData["Total ICSI'D"]['dgen'] += arr1[key]['# deg'] 
+       fData["Total ICSI'D"]['zeroPN'] += arr1[key]['# 0PN'] 
+
+      })
+
+      
+      let techICSID = fertRateKeys.filter( key => !arr1[key]['ICSI Tech'].includes('/'))
+      
+      techICSID.forEach(key => {
         
         if(!fData[arr1[key]['ICSI Tech']]) {
           
@@ -71,9 +91,11 @@ const [fertData, setFertData] = useState()
       })
 
       setFertData(fData)
+      
     })
   }
  
+  
   return (
     <div className="App">
       <input type="file" onChange={(e) => {
