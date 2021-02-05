@@ -110,7 +110,25 @@ const [fertData, setFertData] = useState()
       })
       
      
+      techICSID.forEach(key => {
+        
+        if(!cData[arr1[key]['ICSI Tech']]) {
+          
+          cData[arr1[key]['ICSI Tech']] = {
+            "Good": arr1[key]['# 2PN'],
+            "Poor":  arr1[key]['#1PN'],
+            "Discarded": arr1[key]['# abnormal'],
+            
+          }
 
+        } else {
+          cData[arr1[key]['ICSI Tech']]['Good'] += arr1[key]['#d3 >=6c']
+          cData[arr1[key]['ICSI Tech']]['Poor'] +=  (arr1[key]['# Day 3 Emb'] - arr1[key]['#d3 >=6c'])
+          cData[arr1[key]['ICSI Tech']]['Discarded'] += (arr1[key]["# 2PN"] - arr1[key]['# Day 3 Emb'])
+        }
+       
+       
+      })
       
 
 
