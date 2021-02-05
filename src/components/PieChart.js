@@ -83,7 +83,7 @@ import { Pie, Doughnut, Chart } from 'react-chartjs-2'
     return (
         <div>
             <Doughnut
-                data = {props.fertData}
+                data = {props.data}
                 options={lineOptions}
             />
            

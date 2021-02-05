@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import './App.css';
 import FertRates from './components/FertRates'
+import CleavageRates from './components/CleavageRates'
 import * as XLSX from 'xlsx';
 
 function App() {
 
-const [totalFertData, setTotalFertData] = useState()
+const [cleaveData, setCleaveData] = useState()
 const [fertData, setFertData] = useState()
 
 
@@ -90,6 +91,30 @@ const [fertData, setFertData] = useState()
        
       })
 
+      let cleaveDayThree = fertRateKeys.filter( key => arr1[key]['# Day 3 Emb'] !== 'n/a')
+
+
+      let cData = {
+        "Total": {
+          "Good": 0,
+          "Poor": 0,
+          "Discarded": 0
+        }
+      }
+
+      cleaveDayThree.forEach( key => {
+        
+        cData["Total"]["Good"] += arr1[key]['#d3 >=6c']
+        cData["Total"]["Poor"] += (arr1[key]['# Day 3 Emb'] - arr1[key]['#d3 >=6c'])
+        cData["Total"]["Discarded"] += (arr1[key]["# 2PN"] - arr1[key]['# Day 3 Emb'])
+      })
+      
+     
+
+      
+
+
+      setCleaveData(cData)
       setFertData(fData)
       
     })
@@ -103,6 +128,7 @@ const [fertData, setFertData] = useState()
         readExcel(file)
       }} />
       {fertData? <FertRates fertData={fertData}  /> : null}
+      {cleaveData? <CleavageRates cleaveData={cleaveData}  /> : null}
     </div>
   );
 }

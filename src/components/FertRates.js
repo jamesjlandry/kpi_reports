@@ -4,23 +4,7 @@ import PieChart from './PieChart'
 
 let FertRates = (props) => {
     let techs = Object.keys(props.fertData)
-    let twoPN = 0
-    let onePN = 0
-    let abn = 0
-    let dgen = 0
-    let zeroPN = 0
     
-    
-    techs.forEach( tech => {
-        twoPN += props.fertData[tech]['twoPN']
-        onePN += props.fertData[tech]['onePN']
-        abn += props.fertData[tech]['abn']
-        dgen += props.fertData[tech]['dgen']
-        zeroPN += props.fertData[tech]['zeroPN']
-        }  
-    ) 
-
-    console.log(props.fertData)
    
     return (
         <div>
@@ -28,7 +12,7 @@ let FertRates = (props) => {
             
             
             <div>
-                {techs.map(tech => <div> {tech} <PieChart key={`${tech}_data`} fertData= {{
+                {techs.map(tech => <div> {tech} <PieChart key={`${tech}_data`} data= {{
                     labels: ["2PN", "1PN", "> 2PN", "DGen", "0PN"],
                     datasets: [
                         {
