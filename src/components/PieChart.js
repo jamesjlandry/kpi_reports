@@ -30,7 +30,7 @@ import { Pie, Doughnut, Chart } from 'react-chartjs-2'
         data.datasets[0].data.push(props.tData[key])
     })
 
-   console.log(data)
+ 
 
     const lineOptions ={
         maintainAspectRatio: true,

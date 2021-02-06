@@ -44,12 +44,12 @@ const [pregData, setPregData] = useState()
 
     promise.then((data) => {
       
-      let arr1 = data[0]
-      let arr2 = data[1]
-      let retRateKeys = Object.keys(arr1)
-      let fetRateKeys = Object.keys(arr2)
-      let totalICSID = retRateKeys.filter( key => arr1[key]['# 2PN'] !== 'n/a')
-      let fData = {
+      const arr1 = data[0]
+      const arr2 = data[1]
+      const retRateKeys = Object.keys(arr1)
+      const fetRateKeys = Object.keys(arr2)
+      const totalICSID = retRateKeys.filter( key => arr1[key]['# 2PN'] !== 'n/a')
+      const fData = {
         "Total ICSI'D": {
           '2PN': 0,
           '1PN': 0,
@@ -69,7 +69,7 @@ const [pregData, setPregData] = useState()
       })
 
       
-      let techICSID = retRateKeys.filter( key => !arr1[key]['ICSI Tech'].includes('/'))
+      const techICSID = retRateKeys.filter( key => !arr1[key]['ICSI Tech'].includes('/'))
       
       techICSID.forEach(key => {
         
@@ -94,10 +94,11 @@ const [pregData, setPregData] = useState()
        
       })
 
-      let cleaveDayThree = retRateKeys.filter( key => arr1[key]['# Day 3 Emb'] !== 'n/a')
+      const cleaveDayThree = retRateKeys.filter( key => arr1[key]['# Day 3 Emb'] !== 'n/a')
 
-
-      let cData = {
+      const fetPData = fetRateKeys.filter(key => arr2[key]['Age Group'] === '25-34' || arr2[key]['Age Group'] === '35-37')
+      console.log(fetPData)
+      const cData = {
         "Total": {
           "Good": 0,
           "Poor": 0,
@@ -133,11 +134,18 @@ const [pregData, setPregData] = useState()
        
       })
       
+      const pData = {
+        "Total": {
+          "Positive": 0,
+          "Negative": 0
+        }
+      }
+
 
 
       setCleaveData(cData)
       setFertData(fData)
-      
+      setPregData(pData)
     })
   }
  
