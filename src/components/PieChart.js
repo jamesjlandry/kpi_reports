@@ -3,6 +3,35 @@ import { Pie, Doughnut, Chart } from 'react-chartjs-2'
 
  let PieChart = (props) => {
 
+
+    const data = {
+        labels: [],
+        datasets: [
+            {
+                data: [
+
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.9',
+                    'rgba(54, 162, 235, 0.9',
+                    'rgba(255, 206, 86, 0.9',
+                    'rgba(255,159,64, 0.9',
+                    'rgba(75, 192, 192, 0.9',
+                    'rgba(153, 102, 255, 0.9'
+                ]
+            }
+        ]
+    }
+
+    const techKeys = Object.keys(props.tData)
+
+    techKeys.forEach( key => {
+        data.labels.push(key)
+        data.datasets[0].data.push(props.tData[key])
+    })
+
+   console.log(data)
+
     const lineOptions ={
         maintainAspectRatio: true,
         tooltips: {
@@ -83,7 +112,7 @@ import { Pie, Doughnut, Chart } from 'react-chartjs-2'
     return (
         <div>
             <Doughnut
-                data = {props.data}
+                data = {data}
                 options={lineOptions}
             />
            

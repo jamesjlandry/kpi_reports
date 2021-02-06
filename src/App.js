@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import './App.css';
 import FertRates from './components/FertRates'
 import CleavageRates from './components/CleavageRates'
+import PregnancyRates from './components/PregnancyRates'
 import * as XLSX from 'xlsx';
 
 function App() {
 
 const [cleaveData, setCleaveData] = useState()
 const [fertData, setFertData] = useState()
+const [pregData, setPregData] = useState()
 
 
 
@@ -44,54 +46,55 @@ const [fertData, setFertData] = useState()
       
       let arr1 = data[0]
       let arr2 = data[1]
-      let fertRateKeys = Object.keys(arr1)
-      let totalICSID = fertRateKeys.filter( key => arr1[key]['# 2PN'] !== 'n/a')
+      let retRateKeys = Object.keys(arr1)
+      let fetRateKeys = Object.keys(arr2)
+      let totalICSID = retRateKeys.filter( key => arr1[key]['# 2PN'] !== 'n/a')
       let fData = {
         "Total ICSI'D": {
-          twoPN: 0,
-          onePN: 0,
-          abn: 0,
+          '2PN': 0,
+          '1PN': 0,
+          '>2PN': 0,
           dgen: 0,
-          zeroPN: 0
+          '0PN': 0
         }
       }
       totalICSID.forEach(key => {
         
-       fData["Total ICSI'D"]['twoPN'] += arr1[key]['# 2PN'] 
-       fData["Total ICSI'D"]['onePN'] += arr1[key]['#1PN'] 
-       fData["Total ICSI'D"]['abn'] += arr1[key]['# abnormal'] 
+       fData["Total ICSI'D"]['2PN'] += arr1[key]['# 2PN'] 
+       fData["Total ICSI'D"]['1PN'] += arr1[key]['#1PN'] 
+       fData["Total ICSI'D"]['>2PN'] += arr1[key]['# abnormal'] 
        fData["Total ICSI'D"]['dgen'] += arr1[key]['# deg'] 
-       fData["Total ICSI'D"]['zeroPN'] += arr1[key]['# 0PN'] 
+       fData["Total ICSI'D"]['0PN'] += arr1[key]['# 0PN'] 
 
       })
 
       
-      let techICSID = fertRateKeys.filter( key => !arr1[key]['ICSI Tech'].includes('/'))
+      let techICSID = retRateKeys.filter( key => !arr1[key]['ICSI Tech'].includes('/'))
       
       techICSID.forEach(key => {
         
         if(!fData[arr1[key]['ICSI Tech']]) {
           
           fData[arr1[key]['ICSI Tech']] = {
-            twoPN: arr1[key]['# 2PN'],
-            onePN:  arr1[key]['#1PN'],
-            abn: arr1[key]['# abnormal'],
+            '2PN': arr1[key]['# 2PN'],
+            '1PN':  arr1[key]['#1PN'],
+            '>2PN': arr1[key]['# abnormal'],
             dgen: arr1[key]['# deg'],
-            zeroPN: arr1[key]['# 0PN']
+            '0PN': arr1[key]['# 0PN']
           }
 
         } else {
-          fData[arr1[key]['ICSI Tech']]['twoPN'] += arr1[key]['# 2PN']
-          fData[arr1[key]['ICSI Tech']]['onePN'] += arr1[key]['#1PN']
-          fData[arr1[key]['ICSI Tech']]['abn'] += arr1[key]['# abnormal']
+          fData[arr1[key]['ICSI Tech']]['2PN'] += arr1[key]['# 2PN']
+          fData[arr1[key]['ICSI Tech']]['1PN'] += arr1[key]['#1PN']
+          fData[arr1[key]['ICSI Tech']]['>2PN'] += arr1[key]['# abnormal']
           fData[arr1[key]['ICSI Tech']]['dgen'] += arr1[key]['# deg']
-          fData[arr1[key]['ICSI Tech']]['zeroPN'] += arr1[key]['# 0PN']
+          fData[arr1[key]['ICSI Tech']]['0PN'] += arr1[key]['# 0PN']
         }
        
        
       })
 
-      let cleaveDayThree = fertRateKeys.filter( key => arr1[key]['# Day 3 Emb'] !== 'n/a')
+      let cleaveDayThree = retRateKeys.filter( key => arr1[key]['# Day 3 Emb'] !== 'n/a')
 
 
       let cData = {
@@ -138,7 +141,7 @@ const [fertData, setFertData] = useState()
     })
   }
  
-  
+
   return (
     <div className="App">
       <input type="file" onChange={(e) => {
@@ -146,6 +149,7 @@ const [fertData, setFertData] = useState()
         readExcel(file)
       }} />
       {fertData? <FertRates fertData={fertData}  /> : null}
+      {pregData? <PregnancyRates pregData={pregData} /> : null}
       {cleaveData? <CleavageRates cleaveData={cleaveData}  /> : null}
     </div>
   );

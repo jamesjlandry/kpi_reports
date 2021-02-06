@@ -6,36 +6,13 @@ let FertRates = (props) => {
     let techs = Object.keys(props.fertData)
     
    
+    
+   
     return (
         <div>
            
-            
-            
             <div>
-                {techs.map(tech => <div> {tech} <PieChart key={`${tech}_data`} data= {{
-                    labels: ["2PN", "1PN", "> 2PN", "DGen", "0PN"],
-                    datasets: [
-                        {
-                            data: [
-                                props.fertData[tech].twoPN,
-                                props.fertData[tech].onePN,
-                                props.fertData[tech].abn,
-                                props.fertData[tech].dgen,
-                                props.fertData[tech].zeroPN
-            
-                            ],
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.9',
-                                'rgba(54, 162, 235, 0.9',
-                                'rgba(255, 206, 86, 0.9',
-                                'rgba(255,159,64, 0.9',
-                                'rgba(75, 192, 192, 0.9',
-                                'rgba(153, 102, 255, 0.9'
-                              ]
-                        }
-                    ]
-                }
-                } /></div>)}
+                {techs.map(tech => <div> {tech} <PieChart key={`${tech}_data`} tData={props.fertData[tech]} /></div>)}
             </div>
         </div>
     )
