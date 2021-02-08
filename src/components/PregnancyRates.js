@@ -3,9 +3,6 @@ import PieChart from './PieChart'
 
 const PregnancyRates = (props) => {
 
-    console.log("preg data:",props)
-
-    let pregKeys = Object.keys(props.pregData)
 
     let docs = Object.keys(props.pregData["Trans Doctor"])
     let vitTechs = Object.keys(props.pregData["Vit tech"])

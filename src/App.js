@@ -3,13 +3,16 @@ import './App.css';
 import FertRates from './components/FertRates'
 import CleavageRates from './components/CleavageRates'
 import PregnancyRates from './components/PregnancyRates'
+import PregRateByAge from './components/PregRateByAge'
 import * as XLSX from 'xlsx';
+
 
 function App() {
 
 const [cleaveData, setCleaveData] = useState()
 const [fertData, setFertData] = useState()
 const [pregData, setPregData] = useState()
+const [pregAgeData, setPregAgeData] = useState()
 
 
 
@@ -182,11 +185,44 @@ const [pregData, setPregData] = useState()
       setPDataTech("Vit Tech", fetPData, "Vit tech")
       setPDataTech("thaw tech", fetPData, "Thaw tech")
 
+      const aPData = {
+        "Total": {
+          "Neg": 0,
+          "BC": 0,
+          "Pos": 0,
+        },
+        "<35": {
+          "Neg": 0,
+          "BC": 0,
+          "Pos": 0,
+        },
+        "35-37": {
+          "Neg": 0,
+          "BC": 0,
+          "Pos": 0,
+        },
+        "38-40": {
+          "Neg": 0,
+          "BC": 0,
+          "Pos": 0,
+        },
+        ">42": {
+          "Neg": 0,
+          "BC": 0,
+          "Pos": 0,
+        },
+        "Donor": {
+          "Neg": 0,
+          "BC": 0,
+          "Pos": 0,
+        }, 
+      }
      
 
       setCleaveData(cData)
       setFertData(fData)
       setPregData(pData)
+      setPregAgeData(aPData)
     })
   }
  
@@ -200,6 +236,7 @@ const [pregData, setPregData] = useState()
       {fertData? <FertRates fertData={fertData}  /> : null}
       {pregData? <PregnancyRates pregData={pregData} /> : null}
       {cleaveData? <CleavageRates cleaveData={cleaveData}  /> : null}
+      {pregAgeData? <PregRateByAge pregData={pregAgeData} /> : null}
     </div>
   );
 }
