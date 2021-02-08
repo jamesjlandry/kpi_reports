@@ -96,8 +96,8 @@ const [pregData, setPregData] = useState()
 
       const cleaveDayThree = retRateKeys.filter( key => arr1[key]['# Day 3 Emb'] !== 'n/a')
 
-      const fetPData = fetRateKeys.filter(key => arr2[key]['Age Group'] === '25-34' || arr2[key]['Age Group'] === '35-37')
-      console.log(fetPData)
+      
+      
       const cData = {
         "Total": {
           "Good": 0,
@@ -133,15 +133,56 @@ const [pregData, setPregData] = useState()
        
        
       })
+
+      const fetPData = fetRateKeys.filter(key => arr2[key]['Age Group'] === '25-34' || arr2[key]['Age Group'] === '35-37')
+
       
       const pData = {
         "Total": {
           "Positive": 0,
           "Negative": 0
-        }
+        },
+        "Thaw tech": {},
+        "Vit tech": {}, 
+        "Trans Doctor": {},
+        "Trans tech": {},
       }
 
+      fetPData.forEach( key => {
+        arr2[key]["Pos/Neg"] === "POS" ? pData["Total"]["Positive"] +=1 : pData["Total"]["Negative"] +=1
+      })
 
+      
+
+      const setPDataTech = (tech, keys, hashKey) => {
+        keys.forEach(key => {
+          if(!pData[hashKey][arr2[key][tech]]) {
+            if(arr2[key]['Pos/Neg'] === 'POS') {
+              pData[hashKey][arr2[key][tech]] = {
+                "Positive": 1,
+                "Negative": 0
+              }
+            }
+            else {
+              pData[hashKey][arr2[key][tech]] = {
+                "Positive": 0,
+                "Negative": 1
+              }
+            } 
+  
+          } else {
+            arr2[key]['Pos/Neg'] === 'POS' ? pData[hashKey][arr2[key][tech]]["Positive"] += 1 : pData[hashKey][arr2[key][tech]]["Negative"] += 1
+          }
+        })
+      }
+    
+      
+      setPDataTech("trans MD", fetPData, "Trans Doctor")
+      setPDataTech("trans emb", fetPData, "Trans tech")
+      setPDataTech("Vit Tech", fetPData, "Vit tech")
+      setPDataTech("thaw tech", fetPData, "Thaw tech")
+
+     
 
       setCleaveData(cData)
       setFertData(fData)
