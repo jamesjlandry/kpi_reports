@@ -206,6 +206,11 @@ const [pregAgeData, setPregAgeData] = useState()
           "BC": 0,
           "Pos": 0,
         },
+        "41-42": {
+          "Neg": 0,
+          "BC": 0,
+          "Pos": 0,
+        },
         ">42": {
           "Neg": 0,
           "BC": 0,
@@ -217,12 +222,56 @@ const [pregAgeData, setPregAgeData] = useState()
           "Pos": 0,
         }, 
       }
+
+     const setAPDataByAge = (keys, ageGroup, age) => {
+        keys.forEach(key => {
+            
+          if(arr2[key]['Age Group'] === ageGroup){
+            if(arr2[key]['Pos/Neg'] === "POS") {
+              if(arr2[key]['# sacs'] === 0){
+                aPData[age]["BC"] ++
+              } else {
+                aPData[age]["Pos"] ++
+              }
+            } else {
+              aPData[age]["Neg"] ++
+            }
+          } 
+          
+        })
+     }
+
+     fetRateKeys.forEach(key => {
+       if(arr2[key]["Pos/Neg"] === "POS") {
+         if(arr2[key]["# sacs"] === 0){
+           aPData["Total"]["BC"] ++
+         } else {
+           aPData["Total"]["Pos"] ++
+         }
+       } else {
+         aPData["Total"]["Neg"] ++
+       }
+     })
+
+     setAPDataByAge(fetRateKeys, "35-37", "35-37")
+     setAPDataByAge(fetRateKeys, "donor", "Donor")
+     setAPDataByAge(fetRateKeys, "25-34", "<35")
+     setAPDataByAge(fetRateKeys, "41-42", "41-42")
+     setAPDataByAge(fetRateKeys, "38-40", "38-40")
+     setAPDataByAge(fetRateKeys, "43-50", ">42")
+        
+
      
+
+     
+     
+      console.log(aPData)
 
       setCleaveData(cData)
       setFertData(fData)
       setPregData(pData)
       setPregAgeData(aPData)
+
     })
   }
  
