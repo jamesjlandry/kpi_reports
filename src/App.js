@@ -4,6 +4,7 @@ import FertRates from './components/FertRates'
 import CleavageRates from './components/CleavageRates'
 import PregnancyRates from './components/PregnancyRates'
 import PregRateByAge from './components/PregRateByAge'
+import USRates  from './components/USRates'
 import * as XLSX from 'xlsx';
 
 
@@ -13,6 +14,7 @@ const [cleaveData, setCleaveData] = useState()
 const [fertData, setFertData] = useState()
 const [pregData, setPregData] = useState()
 const [pregAgeData, setPregAgeData] = useState()
+const [uSData, setUSData] = useState()
 
 
 
@@ -110,7 +112,7 @@ const [pregAgeData, setPregAgeData] = useState()
         "Total": {
           "Good": 0,
           "Poor": 0,
-          "Discarded": 0
+          "Disc": 0
         }
       }
 
@@ -118,7 +120,7 @@ const [pregAgeData, setPregAgeData] = useState()
         
         cData["Total"]["Good"] += arr1[key]['#d3 >=6c']
         cData["Total"]["Poor"] += (arr1[key]['# Day 3 Emb'] - arr1[key]['#d3 >=6c'])
-        cData["Total"]["Discarded"] += (arr1[key]["# 2PN"] - arr1[key]['# Day 3 Emb'])
+        cData["Total"]["Disc"] += (arr1[key]["# 2PN"] - arr1[key]['# Day 3 Emb'])
       })
       
      
@@ -129,14 +131,14 @@ const [pregAgeData, setPregAgeData] = useState()
           cData[arr1[key]['ICSI Tech']] = {
             "Good": arr1[key]['# 2PN'],
             "Poor":  arr1[key]['#1PN'],
-            "Discarded": arr1[key]['# abnormal'],
+            "Disc": arr1[key]['# abnormal'],
             
           }
 
         } else {
           cData[arr1[key]['ICSI Tech']]['Good'] += arr1[key]['#d3 >=6c']
           cData[arr1[key]['ICSI Tech']]['Poor'] +=  (arr1[key]['# Day 3 Emb'] - arr1[key]['#d3 >=6c'])
-          cData[arr1[key]['ICSI Tech']]['Discarded'] += (arr1[key]["# 2PN"] - arr1[key]['# Day 3 Emb'])
+          cData[arr1[key]['ICSI Tech']]['Disc'] += (arr1[key]["# 2PN"] - arr1[key]['# Day 3 Emb'])
         }
        
        
@@ -147,8 +149,8 @@ const [pregAgeData, setPregAgeData] = useState()
       
       const pData = {
         "Total": {
-          "Positive": 0,
-          "Negative": 0
+          "Pos": 0,
+          "Neg": 0
         },
         "Thaw tech": {},
         "Vit tech": {}, 
@@ -157,7 +159,7 @@ const [pregAgeData, setPregAgeData] = useState()
       }
 
       fetPData.forEach( key => {
-        arr2[key]["Pos/Neg"] === "POS" ? pData["Total"]["Positive"] +=1 : pData["Total"]["Negative"] +=1
+        arr2[key]["Pos/Neg"] === "POS" ? pData["Total"]["Pos"] +=1 : pData["Total"]["Neg"] +=1
       })
 
       
@@ -167,19 +169,19 @@ const [pregAgeData, setPregAgeData] = useState()
           if(!pData[hashKey][arr2[key][tech]]) {
             if(arr2[key]['Pos/Neg'] === 'POS') {
               pData[hashKey][arr2[key][tech]] = {
-                "Positive": 1,
-                "Negative": 0
+                "Pos": 1,
+                "Neg": 0
               }
             }
             else {
               pData[hashKey][arr2[key][tech]] = {
-                "Positive": 0,
-                "Negative": 1
+                "Pos": 0,
+                "Neg": 1
               }
             } 
   
           } else {
-            arr2[key]['Pos/Neg'] === 'POS' ? pData[hashKey][arr2[key][tech]]["Positive"] += 1 : pData[hashKey][arr2[key][tech]]["Negative"] += 1
+            arr2[key]['Pos/Neg'] === 'POS' ? pData[hashKey][arr2[key][tech]]["Pos"] += 1 : pData[hashKey][arr2[key][tech]]["Neg"] += 1
           }
         })
       }
@@ -235,28 +237,21 @@ const [pregAgeData, setPregAgeData] = useState()
             if(arr2[key]['Pos/Neg'] === "POS") {
               if(arr2[key]['# sacs'] === 0){
                 aPData[age]["BC"] ++
+                aPData["Total"]["BC"] ++
               } else {
                 aPData[age]["Pos"] ++
+                aPData["Total"]["Pos"] ++
               }
             } else {
               aPData[age]["Neg"] ++
+              aPData["Total"]["Neg"] ++
             }
           } 
           
         })
      }
 
-     fetRateKeys.forEach(key => {
-       if(arr2[key]["Pos/Neg"] === "POS") {
-         if(arr2[key]["# sacs"] === 0){
-           aPData["Total"]["BC"] ++
-         } else {
-           aPData["Total"]["Pos"] ++
-         }
-       } else {
-         aPData["Total"]["Neg"] ++
-       }
-     })
+     
 
      setAPDataByAge(fetRateKeys, "35-37", "35-37")
      setAPDataByAge(fetRateKeys, "donor", "Donor")
@@ -266,16 +261,94 @@ const [pregAgeData, setPregAgeData] = useState()
      setAPDataByAge(fetRateKeys, "43-50", ">42")
         
 
-     
+     const uSData = {
+      "Total": {
+        "HB": 0,
+        "No HB": 0,
+        "Mult HB": 0,
+        "Mult No HB": 0,
+      },
+      "<35": {
+        "HB": 0,
+        "No HB": 0,
+        "Mult HB": 0,
+        "Mult No HB": 0,
+      },
+      "35-37": {
+        "HB": 0,
+        "No HB": 0,
+        "Mult HB": 0,
+        "Mult No HB": 0,
+      },
+      "38-40": {
+        "HB": 0,
+        "No HB": 0,
+        "Mult HB": 0,
+        "Mult No HB": 0,
+      },
+      "41-42": {
+        "HB": 0,
+        "No HB": 0,
+        "Mult HB": 0,
+        "Mult No HB": 0,
+      },
+      ">42": {
+        "HB": 0,
+        "No HB": 0,
+        "Mult HB": 0,
+        "Mult No HB": 0,
+      },
+      "Donor": {
+        "HB": 0,
+        "No HB": 0,
+        "Mult HB": 0,
+        "Mult No HB": 0,
+      }, 
+    }
 
-     
-     
-      console.log(aPData)
+    const setUSDataByAge = (keys, ageGroup, age) => {
+      keys.forEach(key => {
+          
+        if(arr2[key]['Age Group'] === ageGroup){
+          if(arr2[key]['Pos/Neg'] === "POS") {
+            if(arr2[key]["# blast trans"] > 1){
+              if(arr2[key]['#HB'] === 0){
+                uSData[age]["Mult No HB"] ++
+                uSData["Total"]["Mult No HB"] ++
+              } else {
+                uSData[age]["Mult HB"] ++
+                uSData["Total"]["Mult HB"] ++
+              }
+            } else{
+              if(arr2[key]['#HB'] === 0){
+                uSData[age]["No HB"] ++
+                uSData["Total"]["No HB"] ++
+              } else {
+                uSData[age]["HB"] ++
+                uSData["Total"]["HB"] ++
+              }
+            }
+            
+          } 
+        } 
+        
+      })
+   }
+
+      setUSDataByAge(fetRateKeys, "35-37", "35-37")
+      setUSDataByAge(fetRateKeys, "donor", "Donor")
+      setUSDataByAge(fetRateKeys, "25-34", "<35")
+      setUSDataByAge(fetRateKeys, "41-42", "41-42")
+      setUSDataByAge(fetRateKeys, "38-40", "38-40")
+      setUSDataByAge(fetRateKeys, "43-50", ">42")
+
+      console.log(uSData)
 
       setCleaveData(cData)
       setFertData(fData)
       setPregData(pData)
       setPregAgeData(aPData)
+      setUSData(uSData)
 
     })
   }
@@ -291,6 +364,7 @@ const [pregAgeData, setPregAgeData] = useState()
       {pregData? <PregnancyRates pregData={pregData} /> : null}
       {cleaveData? <CleavageRates cleaveData={cleaveData}  /> : null}
       {pregAgeData? <PregRateByAge pregData={pregAgeData} /> : null}
+      {uSData? <USRates uSData={uSData} /> : null}
     </div>
   );
 }
