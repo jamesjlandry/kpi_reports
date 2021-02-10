@@ -17,8 +17,12 @@ const [pregAgeData, setPregAgeData] = useState()
 
 
   
+  // the readExcel function uses sheet.js to set initial data from an uploaded excel file.
+  // it utilizes a promise, then, with the promise reorganizes the data using each of the setState functions
+  // that the app will generate with Dounught and Bar Charts. 
 
   const readExcel = (file) => {
+    // logic to create an array of objects. Each object is a sheet from the uploaded excel file
     const promise = new Promise((resolve, reject) => {
       const fileReader = new FileReader()
       fileReader.readAsArrayBuffer(file)
@@ -45,6 +49,7 @@ const [pregAgeData, setPregAgeData] = useState()
       // })
     })
 
+    // after the data is set from sheet.js the following logic is specific to the data for the fertility clinic
     promise.then((data) => {
       
       const arr1 = data[0]
