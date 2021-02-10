@@ -5,6 +5,7 @@ import CleavageRates from './components/CleavageRates'
 import PregnancyRates from './components/PregnancyRates'
 import PregRateByAge from './components/PregRateByAge'
 import USRates  from './components/USRates'
+import BarChart from './components/BarChart'
 import * as XLSX from 'xlsx';
 
 
@@ -15,6 +16,7 @@ const [fertData, setFertData] = useState()
 const [pregData, setPregData] = useState()
 const [pregAgeData, setPregAgeData] = useState()
 const [uSData, setUSData] = useState()
+const [bRData, setBRData] = useState()
 
 
 
@@ -124,6 +126,7 @@ const [uSData, setUSData] = useState()
       })
       
      
+
       techICSID.forEach(key => {
         
         if(!cData[arr1[key]['ICSI Tech']]) {
@@ -143,6 +146,42 @@ const [uSData, setUSData] = useState()
        
        
       })
+
+      const bRData = {
+        "Total": {
+          "numerator": 0,
+          "denominator": 0,
+          "Useable": 0
+        }
+      }
+
+      techICSID.forEach(key => {
+        
+        if(!bRData[arr1[key]['ICSI Tech']]) {
+          
+          bRData[arr1[key]['ICSI Tech']] = {
+            "numerator": arr1[key]["Total # Usable Blast"],
+            "denominator": arr1[key]["# 2PN"],
+            "Useable": 0
+          }
+          bRData["Total"]["numerator"] += arr1[key]["Total # Usable Blast"]
+          bRData["Total"]["denominator"] += arr1[key]["# 2PN"]
+
+        } else {
+          bRData[arr1[key]['ICSI Tech']]['numerator'] += arr1[key]["Total # Usable Blast"]
+          bRData[arr1[key]['ICSI Tech']]['denominator'] +=  arr1[key]["# 2PN"]
+          bRData["Total"]["numerator"] += arr1[key]["Total # Usable Blast"]
+          bRData["Total"]["denominator"] += arr1[key]["# 2PN"]
+        }
+      })
+
+      const blastKeys = Object.keys(bRData)
+
+      blastKeys.forEach(key => {
+        bRData[key]["Useable"] = (bRData[key]["numerator"] /bRData[key]["denominator"] )
+      })
+
+      
 
       const fetPData = fetRateKeys.filter(key => arr2[key]['Age Group'] === '25-34' || arr2[key]['Age Group'] === '35-37')
 
@@ -247,7 +286,6 @@ const [uSData, setUSData] = useState()
               aPData["Total"]["Neg"] ++
             }
           } 
-          
         })
      }
 
@@ -328,10 +366,8 @@ const [uSData, setUSData] = useState()
                 uSData["Total"]["HB"] ++
               }
             }
-            
           } 
         } 
-        
       })
    }
 
@@ -342,13 +378,20 @@ const [uSData, setUSData] = useState()
       setUSDataByAge(fetRateKeys, "38-40", "38-40")
       setUSDataByAge(fetRateKeys, "43-50", ">42")
 
-      console.log(uSData)
+     
+
+      
+
+      
+
+
 
       setCleaveData(cData)
       setFertData(fData)
       setPregData(pData)
       setPregAgeData(aPData)
       setUSData(uSData)
+      setBRData(bRData)
 
     })
   }
@@ -365,6 +408,7 @@ const [uSData, setUSData] = useState()
       {cleaveData? <CleavageRates cleaveData={cleaveData}  /> : null}
       {pregAgeData? <PregRateByAge pregData={pregAgeData} /> : null}
       {uSData? <USRates uSData={uSData} /> : null}
+      {bRData? <BarChart data={bRData}/> : null}
     </div>
   );
 }
