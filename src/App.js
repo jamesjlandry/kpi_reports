@@ -17,6 +17,7 @@ const [pregData, setPregData] = useState()
 const [pregAgeData, setPregAgeData] = useState()
 const [uSData, setUSData] = useState()
 const [bRData, setBRData] = useState()
+const [miscKPIs, setMiscKPIs] = useState()
 
 
 
@@ -147,41 +148,120 @@ const [bRData, setBRData] = useState()
        
       })
 
-      const bRData = {
-        "Total": {
-          "numerator": 0,
-          "denominator": 0,
-          "Useable": 0
+      // const bRData = {
+      //   "Total": {
+      //     "numerator": 0,
+      //     "denominator": 0,
+      //     "Useable": 0
+      //   }
+      // }
+
+      // techICSID.forEach(key => {
+        
+      //   if(!bRData[arr1[key]['ICSI Tech']]) {
+          
+      //     bRData[arr1[key]['ICSI Tech']] = {
+      //       "numerator": arr1[key]["Total # Usable Blast"],
+      //       "denominator": arr1[key]["# 2PN"],
+      //       "Useable": 0
+      //     }
+      //     bRData["Total"]["numerator"] += arr1[key]["Total # Usable Blast"]
+      //     bRData["Total"]["denominator"] += arr1[key]["# 2PN"]
+
+      //   } else {
+      //     bRData[arr1[key]['ICSI Tech']]['numerator'] += arr1[key]["Total # Usable Blast"]
+      //     bRData[arr1[key]['ICSI Tech']]['denominator'] +=  arr1[key]["# 2PN"]
+      //     bRData["Total"]["numerator"] += arr1[key]["Total # Usable Blast"]
+      //     bRData["Total"]["denominator"] += arr1[key]["# 2PN"]
+      //   }
+      // })
+
+      // const blastKeys = Object.keys(bRData)
+
+      // blastKeys.forEach(key => {
+      //   bRData[key]["Useable"] = (bRData[key]["numerator"] /bRData[key]["denominator"] )
+      // })
+
+      const kpiData = {
+        'bioRes': {
+          'Total': 0,
+        },
+        'eupRate': {
+          "Total": 0,
+        },
+        'embWSurv': {
+          'Total': 0,
+        },
+        'ooWSurv': {
+          'Total': 0,
+        },
+        'aReTaG': {
+          'Total': 0,
         }
       }
-
-      techICSID.forEach(key => {
-        
-        if(!bRData[arr1[key]['ICSI Tech']]) {
-          
-          bRData[arr1[key]['ICSI Tech']] = {
-            "numerator": arr1[key]["Total # Usable Blast"],
-            "denominator": arr1[key]["# 2PN"],
-            "Useable": 0
-          }
-          bRData["Total"]["numerator"] += arr1[key]["Total # Usable Blast"]
-          bRData["Total"]["denominator"] += arr1[key]["# 2PN"]
-
-        } else {
-          bRData[arr1[key]['ICSI Tech']]['numerator'] += arr1[key]["Total # Usable Blast"]
-          bRData[arr1[key]['ICSI Tech']]['denominator'] +=  arr1[key]["# 2PN"]
-          bRData["Total"]["numerator"] += arr1[key]["Total # Usable Blast"]
-          bRData["Total"]["denominator"] += arr1[key]["# 2PN"]
-        }
-      })
-
-      const blastKeys = Object.keys(bRData)
-
-      blastKeys.forEach(key => {
-        bRData[key]["Useable"] = (bRData[key]["numerator"] /bRData[key]["denominator"] )
-      })
-
       
+      const bioRateKeys = techICSID.filter( key => arr1[key]['No Read'] !== 'n/a')
+        bioRateKeys.forEach(key => {
+          
+         if(!kpiData['bioRes'][arr1[key]["ICSI Tech"]]) {
+            kpiData['bioRes'][arr1[key]["ICSI Tech"]] = (arr1[key]['Total BX'] - arr1[key]['No Read'])
+            
+            kpiData['bioRes']['Total'] += (arr1[key]['Total BX'] - arr1[key]['No Read'])
+
+           
+         } else {
+           kpiData['bioRes'][arr1[key]["ICSI Tech"]] += (arr1[key]['Total BX'] - arr1[key]['No Read'])
+           kpiData['bioRes']['Total'] += (arr1[key]['Total BX'] - arr1[key]['No Read'])
+         }})
+
+         
+
+        
+
+      const setRate = (keys, numerator, denominator) => {
+        let techs = {
+          "Total": {
+            "numerator": 0,
+            "denominator": 0
+          },
+        }
+        
+          keys.forEach(key => {
+            if(!techs[arr1[key]['ICSI Tech']]) {
+              techs[arr1[key]['ICSI Tech']] = {
+                "numerator": arr1[key][numerator],
+                'denominator': arr1[key][denominator]
+              }
+              
+              techs["Total"]["numerator"] += arr1[key][numerator]
+              techs["Total"]["denominator"] += arr1[key][denominator]
+            } else {
+              techs[arr1[key]['ICSI Tech']]["numerator"] += arr1[key][numerator]
+              techs[arr1[key]['ICSI Tech']]["denominator"] += arr1[key][denominator]
+              techs["Total"]["numerator"] += arr1[key][numerator]
+              techs["Total"]["denominator"] += arr1[key][denominator]
+            }
+            console.log(techs['Total'])
+          })
+
+          for(let techName in techs) {
+            let tech = techs[techName]
+            tech.rate = tech.numerator / tech.denominator
+          }
+
+
+
+
+         
+
+          return techs
+
+      }
+
+      const bRData = setRate(techICSID,"Total # Usable Blast", "# 2PN")
+      
+      console.log(bRData)
+         
 
       const fetPData = fetRateKeys.filter(key => arr2[key]['Age Group'] === '25-34' || arr2[key]['Age Group'] === '35-37')
 
@@ -380,18 +460,14 @@ const [bRData, setBRData] = useState()
 
      
 
-      
-
-      
-
-
 
       setCleaveData(cData)
       setFertData(fData)
       setPregData(pData)
       setPregAgeData(aPData)
       setUSData(uSData)
-      setBRData(bRData)
+      // setBRData(bRData)
+      setMiscKPIs(kpiData)
 
     })
   }
