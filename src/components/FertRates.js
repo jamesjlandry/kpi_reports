@@ -12,7 +12,7 @@ let FertRates = (props) => {
         <div>
            
             <div>
-                {techs.map(tech => <div> {tech} <PieChart key={`${tech}_data`} tData={props.fertData[tech]} /></div>)}
+                {techs.map(tech => <div key={`${tech}_fert`}> {tech} <PieChart  tData={props.fertData[tech]} /></div>)}
             </div>
         </div>
     )

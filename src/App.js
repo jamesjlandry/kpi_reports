@@ -6,6 +6,7 @@ import PregnancyRates from './components/PregnancyRates'
 import PregRateByAge from './components/PregRateByAge'
 import USRates  from './components/USRates'
 import BarChart from './components/BarChart'
+import MiscKPIs from './components/MiscKPIs'
 import * as XLSX from 'xlsx';
 
 
@@ -17,7 +18,7 @@ const [pregData, setPregData] = useState()
 const [pregAgeData, setPregAgeData] = useState()
 const [uSData, setUSData] = useState()
 const [bRData, setBRData] = useState()
-const [miscKPIs, setMiscKPIs] = useState()
+const [miscKPIData, setMiscKPIData] = useState()
 
   
   // the readExcel function uses sheet.js to set initial data from an uploaded excel file.
@@ -464,7 +465,7 @@ const [miscKPIs, setMiscKPIs] = useState()
       setPregAgeData(aPData)
       setUSData(uSData)
       setBRData(bRData)
-      setMiscKPIs(kpiData)
+      setMiscKPIData(kpiData)
 
     })
   }
@@ -482,6 +483,7 @@ const [miscKPIs, setMiscKPIs] = useState()
       {pregAgeData? <PregRateByAge pregData={pregAgeData} /> : null}
       {uSData? <USRates uSData={uSData} /> : null}
       {bRData? <BarChart data={bRData}/> : null}
+      {miscKPIData ? <MiscKPIs data={miscKPIData} /> : null}
     </div>
   );
 }

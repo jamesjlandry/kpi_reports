@@ -9,7 +9,7 @@ let PregRateByAge = (props) => {
     return (
         <div>
             <div>
-                {ages.map(age => <div> {age} <PieChart key={`${age}_age_rate`} tData={props.pregData[age]} /> </div>)}
+                {ages.map(age => <div key={`${age}_age_rate`}> {age} <PieChart  tData={props.pregData[age]} /> </div>)}
             </div>
         </div>
     )
