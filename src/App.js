@@ -19,8 +19,6 @@ const [uSData, setUSData] = useState()
 const [bRData, setBRData] = useState()
 const [miscKPIs, setMiscKPIs] = useState()
 
-
-
   
   // the readExcel function uses sheet.js to set initial data from an uploaded excel file.
   // it utilizes a promise, then, with the promise reorganizes the data using each of the setState functions
@@ -62,6 +60,8 @@ const [miscKPIs, setMiscKPIs] = useState()
       const retRateKeys = Object.keys(arr1)
       const fetRateKeys = Object.keys(arr2)
       const totalICSID = retRateKeys.filter( key => arr1[key]['# 2PN'] !== 'n/a')
+
+
       const fData = {
         "Total ICSI'D": {
           '2PN': 0,
@@ -148,39 +148,6 @@ const [miscKPIs, setMiscKPIs] = useState()
        
       })
 
-      // const bRData = {
-      //   "Total": {
-      //     "numerator": 0,
-      //     "denominator": 0,
-      //     "Useable": 0
-      //   }
-      // }
-
-      // techICSID.forEach(key => {
-        
-      //   if(!bRData[arr1[key]['ICSI Tech']]) {
-          
-      //     bRData[arr1[key]['ICSI Tech']] = {
-      //       "numerator": arr1[key]["Total # Usable Blast"],
-      //       "denominator": arr1[key]["# 2PN"],
-      //       "Useable": 0
-      //     }
-      //     bRData["Total"]["numerator"] += arr1[key]["Total # Usable Blast"]
-      //     bRData["Total"]["denominator"] += arr1[key]["# 2PN"]
-
-      //   } else {
-      //     bRData[arr1[key]['ICSI Tech']]['numerator'] += arr1[key]["Total # Usable Blast"]
-      //     bRData[arr1[key]['ICSI Tech']]['denominator'] +=  arr1[key]["# 2PN"]
-      //     bRData["Total"]["numerator"] += arr1[key]["Total # Usable Blast"]
-      //     bRData["Total"]["denominator"] += arr1[key]["# 2PN"]
-      //   }
-      // })
-
-      // const blastKeys = Object.keys(bRData)
-
-      // blastKeys.forEach(key => {
-      //   bRData[key]["Useable"] = (bRData[key]["numerator"] /bRData[key]["denominator"] )
-      // })
 
       const kpiData = {
         'bioRes': {
@@ -214,9 +181,6 @@ const [miscKPIs, setMiscKPIs] = useState()
            kpiData['bioRes']['Total'] += (arr1[key]['Total BX'] - arr1[key]['No Read'])
          }})
 
-         
-
-        
 
       const setRate = (keys, numerator, denominator) => {
         let techs = {
@@ -241,7 +205,6 @@ const [miscKPIs, setMiscKPIs] = useState()
               techs["Total"]["numerator"] += arr1[key][numerator]
               techs["Total"]["denominator"] += arr1[key][denominator]
             }
-            console.log(techs['Total'])
           })
 
           for(let techName in techs) {
@@ -249,20 +212,15 @@ const [miscKPIs, setMiscKPIs] = useState()
             tech.rate = tech.numerator / tech.denominator
           }
 
-
-
-
-         
-
           return techs
 
       }
 
       const bRData = setRate(techICSID,"Total # Usable Blast", "# 2PN")
       
-      console.log(bRData)
+      const eupRate = setRate(bioRateKeys, "# Euploid", "Total BX")
          
-
+      console.log(eupRate)
       const fetPData = fetRateKeys.filter(key => arr2[key]['Age Group'] === '25-34' || arr2[key]['Age Group'] === '35-37')
 
       
@@ -458,15 +416,13 @@ const [miscKPIs, setMiscKPIs] = useState()
       setUSDataByAge(fetRateKeys, "38-40", "38-40")
       setUSDataByAge(fetRateKeys, "43-50", ">42")
 
-     
-
 
       setCleaveData(cData)
       setFertData(fData)
       setPregData(pData)
       setPregAgeData(aPData)
       setUSData(uSData)
-      // setBRData(bRData)
+      setBRData(bRData)
       setMiscKPIs(kpiData)
 
     })

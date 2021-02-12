@@ -49,9 +49,9 @@ let BarChart= (props) => {
 
     keys.forEach(key => {
         data.labels.push(key)
-        let useable = (props.data[key]["Useable"]).toFixed(2)*100
+        let rate = (props.data[key]["rate"]).toFixed(2)*100
         
-        data.datasets[0].data.push(useable)
+        data.datasets[0].data.push(rate)
     })
 
     
