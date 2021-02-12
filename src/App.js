@@ -168,6 +168,7 @@ const [miscKPIs, setMiscKPIs] = useState()
       }
       
       const bioRateKeys = techICSID.filter( key => arr1[key]['No Read'] !== 'n/a')
+
         bioRateKeys.forEach(key => {
           
          if(!kpiData['bioRes'][arr1[key]["ICSI Tech"]]) {
@@ -182,7 +183,7 @@ const [miscKPIs, setMiscKPIs] = useState()
          }})
 
 
-      const setRate = (keys, numerator, denominator) => {
+      const setRate = (array, keys, techIdentifier, numerator, denominator) => {
         let techs = {
           "Total": {
             "numerator": 0,
@@ -191,19 +192,20 @@ const [miscKPIs, setMiscKPIs] = useState()
         }
         
           keys.forEach(key => {
-            if(!techs[arr1[key]['ICSI Tech']]) {
-              techs[arr1[key]['ICSI Tech']] = {
-                "numerator": arr1[key][numerator],
-                'denominator': arr1[key][denominator]
+    
+            if(!techs[array[key][techIdentifier]]) {
+              techs[array[key][techIdentifier]] = {
+                "numerator": array[key][numerator],
+                'denominator': array[key][denominator]
               }
               
-              techs["Total"]["numerator"] += arr1[key][numerator]
-              techs["Total"]["denominator"] += arr1[key][denominator]
+              techs["Total"]["numerator"] += array[key][numerator]
+              techs["Total"]["denominator"] += array[key][denominator]
             } else {
-              techs[arr1[key]['ICSI Tech']]["numerator"] += arr1[key][numerator]
-              techs[arr1[key]['ICSI Tech']]["denominator"] += arr1[key][denominator]
-              techs["Total"]["numerator"] += arr1[key][numerator]
-              techs["Total"]["denominator"] += arr1[key][denominator]
+              techs[array[key][techIdentifier]]["numerator"] += array[key][numerator]
+              techs[array[key][techIdentifier]]["denominator"] += array[key][denominator]
+              techs["Total"]["numerator"] += array[key][numerator]
+              techs["Total"]["denominator"] += array[key][denominator]
             }
           })
 
@@ -216,11 +218,50 @@ const [miscKPIs, setMiscKPIs] = useState()
 
       }
 
-      const bRData = setRate(techICSID,"Total # Usable Blast", "# 2PN")
+      const bRData = setRate(arr1, techICSID, "ICSI Tech", "Total # Usable Blast", "# 2PN")
       
-      const eupRate = setRate(bioRateKeys, "# Euploid", "Total BX")
+      const eupRate = setRate(arr1, bioRateKeys,"ICSI Tech", "# Euploid", "Total BX")
+
+      const emWSurvRate = setRate(arr2, fetRateKeys, "thaw tech", "# blast survived", '# blast thawed')
+
+      // once spreadsheet is updated to include a did not survive row, will be added to Pending add below to add this KPI.
+      // const oOcyteKeys = techICSID.filter( key => arr1[key]["Procedure"] === "DE Thaw-GBV")
+      // const ooWSurvRate = setRate(arr1, oOcyteKeys, "ICSI Tech", "Pending add", "Procedure" )
+      // kpiData["ooWSurv"] = ooWSurvRate
+
+      for(let key in arr2) {
+        let age = arr2[key]['Age Group']
+        let blastTrans = arr2[key]['# blast trans']
+        if(!kpiData['aReTaG'][age]) {
+          kpiData['aReTaG'][age] = { 
+            "denominator": 1, 
+            "numerator": blastTrans
+        }
+          kpiData['aReTaG']['Total'] = {
+            "denominator": 1,
+            "numerator": blastTrans
+          }
+        } else {
+          kpiData['aReTaG'][age]["denominator"] += 1
+          kpiData['aReTaG'][age]["numerator"] += blastTrans
+          kpiData['aReTaG']['Total']["denominator"] += 1
+          kpiData['aReTaG']['Total']['numerator'] += blastTrans
+        }
+      }
+
+      for(let key in kpiData['aReTaG']) {
+        let rate = kpiData['aReTaG'][key]['numerator'] / kpiData['aReTaG'][key]['denominator']
+        kpiData['aReTaG'][key].rate = rate
+      }
+
+      
+
+      kpiData['eupRate'] = eupRate
+
+      kpiData['embWSurv'] = emWSurvRate
          
-      console.log(eupRate)
+      
+
       const fetPData = fetRateKeys.filter(key => arr2[key]['Age Group'] === '25-34' || arr2[key]['Age Group'] === '35-37')
 
       
