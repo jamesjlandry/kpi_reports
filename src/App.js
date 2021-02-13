@@ -466,6 +466,7 @@ const [miscKPIData, setMiscKPIData] = useState()
       setUSData(uSData)
       setBRData(bRData)
       setMiscKPIData(kpiData)
+      console.log(kpiData)
 
     })
   }
