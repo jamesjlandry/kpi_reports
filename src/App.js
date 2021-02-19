@@ -8,7 +8,8 @@ import USRates  from './components/USRates'
 import BarChart from './components/BarChart'
 import MiscKPIs from './components/MiscKPIs'
 import * as XLSX from 'xlsx';
-
+import EditorJs from 'react-editor-js';
+import List from '@editorjs/list'
 
 function App() {
 
@@ -20,7 +21,9 @@ const [uSData, setUSData] = useState()
 const [bRData, setBRData] = useState()
 const [miscKPIData, setMiscKPIData] = useState()
 
-  
+const data = {}
+const list = List
+
   // the readExcel function uses sheet.js to set initial data from an uploaded excel file.
   // it utilizes a promise, then, with the promise reorganizes the data using each of the setState functions
   // that the app will generate with Dounught and Bar Charts. 
@@ -478,7 +481,7 @@ const [miscKPIData, setMiscKPIData] = useState()
         const file = e.target.files[0]
         readExcel(file)
       }} />
-      {fertData? <FertRates fertData={fertData}  /> : null}
+      {fertData? <div><FertRates fertData={fertData}  /><EditorJs data={data} tools={{list: list}}/></div> : null}
       {pregData? <PregnancyRates pregData={pregData} /> : null}
       {cleaveData? <CleavageRates cleaveData={cleaveData}  /> : null}
       {pregAgeData? <PregRateByAge pregData={pregAgeData} /> : null}
