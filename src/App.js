@@ -482,12 +482,12 @@ const list = List
         readExcel(file)
       }} />
       {fertData? <div><FertRates fertData={fertData}  /><EditorJs data={data} tools={{list: list}}/></div> : null}
-      {pregData? <PregnancyRates pregData={pregData} /> : null}
-      {cleaveData? <CleavageRates cleaveData={cleaveData}  /> : null}
-      {pregAgeData? <PregRateByAge pregData={pregAgeData} /> : null}
-      {uSData? <USRates uSData={uSData} /> : null}
-      {bRData? <BarChart data={bRData}/> : null}
-      {miscKPIData ? <MiscKPIs data={miscKPIData} /> : null}
+      {pregData? <div><PregnancyRates pregData={pregData} /><EditorJs data={data} tools={{list: list}} /></div> : null}
+      {cleaveData? <div> <CleavageRates cleaveData={cleaveData}  /> <EditorJs data={data} tools={{list: list}} /></div>: null}
+      {pregAgeData? <div> <PregRateByAge pregData={pregAgeData} /> <EditorJs data={data} tools={{list: list}} /></div> : null}
+      {uSData? <div> <USRates uSData={uSData} /> <EditorJs data={data} tools={{list: list}} /></div>: null}
+      {bRData? <div> <BarChart data={bRData}/>  <EditorJs data={data} tools={{list: list}} /></div> : null}
+      {miscKPIData ? <div> <MiscKPIs data={miscKPIData} /> <EditorJs data={data} tools={{list: list}} /></div> : null}
     </div>
   );
 }
