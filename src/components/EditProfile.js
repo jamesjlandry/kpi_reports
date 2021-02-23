@@ -68,10 +68,10 @@ const EditProfile = () => {
                         id= "password"
                         name="password"
                         placeholder="confirm password"
-                        type="text"
+                        type="password"
                         />
                         <div>
-                            <button dissabled={loading} type="submit">Log In</button>
+                            <button disabled={loading} type="submit">Log In</button>
                         </div>
                 </form>
             </div>

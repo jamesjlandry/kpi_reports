@@ -1,7 +1,7 @@
 import React from 'react'
 import {useState, useRef } from 'react'
 import { useAuth } from '../contexts/AuthContext'
-import { Link, History } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 
 
@@ -9,7 +9,7 @@ import { Link, History } from 'react-router-dom'
 
 
 
-let LogIn = () => {
+const LogIn = () => {
 
     const emailRef = useRef()
     const passwordRef = useRef()
@@ -49,10 +49,10 @@ let LogIn = () => {
                         id= "password"
                         name="password"
                         placeholder="enter password"
-                        type="text"
+                        type="password"
                         />
                         <div>
-                            <button dissabled={loading} type="submit">Log In</button>
+                            <button disabled={loading} type="submit">Log In</button>
                         </div>
                 </form>
             </div>

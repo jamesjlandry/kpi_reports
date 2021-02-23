@@ -41,7 +41,7 @@ const ForgotPassword = () => {
                     />
                 
                     <div>
-                        <button dissabled={loading} type="submit">Reset Password</button>
+                        <button disabled={loading} type="submit">Reset Password</button>
                     </div>
             </form>
         </div>
