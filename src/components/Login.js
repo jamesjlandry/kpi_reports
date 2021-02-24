@@ -17,19 +17,17 @@ const LogIn = () => {
     const emailRef = useRef()
     const passwordRef = useRef()
     // const { login } = useAuth
-    const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const history = useHistory()
  
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            setError("")
             setLoading(true)
             await login(emailRef.current.value, passwordRef.current.value)
             history.push("/")
         } catch {
-            setError("Login Failed")
+            alert("Login Failed")
         }
         setLoading(false)
     }
@@ -37,7 +35,6 @@ const LogIn = () => {
     return (
         <div>
             <div>
-                {error && alert(error)}
                 <h1>Welcome Michael</h1>
                 <form onSubmit={e => handleSubmit(e)}>
                 <input 

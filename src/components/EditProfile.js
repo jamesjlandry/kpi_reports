@@ -32,7 +32,7 @@ const EditProfile = () => {
              history.push("/")
          })
          .catch(() => {
-             setError("Failed to update account")
+             alert("Failed to update account")
          })
          .finally(() => {
              setLoading(false)
@@ -44,10 +44,10 @@ const EditProfile = () => {
         <div>
         <div>
             <div>
-                {error && alert(error)}
+                
                 <h1>Welcome Michael</h1>
                 <h2>Update Profile</h2>
-                {error && alert(error)}
+                {error}
                 <form onSubmit={e => handleSubmit(e)}>
                 <input 
                         ref={emailRef}
@@ -61,7 +61,7 @@ const EditProfile = () => {
                         id= "password"
                         name="password"
                         placeholder="enter new password"
-                        type="text"
+                        type="password"
                         />
                         <input 
                         ref={passwordConfirmRef}
@@ -71,7 +71,7 @@ const EditProfile = () => {
                         type="password"
                         />
                         <div>
-                            <button disabled={loading} type="submit">Log In</button>
+                            <button disabled={loading} type="submit">Make It So</button>
                         </div>
                 </form>
             </div>

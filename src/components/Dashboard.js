@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { auth } from '../firebase'
 import FertRates from './FertRates'
 import CleavageRates from './CleavageRates'
@@ -481,6 +482,9 @@ const Dashboard = () => {
     return (
         <>
             <div>
+              <div>
+                <Link to='/edit-profile'>Welcome Michael</Link> 
+              </div>
                 <div onClick={logout} > Log Out</div>
             </div>
             <input type="file" onChange={(e) => {

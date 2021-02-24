@@ -6,7 +6,6 @@ const ForgotPassword = () => {
 
     const emailRef = useRef()
     const { resetPassword } = useAuth()
-    const [error, setError ] = useState("")
     const [message, setMessage] = useState("")
     const [loading, setLoading] = useState(false)
 
@@ -15,12 +14,12 @@ const ForgotPassword = () => {
 
         try {
             setMessage("")
-            setError("")
+            
             setLoading(true)
             await resetPassword(emailRef.current.value)
             setMessage("Check your email to continue resetting password")
         } catch {
-            setError("Password Reset failed")
+            alert("Password Reset failed")
         }
         setLoading(false)
     }
@@ -28,7 +27,7 @@ const ForgotPassword = () => {
     return (
         <div>
         <div>
-            {error && alert(error)}
+            
             {message && alert(message)}
             <h1>Welcome Michael</h1>
             <form onSubmit={e => handleSubmit(e)}>
