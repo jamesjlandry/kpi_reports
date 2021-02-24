@@ -33,9 +33,9 @@ const LogIn = () => {
     }
 
     return (
-        <div>
-            <div>
-                <h1>Welcome Michael</h1>
+        <div className="login_wrapper">
+            <div className="login_form">
+                <h1>Welcome, Director</h1>
                 <form onSubmit={e => handleSubmit(e)}>
                 <input 
                         ref={emailRef}
@@ -52,13 +52,14 @@ const LogIn = () => {
                         type="password"
                         />
                         <div>
-                            <button disabled={loading} type="submit">Log In</button>
+                            <button className="submit_button" disabled={loading} type="submit">Log In</button>
                         </div>
                 </form>
+                <div>
+                <Link className="forgot_password" to="/forgot-password"  >Forgot Password?</Link>
             </div>
-            <div>
-                <Link to="/forgot-password">Forgot Password?</Link>
             </div>
+           
         </div>
     )
 }
