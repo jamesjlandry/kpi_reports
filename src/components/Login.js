@@ -1,10 +1,13 @@
 import React from 'react'
 import {useState, useRef } from 'react'
 import { useAuth } from '../contexts/AuthContext'
+import { auth } from '../firebase'
 import { Link, useHistory } from 'react-router-dom'
 
 
-
+const login = (email, password) => {
+    return auth.signInWithEmailAndPassword(email, password)
+}
 
 
 
@@ -13,7 +16,7 @@ const LogIn = () => {
 
     const emailRef = useRef()
     const passwordRef = useRef()
-    const { login } = useAuth
+    // const { login } = useAuth
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const history = useHistory()

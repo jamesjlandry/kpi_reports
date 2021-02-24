@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { auth } from '../firebase'
 import FertRates from './FertRates'
 import CleavageRates from './CleavageRates'
 import PregnancyRates from './PregnancyRates'
@@ -473,8 +474,15 @@ const Dashboard = () => {
         })
       }
 
+      function logout() {
+        return auth.signOut()
+      }
+
     return (
         <>
+            <div>
+                <div onClick={logout} > Log Out</div>
+            </div>
             <input type="file" onChange={(e) => {
             const file = e.target.files[0]
             readExcel(file)
