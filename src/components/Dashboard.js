@@ -480,8 +480,8 @@ const Dashboard = () => {
       }
 
     return (
-        <>
-            <div>
+        <div className="wrapper">
+            <div className="menu">
               <div>
                 <Link to='/edit-profile'>Welcome Michael</Link> 
               </div>
@@ -491,14 +491,16 @@ const Dashboard = () => {
             const file = e.target.files[0]
             readExcel(file)
             }} />
-            {fertData? <div><FertRates fertData={fertData}  /><EditorJs data={data} tools={{list: list}}/></div> : null}
-            {pregData? <div><PregnancyRates pregData={pregData} /><EditorJs data={data} tools={{list: list}} /></div> : null}
-            {cleaveData? <div> <CleavageRates cleaveData={cleaveData}  /> <EditorJs data={data} tools={{list: list}} /></div>: null}
-            {pregAgeData? <div> <PregRateByAge pregData={pregAgeData} /> <EditorJs data={data} tools={{list: list}} /></div> : null}
-            {uSData? <div> <USRates uSData={uSData} /> <EditorJs data={data} tools={{list: list}} /></div>: null}
-            {bRData? <div> <BarChart data={bRData}/>  <EditorJs data={data} tools={{list: list}} /></div> : null}
-            {miscKPIData ? <div> <MiscKPIs data={miscKPIData} /> <EditorJs data={data} tools={{list: list}} /></div> : null}
-        </>
+            <div className="content_wrapper">
+            {fertData? <div ><div><FertRates fertData={fertData}  /></div> <div className="fert_text"> <EditorJs data={data} tools={{list: list}}/></div></div> : null}
+            {pregData? <div><div> <PregnancyRates pregData={pregData} /> </div> <div className="pr_text"> <EditorJs data={data} tools={{list: list}} /></div></div> : null}
+            {cleaveData? <div><div>  <CleavageRates cleaveData={cleaveData}  /> </div> <div className="cr_text"><EditorJs data={data} tools={{list: list}} /></div></div>: null}
+            {pregAgeData? <div> <div><PregRateByAge pregData={pregAgeData} /></div> <div className="pa_text"> <EditorJs data={data} tools={{list: list}} /></div> </div>: null}
+            {uSData? <div> <div><USRates uSData={uSData} /> </div> <div className="ur_text" > <EditorJs data={data} tools={{list: list}} /></div> </div>: null}
+            {bRData? <div> <div><BarChart data={bRData}/> </div> <div className="bc_text"> <EditorJs data={data} tools={{list: list}} /></div></div> : null}
+            {miscKPIData ? <div> <div> <MiscKPIs data={miscKPIData} /> </div> <div className="md_text"> <EditorJs data={data} tools={{list: list}} /></div> </div> : null}
+            </div>
+        </div>
     )
 }
 

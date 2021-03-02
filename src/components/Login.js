@@ -35,7 +35,7 @@ const LogIn = () => {
     return (
         <div className="login_wrapper">
             <div className="login_form">
-                <h1>Welcome, Director</h1>
+                <h1>Welcome Director</h1>
                 <form onSubmit={e => handleSubmit(e)}>
                 <input 
                         ref={emailRef}

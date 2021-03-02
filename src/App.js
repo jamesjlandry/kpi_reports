@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import './App.css';
-
 import { AuthProvider } from './contexts/AuthContext'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import PrivateRoute from './components/PrivateRoute'
 import ForgotPassword from './components/ForgotPassword'
 import EditProfile from './components/EditProfile'
 import Dashboard from './components/Dashboard'
-import LogIn from './components/LogIn'
+import LogIn from './components/LogIn.js'
 
 
 

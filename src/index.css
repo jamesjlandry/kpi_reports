@@ -19,20 +19,38 @@ code {
 }
 
 .login_wrapper {
-  width: 100vh;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5em;
+  background-image: url("https://cdn.pixabay.com/photo/2016/07/13/11/14/ivf-1514174_1280.png");
+  position: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.login_wrapper img{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  min-width: 50%;
+  min-height: 50%;
+
 }
 
 .login_form {
-  position: relative;
-  max-width: 380px;
-  padding: 80px 40px 40px;
+  position: absolute;
+  max-width: 300px;
+  padding: 40px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   border-radius: 10px;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(38, 107, 104, 0.4);
+  color: whitesmoke;
 
 }
 
@@ -43,12 +61,198 @@ code {
 .login_form input, button {
   width: 90%;
   height: 50%;
-  border-bottom: 2px solid rgb(43, 15, 15);
+  border: none;
+  border-bottom: 1px solid rgb(35, 68, 88);
   background-color: transparent;
-
+  padding: .2em;
 }
 
 .forgot_password {
   color: inherit;
+  font-size: .7em;
+  color: rgb(63, 230, 230);
  
+}
+
+.wrapper {
+  display: grid;
+  grid-gap: 3px;
+  grid-template-areas: 
+    "h h h h h h h"
+    "c c c c c c c"
+    "c c c c c c c"
+    "c c c c c c c"
+    "c c c c c c c"
+    "c c c c c c c"
+    "c c c c c c c"
+    "c c c c c c c"
+    "c c c c c c c"
+    "c c c c c c c"
+    "c c c c c c c"
+    "c c c c c c c"
+    "c c c c c c c"
+    "c c c c c c c"
+    "c c c c c c c"
+    "c c c c c c c"
+    "c c c c c c c"
+    "c c c c c c c"
+    "c c c c c c c"
+    "c c c c c c c"
+    "f f f f f f f";
+}
+
+.menu {
+  grid-area: h;
+  display: flex;
+  justify-content: right;
+}
+
+.content_wrapper {
+  grid-area: c;
+  border: 1px solid rgb(0, 0, 0);
+  display: grid;
+  /* grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 200px 200px 200px 200px; */
+  grid-gap: 4px;
+  grid-template-areas: 
+    "ir "
+    "ft "
+    "pr "
+    "pt "
+    "cr"
+    "ct "
+    "pa "
+    "at "
+    "ur "
+    "ut "
+    "bc "
+    "bt"
+    "md "
+    ;
+    justify-content: space-evenly;
+    margin-left: 30px;
+    
+}
+
+.fert_wrapper {
+  width: 800px;
+  display: grid;
+  border: 1px solid rgb(109, 0, 0);
+  grid-area: ir;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-rows: 200px;
+  grid-gap: 2px;
+  padding: 2px;
+  margin: 3px;
+  justify-content: space-evenly;
+}
+
+.fert_text {
+  border: 1px solid rgba(107, 96, 96, 0.733);
+  grid-area: ft;
+  width: 80%;
+}
+
+.pr_wrapper {
+  width: 800px;
+  display: grid;
+  border: 1px solid rgb(23, 2, 97);
+  grid-area: pr;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-rows: 200px;
+  grid-gap: 2px;
+  padding: 2px;
+  margin: 3px;
+  justify-content: space-evenly;
+}
+
+.pr_text {
+  margin-top: 45px;
+  border: 1px solid rgba(107, 96, 96, 0.733);
+  grid-area: pt;
+  width: 80%;
+}
+
+.cr_wrapper {
+  width: 800px;
+  display: grid;
+  border: 1px solid rgb(104, 15, 92);
+  grid-area: cr;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-rows: 200px;
+  grid-gap: 2px;
+  padding: 2px;
+  margin: 3px;
+  justify-content: space-evenly;
+}
+
+.cr_text {
+  margin-top: 45px;
+  border: 1px solid rgba(107, 96, 96, 0.733);
+  grid-area: pt;
+  width: 80%;
+}
+
+
+.pa_wrapper {
+  width: 800px;
+  display: grid;
+  border: 1px solid rgb(26, 99, 109);
+  grid-area: pa;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-rows: 200px;
+  grid-gap: 2px;
+  padding: 2px;
+  margin: 3px;
+  justify-content: space-evenly;
+}
+
+.pa_text {
+  margin-top: 45px;
+  border: 1px solid rgba(107, 96, 96, 0.733);
+  grid-area: at;
+  width: 80%;
+}
+
+.ur_wrapper {
+  width: 800px;
+  display: grid;
+  border: 1px solid rgb(104, 15, 92);
+  grid-area: ur;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-rows: 200px;
+  grid-gap: 2px;
+  padding: 2px;
+  margin: 3px;
+  justify-content: space-evenly;
+}
+
+.ur_text {
+  margin-top: 45px;
+  border: 1px solid rgba(107, 96, 96, 0.733);
+  grid-area: pt;
+  width: 80%;
+}
+
+
+/* .doughnut_grid {
+  display: grid;
+  grid-area: d;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-rows: 200px;
+} */
+
+.doughnut {
+  border: 1px solid rgb(23, 163, 30);
+  position: relative;
+  width: 200px;;
+  height: 200px;;
+  
+}
+
+.pie_total{
+  grid-area: t;
+  margin: 0;
+  width: 400px;
+  height: 400px;
 }

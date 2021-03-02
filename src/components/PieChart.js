@@ -32,6 +32,8 @@ let PieChart = (props) => {
 
 
 
+
+
     const lineOptions = {
         maintainAspectRatio: false,
         tooltips: {
@@ -62,9 +64,10 @@ let PieChart = (props) => {
             padding: {
                 left: 0,
                 right: 0,
-                top: 50,
-                bottom: 20
+                top: 30,
+                bottom: 50
             },
+           
 
         },
         animation: {
@@ -142,7 +145,7 @@ let PieChart = (props) => {
     }
 
     return (
-        <div>
+        <div className="doughnut">
             <Doughnut
                 data={data}
                 options={lineOptions}

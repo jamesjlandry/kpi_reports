@@ -7,7 +7,7 @@ const CleavageRates = (props) => {
 
     return (
         <div>
-            <div>
+            <div className="cr_wrapper">
                 {techs.map( tech => <div key={`${tech}_cleave`}> {tech} <PieChart  tData={props.cleaveData[tech]} /> </div>)}
             </div>
         </div>
