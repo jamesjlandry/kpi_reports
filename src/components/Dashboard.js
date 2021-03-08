@@ -492,6 +492,20 @@ const Dashboard = () => {
             readExcel(file)
             }} />
             <div className="content_wrapper">
+              <div className="print_heading">
+                <div className="logo">
+                  <img src="images/impart_logo.png" />
+                </div>
+                <div className="title">
+                  KPI Report
+                </div>
+                <div className="clinic_name">
+
+                </div>
+              </div>
+              <div>
+
+              </div>
             {fertData? <div ><div><FertRates fertData={fertData}  /></div> <div className="fert_text"> <EditorJs data={data} tools={{list: list}}/></div></div> : null}
             {pregData? <div><div> <PregnancyRates pregData={pregData} /> </div> <div className="pr_text"> <EditorJs data={data} tools={{list: list}} /></div></div> : null}
             {cleaveData? <div><div>  <CleavageRates cleaveData={cleaveData}  /> </div> <div className="cr_text"><EditorJs data={data} tools={{list: list}} /></div></div>: null}

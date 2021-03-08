@@ -8,7 +8,7 @@ let USRates = (props) => {
 
     return (
         <div>
-            <div className="ur_wrapper">
+            <div className="pie_wrapper">
                 {ages.map(age => <div key={`${age}_age_rate`}> {age} <PieChart  tData={props.uSData[age]} /> </div>)}
             </div>
         </div>

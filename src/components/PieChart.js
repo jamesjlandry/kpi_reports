@@ -3,6 +3,7 @@ import { Doughnut, Chart } from 'react-chartjs-2'
 
 let PieChart = (props) => {
 
+let total = props.total
 
     const data = {
         labels: [],
@@ -145,14 +146,29 @@ let PieChart = (props) => {
     }
 
     return (
-        <div className="doughnut">
-            <Doughnut
-                data={data}
-                options={lineOptions}
-            />
+        <div>
+            { total ? 
+                <div className="total">
+                    <Doughnut
+                        data={data}
+                        options={lineOptions}
+                    />
 
+
+                    </div>
+                : 
+                    <div className="doughnut">
+                    <Doughnut
+                        data={data}
+                        options={lineOptions}
+                    />
+
+
+                </div>}
 
         </div>
+       
+    
 
     )
 }
