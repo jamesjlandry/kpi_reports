@@ -506,13 +506,13 @@ const Dashboard = () => {
               <div>
 
               </div>
-            {fertData? <div ><div><FertRates fertData={fertData}  /></div> <div className="fert_text"> <EditorJs data={data} tools={{list: list}}/></div></div> : null}
-            {pregData? <div><div> <PregnancyRates pregData={pregData} /> </div> <div className="pr_text"> <EditorJs data={data} tools={{list: list}} /></div></div> : null}
-            {cleaveData? <div><div>  <CleavageRates cleaveData={cleaveData}  /> </div> <div className="cr_text"><EditorJs data={data} tools={{list: list}} /></div></div>: null}
-            {pregAgeData? <div> <div><PregRateByAge pregData={pregAgeData} /></div> <div className="pa_text"> <EditorJs data={data} tools={{list: list}} /></div> </div>: null}
-            {uSData? <div> <div><USRates uSData={uSData} /> </div> <div className="ur_text" > <EditorJs data={data} tools={{list: list}} /></div> </div>: null}
-            {bRData? <div> <div><BarChart data={bRData}/> </div> <div className="bc_text"> <EditorJs data={data} tools={{list: list}} /></div></div> : null}
-            {miscKPIData ? <div> <div> <MiscKPIs data={miscKPIData} /> </div> <div className="md_text"> <EditorJs data={data} tools={{list: list}} /></div> </div> : null}
+            {fertData? <div ><div><FertRates fertData={fertData}  /></div> <div className="text_box"> <EditorJs data={data} tools={{list: list}}/></div></div> : null}
+            {pregData? <div><div> <PregnancyRates pregData={pregData} /> </div> <div className="text_box"> <EditorJs data={data} tools={{list: list}} /></div></div> : null}
+            {cleaveData? <div><div>  <CleavageRates cleaveData={cleaveData}  /> </div> <div className="text_box"><EditorJs data={data} tools={{list: list}} /></div></div>: null}
+            {pregAgeData? <div> <div><PregRateByAge pregData={pregAgeData} /></div> <div className="text_box"> <EditorJs data={data} tools={{list: list}} /></div> </div>: null}
+            {uSData? <div> <div><USRates uSData={uSData} /> </div> <div className="text_box" > <EditorJs data={data} tools={{list: list}} /></div> </div>: null}
+            {bRData? <div> <div><BarChart data={bRData}/> </div> <div className="text_box"> <EditorJs data={data} tools={{list: list}} /></div></div> : null}
+            {miscKPIData ? <div> <div> <MiscKPIs data={miscKPIData} /> </div> <div className="text_box"> <EditorJs data={data} tools={{list: list}} /></div> </div> : null}
             </div>
         </div>
     )
