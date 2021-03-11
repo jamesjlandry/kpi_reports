@@ -11,7 +11,12 @@ const PregnancyRates = (props) => {
     
 
     return(
+        <div>
+           
         <div className="transfer_wrapper">
+        <div className="chart_header">
+                Transfer KPIs
+            </div>
             <div className="pie_total" >
                <div className="total_label">Total</div> <div ><PieChart key={"total_pregRate"} tData={props.pregData['Total']} total={true}/></div>
             </div>
@@ -32,6 +37,7 @@ const PregnancyRates = (props) => {
                 {vitTechs.map( tech => <div  key={`${tech}_pregrate`}>  <div > {tech} <PieChart  tData={props.pregData["Vit tech"][tech]} /> </div></div> )}
             </div>
             
+        </div>
         </div>
     )
 

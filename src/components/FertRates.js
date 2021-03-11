@@ -18,7 +18,9 @@ let FertRates = (props) => {
    
     return (
         <div>
-           
+           <div className="chart_header">
+               Fertility Rates
+           </div>
             <div className="pie_wrapper">
                 <div className="pie_total">
                     <div className="total_label">

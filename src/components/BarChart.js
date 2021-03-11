@@ -56,7 +56,7 @@ let BarChart= (props) => {
 
     
     return (
-        <div>
+        <div className="bar_chart">
             <Bar
             data={data}
             options={options}

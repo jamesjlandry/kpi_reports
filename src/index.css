@@ -117,7 +117,8 @@ code {
   grid-template-columns: 1;
   grid-template-rows: auto;
   align-items: center;
-
+  grid-gap: 4px;
+  
 }
 
 
@@ -137,14 +138,24 @@ code {
 .pie_wrapper {
   width: 1000px;
   display: grid;
-  padding-left: 20px;
+  padding-left: 25px;
   grid-template-columns: 300px 240px 240px 240px;
-  grid-auto-rows: 110px;
   padding-top: 20px;
-  margin: 0px 0px 25px 25px;
+  margin: 10px 0px 15px 30px;
   grid-gap: 4px;
+  border: 1px solid rgb(120, 131, 134);
 }
 
+.chart_header {
+  font-weight: 430;
+  font-size: 1.2em;
+  align-items: center;
+  border-bottom: 1px solid grey;
+  padding: 5px;
+  height: 60px;
+  padding-top: 20px;
+  background-color:rgb(153, 224, 229)
+}
 
 
 .transfer_wrapper {
@@ -154,13 +165,15 @@ code {
   grid-template-rows: repeat(5, 200px); 
   padding-top: 20px;
   padding-left: 50px;
+  border: 1px solid rgb(120, 131, 134);
 }
 
 .doc {
   display: flex;
   justify-content: space-evenly;
   grid-column-start: 2;
-  grid-row-start: 2;
+  grid-row-start: 1;
+  padding-top: 130px;
   width: 700px;
 }
 
@@ -201,8 +214,9 @@ code {
   justify-content: left;
   grid-column-start: 2;
   grid-column-end: 4;
-  grid-row-start: 2;
+  grid-row-start: 1;
   grid-row-end: auto;
+  padding-top: 115px;
   width: 700px;
 }
 
@@ -214,8 +228,7 @@ code {
 
 .total {
   position: relative;
-  margin: 0;
-  height: 300px;
+  height: 280px;
   width: 300px;
 }
 
@@ -234,6 +247,10 @@ code {
   margin: 0px;
 }
 
+.bar_chart {
+  width: 1000px;
+  margin-left: 60px;
+}
 
 .print_heading {
   display: flex;
