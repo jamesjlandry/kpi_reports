@@ -68,7 +68,7 @@ const Dashboard = () => {
     
     
           const fData = {
-            "Total ICSI'D": {
+            "Total": {
               '2PN': 0,
               '1PN': 0,
               '>2PN': 0,
@@ -78,11 +78,11 @@ const Dashboard = () => {
           }
           totalICSID.forEach(key => {
             
-           fData["Total ICSI'D"]['2PN'] += arr1[key]['# 2PN'] 
-           fData["Total ICSI'D"]['1PN'] += arr1[key]['#1PN'] 
-           fData["Total ICSI'D"]['>2PN'] += arr1[key]['# abnormal'] 
-           fData["Total ICSI'D"]['dgen'] += arr1[key]['# deg'] 
-           fData["Total ICSI'D"]['0PN'] += arr1[key]['# 0PN'] 
+           fData["Total"]['2PN'] += arr1[key]['# 2PN'] 
+           fData["Total"]['1PN'] += arr1[key]['#1PN'] 
+           fData["Total"]['>2PN'] += arr1[key]['# abnormal'] 
+           fData["Total"]['dgen'] += arr1[key]['# deg'] 
+           fData["Total"]['0PN'] += arr1[key]['# 0PN'] 
     
           })
     

@@ -5,6 +5,7 @@ import BarChart from './BarChart'
 let BlastRates = (props) => {
 
     const techs = Object.keys(props.blastData)
+    
 
     return (
         <div>

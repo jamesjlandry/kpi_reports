@@ -4,12 +4,27 @@ import PieChart from './PieChart'
 
 let PregRateByAge = (props) => {
 
-    const ages = Object.keys(props.pregData)
+   
+    let ages = []
+    console.log(props.pregData)
+    for (let key in props.pregData) {
+        if(key !== "Total") {
+            ages.push(key)
+        }
+    }
 
     return (
         <div>
             <div className="pie_wrapper">
-                {ages.map(age => <div key={`${age}_age_rate`}> {age} <PieChart  tData={props.pregData[age]} /> </div>)}
+                <div className="pie_total">
+                    <div className="total_label">
+                        Total
+                    </div>
+                    <PieChart  tData={props.pregData["Total"]} total={true}/>
+                </div>
+                <div className="tech_donut" >
+                    {ages.map(age => <div key={`${age}_age_rate`}> {age} <PieChart  tData={props.pregData[age]} /> </div>)}
+                </div>
             </div>
         </div>
     )
