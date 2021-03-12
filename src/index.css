@@ -11,6 +11,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-print-color-adjust:exact;
 }
 
 code {
@@ -41,6 +42,20 @@ code {
 
 }
 
+.login_logo {
+  position: fixed;
+  top: 4%;
+  left: 9%;
+  height: 85%;
+  
+}
+
+.login_logo img{
+  height: 70%;
+  top: 0%;
+  left: 0%;
+}
+
 .login_form {
   position: absolute;
   max-width: 300px;
@@ -49,10 +64,11 @@ code {
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 10px;
-  background-color: rgba(38, 107, 104, 0.4);
+  background-color: rgba(38, 107, 104, 0.7);
   color: whitesmoke;
 
 }
+
 
 .login_form h1 {
   padding: 15px 0;
@@ -65,6 +81,7 @@ code {
   border-bottom: 1px solid rgb(35, 68, 88);
   background-color: transparent;
   padding: .2em;
+  color: whitesmoke;
 }
 
 .forgot_password {
@@ -76,7 +93,7 @@ code {
 
 .wrapper {
   display: grid;
-  grid-gap: 3px;
+  grid-gap: 10px;
   grid-template-areas: 
     "h h h h h h h"
     "c c c c c c c"
@@ -110,6 +127,12 @@ code {
   justify-content: right;
 }
 
+@media print {
+  .menu {
+    display: none;
+  }
+}
+
 .content_wrapper {
   grid-area: c;
   border: 1px solid grey;
@@ -117,22 +140,27 @@ code {
   grid-template-columns: 1;
   grid-template-rows: auto;
   align-items: center;
-  grid-gap: 4px;
-  
+  grid-gap: 10px;
 }
 
 
 
 .text_box {
-  border-top: solid 1px #8e8e8e; 
-  border-right: solid 1px #d1d1d1; 
-  border-left: solid 1px #d1d1d1; 
-  border-bottom: solid 1px #e4e4e4; 
-  width: 60%;
-  margin-left: 70px;
+  width: 90%;
+  margin-left: 30px;
   text-align: left;
-  height: 200px;
-  
+  min-height: 200px;
+  padding: 0px;
+  height: 230px;
+  font-size: 14px;
+}
+
+.kpi_wrapper {
+  width: 1070px;
+  border: 1px solid grey;
+  margin: 50px;
+  padding-bottom: 15px;
+
 }
 
 .pie_wrapper {
@@ -143,7 +171,7 @@ code {
   padding-top: 20px;
   margin: 10px 0px 15px 30px;
   grid-gap: 4px;
-  border: 1px solid rgb(120, 131, 134);
+ 
 }
 
 .chart_header {
@@ -165,7 +193,7 @@ code {
   grid-template-rows: repeat(5, 200px); 
   padding-top: 20px;
   padding-left: 50px;
-  border: 1px solid rgb(120, 131, 134);
+ 
 }
 
 .doc {
@@ -254,10 +282,13 @@ code {
 
 .print_heading {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding-left: 50px;
   width: 100%;
   border-bottom: 1.5px solid rgb(187, 174, 174);
-  box-shadow: 0px 1px 3px lightgray;
+  box-shadow: 0px 1px 3px  lightgray;
+  font-size: 1.7em;
+  align-items: center;
 }
 
 .logo {
@@ -267,4 +298,14 @@ code {
 .logo img{
  height: 55px;
  padding: 5px;
+ 
+}
+
+.logo_two {
+  height: 75px;
+}
+
+.logo_two img {
+  height: 75px;
+  padding: 5px 0px 10px 0px;
 }

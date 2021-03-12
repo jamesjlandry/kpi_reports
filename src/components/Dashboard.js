@@ -25,12 +25,10 @@ const Dashboard = () => {
     const data = {}
     const list = List
 
-        // the readExcel function uses sheet.js to set initial data from an uploaded excel file.
-        // it utilizes a promise, then, with the promise reorganizes the data using each of the setState functions
-        // that the app will generate with Dounught and Bar Charts. 
+        
 
     const readExcel = (file) => {
-        // logic to create an array of objects. Each object is a sheet from the uploaded excel file
+        
         const promise = new Promise((resolve, reject) => {
           const fileReader = new FileReader()
           fileReader.readAsArrayBuffer(file)
@@ -499,6 +497,9 @@ const Dashboard = () => {
                 <div className="title">
                   KPI Report
                 </div>
+                <div className="logo_two">
+                  <img src='images/denver_fertility_logo.png' />
+                </div>
                 <div className="clinic_name">
 
                 </div>
@@ -506,13 +507,13 @@ const Dashboard = () => {
               <div>
 
               </div>
-            {fertData? <div ><div><FertRates fertData={fertData}  /></div> <div className="text_box"> <EditorJs data={data} tools={{list: list}}/></div></div> : null}
-            {pregData? <div><div> <PregnancyRates pregData={pregData} /> </div> <div className="text_box"> <EditorJs data={data} tools={{list: list}} /></div></div> : null}
-            {cleaveData? <div><div>  <CleavageRates cleaveData={cleaveData}  /> </div> <div className="text_box"><EditorJs data={data} tools={{list: list}} /></div></div>: null}
-            {pregAgeData? <div> <div><PregRateByAge pregData={pregAgeData} /></div> <div className="text_box"> <EditorJs data={data} tools={{list: list}} /></div> </div>: null}
-            {uSData? <div> <div><USRates uSData={uSData} /> </div> <div className="text_box" > <EditorJs data={data} tools={{list: list}} /></div> </div>: null}
-            {bRData? <div> <div><BarChart data={bRData}/> </div> <div className="text_box"> <EditorJs data={data} tools={{list: list}} /></div></div> : null}
-            {miscKPIData ? <div> <div> <MiscKPIs data={miscKPIData} /> </div> <div className="text_box"> <EditorJs data={data} tools={{list: list}} /></div> </div> : null}
+            {fertData? <div className="kpi_wrapper" ><div><FertRates fertData={fertData}  /></div> <div className="text_box"> <EditorJs data={data} tools={{list: list}}/></div></div> : null}
+            {cleaveData? <div className="kpi_wrapper"><div>  <CleavageRates cleaveData={cleaveData}  /> </div> <div className="text_box"><EditorJs data={data} tools={{list: list}} /></div></div>: null}
+            {pregData? <div className="kpi_wrapper"><div> <PregnancyRates pregData={pregData} /> </div> <div className="text_box"> <EditorJs data={data} tools={{list: list}} /></div></div> : null}
+            {pregAgeData? <div className="kpi_wrapper"> <div><PregRateByAge pregData={pregAgeData} /></div> <div className="text_box"> <EditorJs data={data} tools={{list: list}} /></div> </div>: null}
+            {uSData? <div className="kpi_wrapper"> <div><USRates uSData={uSData} /> </div> <div className="text_box" > <EditorJs data={data} tools={{list: list}} /></div> </div>: null}
+            {bRData? <div className="kpi_wrapper"> <div><BarChart data={bRData}/> </div> <div className="text_box"> <EditorJs data={data} tools={{list: list}} /></div></div> : null}
+            {miscKPIData ? <div className="kpi_wrapper"> <div> <MiscKPIs data={miscKPIData} /> </div> <div className="text_box"> <EditorJs data={data} tools={{list: list}} /></div> </div> : null}
             </div>
         </div>
     )

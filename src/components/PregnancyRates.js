@@ -12,11 +12,11 @@ const PregnancyRates = (props) => {
 
     return(
         <div>
-           
-        <div className="transfer_wrapper">
-        <div className="chart_header">
+            <div className="chart_header">
                 Transfer KPIs
             </div>
+        <div className="transfer_wrapper">
+       
             <div className="pie_total" >
                <div className="total_label">Total</div> <div ><PieChart key={"total_pregRate"} tData={props.pregData['Total']} total={true}/></div>
             </div>

@@ -12,7 +12,12 @@ let MiscKPIs = (props) => {
     console.log(props)
     return (
         <div>
-            Biopsy Result 
+            <div className="chart_header">
+                Misc KPIs
+            </div>
+            <div>
+                Biopsy Result 
+            </div>
             <div>
                 {bioResKeys.map(tech => <div key={`${tech}_bioRes`}> <div>{tech}: {props.data.bioRes[tech]}</div></div>)}
             </div>
