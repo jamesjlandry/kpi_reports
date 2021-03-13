@@ -42,39 +42,44 @@ code {
 
 }
 
-.login_logo {
-  position: fixed;
-  top: 4%;
-  left: 9%;
-  height: 85%;
-  
-}
 
-.login_logo img{
-  height: 70%;
-  top: 0%;
-  left: 0%;
-}
 
 .login_form {
   position: absolute;
+  justify-content: center;
   max-width: 300px;
   padding: 40px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 10px;
-  background-color: rgba(38, 107, 104, 0.7);
+  background-color: rgba(31, 117, 113, 0.6);
   color: whitesmoke;
 
 }
 
-
-.login_form h1 {
-  padding: 15px 0;
-
+.login_form form{
+  padding: 15px 0px;
 }
-.login_form input, button {
+
+.login_form form input {
+  padding: 10px;
+}
+
+.login_logo {
+  width: 99%;
+  position: relative;
+  top: 0%;
+  padding-bottom: 90px;
+}
+
+.login_logo img {
+  width: 150px;
+}
+
+
+
+.login_form input {
   width: 90%;
   height: 50%;
   border: none;
@@ -82,6 +87,16 @@ code {
   background-color: transparent;
   padding: .2em;
   color: whitesmoke;
+}
+
+.login_form button {
+  width: 90%;
+  padding: 3px;
+  margin-top: 15px;
+  background-color:rgb(31, 104, 117);
+  color: whitesmoke;
+  border: none;
+  border-radius: 5px;
 }
 
 .forgot_password {
@@ -151,7 +166,7 @@ code {
   text-align: left;
   min-height: 200px;
   padding: 0px;
-  height: 230px;
+  height: 200px;
   font-size: 14px;
 }
 
