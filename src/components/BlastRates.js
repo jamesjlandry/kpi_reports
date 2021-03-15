@@ -9,10 +9,7 @@ let BlastRates = (props) => {
 
     return (
         <div>
-            <div className="chart_header">
-                Blast Rates
-            </div>
-            <div className="bar_wrapper">
+            <div >
                 {techs.map(tech => <div key={`${tech}_blast_rate`}> {tech} <BarChart  tData={props.blastData[tech]} /> </div>)}
             </div>
         </div>

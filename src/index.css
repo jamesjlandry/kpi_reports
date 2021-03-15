@@ -139,19 +139,100 @@ code {
 .menu {
   grid-area: h;
   display: flex;
-  justify-content: right;
+  align-items: right;
+  justify-content: space-evenly;
+  padding: 5px;
+}
+
+.edit_profile_button {
+  height: 20px;
+  font-size: 1.2em;
+}
+
+.edit_profile_button a{
+  text-decoration: none;
+}
+
+.profile_wrapper {
+  background-color: lightseagreen;
+  height: 100%;
+  width: 100%;
+}
+.edit_profile {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  border: 1px solid grey;
+  border-radius: 10px;
+  background-color: rgb(243, 226, 226);
+}
+
+.edit_profile form {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.logout_button {
+  height: 25px;
+  font-size: 1.1em;
+  border: 1px solid rgb(131, 119, 119, 0.5);
+  border-radius: 4px;
+  background-color: rgb(151, 227, 233);
+  padding: 2px;
+  padding-bottom: 3px;
+  
+}
+
+.upload {
+  grid-area: f;
+  display: flex;
 }
 
 @media print {
+  @page {
+    margin: 0px;
+    margin: 10px;
+  }
+  body{
+    margin: 0px;
+    padding: 0px;
+  }
   .menu {
     display: none;
+  }
+
+  .upload {
+    display: none;
+  }
+
+  .wrapper {
+    margin: 0px;
+    grid-gap: 0px;
+    padding: 0px;
+  }
+
+  .content_wrapper {
+    margin: 0px;
+    grid-gap: 0px;
+  }
+  
+  .kpi_wrapper {
+    break-inside: avoid;
   }
 }
 
 .content_wrapper {
   grid-area: c;
-  border: 1px solid grey;
-  display: grid;
+  
+  /* display: grid; */
   grid-template-columns: 1;
   grid-template-rows: auto;
   align-items: center;
@@ -166,7 +247,7 @@ code {
   text-align: left;
   min-height: 200px;
   padding: 0px;
-  height: 200px;
+  height: auto;
   font-size: 14px;
 }
 
@@ -189,10 +270,12 @@ code {
  
 }
 
+
+
 .chart_header {
   font-weight: 430;
   font-size: 1.2em;
-  align-items: center;
+  
   border-bottom: 1px solid grey;
   padding: 5px;
   height: 60px;
@@ -292,7 +375,8 @@ code {
 
 .bar_chart {
   width: 1000px;
-  margin-left: 60px;
+  margin-left: 25px;
+  margin-top: 20px;
 }
 
 .print_heading {
@@ -300,7 +384,7 @@ code {
   justify-content: space-between;
   padding-left: 50px;
   width: 100%;
-  border-bottom: 1.5px solid rgb(187, 174, 174);
+  border: 1.5px solid rgb(187, 174, 174);
   box-shadow: 0px 1px 3px  lightgray;
   font-size: 1.7em;
   align-items: center;
@@ -313,7 +397,6 @@ code {
 .logo img{
  height: 55px;
  padding: 5px;
- 
 }
 
 .logo_two {
@@ -323,4 +406,35 @@ code {
 .logo_two img {
   height: 75px;
   padding: 5px 0px 10px 0px;
+}
+
+.misc_padding {
+  padding-top: 20px;
+}
+
+.misc_kpi_type {
+  position: relative;
+  left: 1%;
+  width: 1044px;
+  font-weight: 600;
+  display: flex;
+  justify-content: left;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  padding-top: 9px;
+  height: 8px;
+}
+
+.misc_kpi_tech {
+  display: flex;
+  flex-direction: row;;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 1px solid grey;
+  padding: 4px;
+  margin-bottom: 5px;
+}
+
+.misc_kpi_tech_identifier {
+  font-weight: 500;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { auth } from '../firebase'
 import FertRates from './FertRates'
@@ -24,8 +24,6 @@ const Dashboard = () => {
 
     const data = {}
     const list = List
-
-        
 
     const readExcel = (file) => {
         
@@ -480,15 +478,18 @@ const Dashboard = () => {
     return (
         <div className="wrapper">
             <div className="menu">
-              <div>
+              <div className="edit_profile_button" >
                 <Link to='/edit-profile'>Welcome Michael</Link> 
               </div>
-                <div onClick={logout} > Log Out</div>
+                <div className="logout_button" onClick={logout} > Log Out</div>
             </div>
-            <input type="file" onChange={(e) => {
-            const file = e.target.files[0]
-            readExcel(file)
-            }} />
+            <div className="upload">
+              <input type="file" onChange={(e) => {
+              const file = e.target.files[0]
+              readExcel(file)
+              }} />
+            </div>
+         
             <div className="content_wrapper">
               <div className="print_heading">
                 <div className="logo">
@@ -507,16 +508,24 @@ const Dashboard = () => {
               <div>
 
               </div>
-            {fertData? <div className="kpi_wrapper" ><div><FertRates fertData={fertData}  /></div> <div className="text_box"> <EditorJs data={data} tools={{list: list}}/></div></div> : null}
-            {cleaveData? <div className="kpi_wrapper"><div>  <CleavageRates cleaveData={cleaveData}  /> </div> <div className="text_box"><EditorJs data={data} tools={{list: list}} /></div></div>: null}
-            {pregData? <div className="kpi_wrapper"><div> <PregnancyRates pregData={pregData} /> </div> <div className="text_box"> <EditorJs data={data} tools={{list: list}} /></div></div> : null}
-            {pregAgeData? <div className="kpi_wrapper"> <div><PregRateByAge pregData={pregAgeData} /></div> <div className="text_box"> <EditorJs data={data} tools={{list: list}} /></div> </div>: null}
-            {uSData? <div className="kpi_wrapper"> <div><USRates uSData={uSData} /> </div> <div className="text_box" > <EditorJs data={data} tools={{list: list}} /></div> </div>: null}
-            {bRData? <div className="kpi_wrapper"> <div><BarChart data={bRData}/> </div> <div className="text_box"> <EditorJs data={data} tools={{list: list}} /></div></div> : null}
-            {miscKPIData ? <div className="kpi_wrapper"> <div> <MiscKPIs data={miscKPIData} /> </div> <div className="text_box"> <EditorJs data={data} tools={{list: list}} /></div> </div> : null}
+            {fertData? <div className="kpi_wrapper" ><div><FertRates fertData={fertData}  /></div> <div className="text_box"> <CustomEditor data={data} tools={{list: list}}/></div></div> : null}
+            {cleaveData? <div className="kpi_wrapper"><div>  <CleavageRates cleaveData={cleaveData}  /> </div> <div className="text_box"><CustomEditor data={data} tools={{list: list}} /></div></div>: null}
+            {pregData? <div className="kpi_wrapper"><div> <PregnancyRates pregData={pregData} /> </div> <div className="text_box"> <CustomEditor data={data} tools={{list: list}} /></div></div> : null}
+            {pregAgeData? <div className="kpi_wrapper"> <div><PregRateByAge pregData={pregAgeData} /></div> <div className="text_box"> <CustomEditor data={data} tools={{list: list}} /></div> </div>: null}
+            {uSData? <div className="kpi_wrapper"> <div><USRates uSData={uSData} /> </div> <div className="text_box" > <CustomEditor data={data} tools={{list: list}} /></div> </div>: null}
+            {bRData? <div className="kpi_wrapper"> <div className="chart_header">Blast Rates</div><div><BarChart data={bRData}/> </div> <div className="text_box"> <CustomEditor data={data} tools={{list: list}} /></div></div> : null}
+            {miscKPIData ? <div className="kpi_wrapper"> <div> <MiscKPIs data={miscKPIData} /> </div> <div className="text_box"> <CustomEditor data={data} tools={{list: list}} /></div> </div> : null}
             </div>
         </div>
     )
+}
+
+function CustomEditor(props){
+  return (
+    <div style={{ overflow: 'hidden', marginBottom: -280}}>
+      <EditorJs {...props}/>
+    </div>
+  )
 }
 
 export default Dashboard
