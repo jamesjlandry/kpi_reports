@@ -18,8 +18,8 @@ const ForgotPassword = () => {
             setLoading(true)
             await resetPassword(emailRef.current.value)
             setMessage("Check your email to continue resetting password")
-        } catch {
-            alert("Password Reset failed")
+        } catch(error) {
+            alert(error.message)
         }
         setLoading(false)
     }

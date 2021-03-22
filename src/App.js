@@ -13,13 +13,6 @@ import LogIn from './components/LogIn.js'
 
 function App() {
 
-
-
-
-
-  
- 
-
   return (
     <div className="App">
       <Router>
