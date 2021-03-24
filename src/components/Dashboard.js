@@ -78,7 +78,7 @@ const Dashboard = () => {
             let row = arr1[key]
             let headers = Object.keys(row)
             headers.forEach( header => {
-              let newKey = header.replace(/[^a-z0-9]/gi,'')
+              let newKey = header.replace(/[^a-z0-9]/gi,'').toLowerCase()
               ret[key][newKey] = arr1[key][header]
             })
           }
