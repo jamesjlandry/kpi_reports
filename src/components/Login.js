@@ -26,8 +26,8 @@ const LogIn = () => {
             setLoading(true)
             await login(emailRef.current.value, passwordRef.current.value)
             history.push("/")
-        } catch {
-            alert("Login Failed")
+        } catch(error) {
+            alert(error.message)
         }
         setLoading(false)
     }

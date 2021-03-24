@@ -29,7 +29,7 @@ const ForgotPassword = () => {
         <div>
             
             {message && alert(message)}
-            <h1>Welcome Michael</h1>
+            <h1>Impart Quality Consulting</h1>
             <form onSubmit={e => handleSubmit(e)}>
             <input 
                     ref={emailRef}

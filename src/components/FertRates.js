@@ -5,7 +5,7 @@ import PieChart from './PieChart'
 let FertRates = (props) => {
 
     let techs = []
-    console.log(props.fertData)
+    
     for (let key in props.fertData) {
         if(key !== "Total") {
             techs.push(key)

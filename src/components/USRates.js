@@ -7,7 +7,7 @@ let USRates = (props) => {
  
 
     let ages = []
-    console.log(props.uSData)
+    
     for (let key in props.uSData) {
         if(key !== "Total") {
             ages.push(key)

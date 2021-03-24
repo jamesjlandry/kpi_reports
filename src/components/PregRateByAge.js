@@ -6,7 +6,7 @@ let PregRateByAge = (props) => {
 
    
     let ages = []
-    console.log(props.pregData)
+   
     for (let key in props.pregData) {
         if(key !== "Total") {
             ages.push(key)

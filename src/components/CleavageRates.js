@@ -4,7 +4,7 @@ import PieChart from './PieChart'
 const CleavageRates = (props) => {
 
     let techs = []
-    console.log(props.cleaveData)
+    
     for (let key in props.cleaveData) {
         if(key !== "Total") {
             techs.push(key)

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import { Link } from 'react-router-dom'
 import { auth } from '../firebase'
 import FertRates from './FertRates'
@@ -58,10 +58,23 @@ const Dashboard = () => {
           
           const arr1 = data[0]
           const arr2 = data[1]
-          const retRateKeys = Object.keys(arr1)
-          const fetRateKeys = Object.keys(arr2)
+
+          let retRateKeys = []
+           for(let key in arr1) {
+            retRateKeys.push(key)
+          }
+
+          let fetRateKeys = []
+
+          for( let key in arr2) {
+            fetRateKeys.push(key)
+          }
+         
+         
+          
           const totalICSID = retRateKeys.filter( key => arr1[key]['# 2PN'] !== 'n/a')
     
+         
     
           const fData = {
             "Total": {
@@ -87,9 +100,9 @@ const Dashboard = () => {
           
           techICSID.forEach(key => {
             
-            if(!fData[arr1[key]['ICSI Tech']]) {
+            if(!fData[arr1[key]['ICSI Tech'].toUpperCase()]) {
               
-              fData[arr1[key]['ICSI Tech']] = {
+              fData[arr1[key]['ICSI Tech'].toUpperCase()] = {
                 '2PN': arr1[key]['# 2PN'],
                 '1PN':  arr1[key]['#1PN'],
                 '>2PN': arr1[key]['# abnormal'],
@@ -98,11 +111,11 @@ const Dashboard = () => {
               }
     
             } else {
-              fData[arr1[key]['ICSI Tech']]['2PN'] += arr1[key]['# 2PN']
-              fData[arr1[key]['ICSI Tech']]['1PN'] += arr1[key]['#1PN']
-              fData[arr1[key]['ICSI Tech']]['>2PN'] += arr1[key]['# abnormal']
-              fData[arr1[key]['ICSI Tech']]['dgen'] += arr1[key]['# deg']
-              fData[arr1[key]['ICSI Tech']]['0PN'] += arr1[key]['# 0PN']
+              fData[arr1[key]['ICSI Tech'].toUpperCase()]['2PN'] += arr1[key]['# 2PN']
+              fData[arr1[key]['ICSI Tech'].toUpperCase()]['1PN'] += arr1[key]['#1PN']
+              fData[arr1[key]['ICSI Tech'].toUpperCase()]['>2PN'] += arr1[key]['# abnormal']
+              fData[arr1[key]['ICSI Tech'].toUpperCase()]['dgen'] += arr1[key]['# deg']
+              fData[arr1[key]['ICSI Tech'].toUpperCase()]['0PN'] += arr1[key]['# 0PN']
             }
            
            
@@ -194,8 +207,8 @@ const Dashboard = () => {
             
               keys.forEach(key => {
         
-                if(!techs[array[key][techIdentifier]]) {
-                  techs[array[key][techIdentifier]] = {
+                if(!techs[array[key][techIdentifier].toUpperCase()]) {
+                  techs[array[key][techIdentifier].toUpperCase()] = {
                     "numerator": array[key][numerator],
                     'denominator': array[key][denominator]
                   }
@@ -203,8 +216,8 @@ const Dashboard = () => {
                   techs["Total"]["numerator"] += array[key][numerator]
                   techs["Total"]["denominator"] += array[key][denominator]
                 } else {
-                  techs[array[key][techIdentifier]]["numerator"] += array[key][numerator]
-                  techs[array[key][techIdentifier]]["denominator"] += array[key][denominator]
+                  techs[array[key][techIdentifier].toUpperCase()]["numerator"] += array[key][numerator]
+                  techs[array[key][techIdentifier].toUpperCase()]["denominator"] += array[key][denominator]
                   techs["Total"]["numerator"] += array[key][numerator]
                   techs["Total"]["denominator"] += array[key][denominator]
                 }
@@ -231,6 +244,7 @@ const Dashboard = () => {
           // kpiData["ooWSurv"] = ooWSurvRate
     
           for(let key in arr2) {
+            
             let age = arr2[key]['Age Group']
             let blastTrans = arr2[key]['# blast trans']
             if(!kpiData['aReTaG'][age]) {
@@ -285,22 +299,22 @@ const Dashboard = () => {
     
           const setPDataTech = (tech, keys, hashKey) => {
             keys.forEach(key => {
-              if(!pData[hashKey][arr2[key][tech]]) {
+              if(!pData[hashKey][arr2[key][tech].toUpperCase()]) {
                 if(arr2[key]['Pos/Neg'] === 'POS') {
-                  pData[hashKey][arr2[key][tech]] = {
+                  pData[hashKey][arr2[key][tech].toUpperCase()] = {
                     "Pos": 1,
                     "Neg": 0
                   }
                 }
                 else {
-                  pData[hashKey][arr2[key][tech]] = {
+                  pData[hashKey][arr2[key][tech].toUpperCase()] = {
                     "Pos": 0,
                     "Neg": 1
                   }
                 } 
       
               } else {
-                arr2[key]['Pos/Neg'] === 'POS' ? pData[hashKey][arr2[key][tech]]["Pos"] += 1 : pData[hashKey][arr2[key][tech]]["Neg"] += 1
+                arr2[key]['Pos/Neg'] === 'POS' ? pData[hashKey][arr2[key][tech].toUpperCase()]["Pos"] += 1 : pData[hashKey][arr2[key][tech].toUpperCase()]["Neg"] += 1
               }
             })
           }
@@ -466,7 +480,7 @@ const Dashboard = () => {
           setUSData(uSData)
           setBRData(bRData)
           setMiscKPIData(kpiData)
-          console.log(kpiData)
+          
     
         })
       }
@@ -522,7 +536,7 @@ const Dashboard = () => {
 
 function CustomEditor(props){
   return (
-    <div style={{ overflow: 'hidden', marginBottom: -280}}>
+    <div style={{ overflow: 'hidden', marginBottom: -270}}>
       <EditorJs {...props}/>
     </div>
   )
