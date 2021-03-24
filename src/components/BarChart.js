@@ -9,7 +9,7 @@ let BarChart= (props) => {
         labels: [],
        
         datasets: [
-            {   label: "Positive Ultrasound %",
+            {   label: "Usable Blast per 2PN",
                 data: [
 
                 ],

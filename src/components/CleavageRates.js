@@ -11,8 +11,14 @@ const CleavageRates = (props) => {
         }
     }
 
+    // console.log(props.cleaveData)
+
+    
+
     return (
+       
         <div>
+           
             <div className="chart_header">
                 Cleavage Rates
             </div>

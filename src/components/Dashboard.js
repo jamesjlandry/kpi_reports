@@ -70,6 +70,21 @@ const Dashboard = () => {
             fetRateKeys.push(key)
           }
          
+         let ret = []
+         
+         
+          for (let key in arr1){
+            ret.push({})
+            let row = arr1[key]
+            let headers = Object.keys(row)
+            headers.forEach( header => {
+              let newKey = header.replace(/[^a-z0-9]/gi,'')
+              ret[key][newKey] = arr1[key][header]
+            })
+          }
+        
+            console.log(ret)
+
          
           
           const totalICSID = retRateKeys.filter( key => arr1[key]['# 2PN'] !== 'n/a')
@@ -81,7 +96,7 @@ const Dashboard = () => {
               '2PN': 0,
               '1PN': 0,
               '>2PN': 0,
-              dgen: 0,
+              'Degen': 0,
               '0PN': 0
             }
           }
@@ -90,7 +105,7 @@ const Dashboard = () => {
            fData["Total"]['2PN'] += arr1[key]['# 2PN'] 
            fData["Total"]['1PN'] += arr1[key]['#1PN'] 
            fData["Total"]['>2PN'] += arr1[key]['# abnormal'] 
-           fData["Total"]['dgen'] += arr1[key]['# deg'] 
+           fData["Total"]['Degen'] += arr1[key]['# deg'] 
            fData["Total"]['0PN'] += arr1[key]['# 0PN'] 
     
           })
