@@ -366,7 +366,7 @@ const Dashboard = () => {
          const setAPDataByAge = (keys, ageGroup, age) => {
             keys.forEach(key => {
                 
-              if(arr2[key]['Age Group'] === ageGroup){
+              if(arr2[key]['Age Group'].toLowerCase() === ageGroup){
                 if(arr2[key]['Pos/Neg'] === "POS") {
                   if(arr2[key]['# sacs'] === 0){
                     aPData[age]["BC"] ++
@@ -441,7 +441,7 @@ const Dashboard = () => {
         const setUSDataByAge = (keys, ageGroup, age) => {
           keys.forEach(key => {
               
-            if(arr2[key]['Age Group'] === ageGroup){
+            if(arr2[key]['Age Group'].toLowerCase() === ageGroup){
               if(arr2[key]['Pos/Neg'] === "POS") {
                 if(arr2[key]["# blast trans"] > 1){
                   if(arr2[key]['#HB'] === 0){
