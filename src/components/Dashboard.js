@@ -89,13 +89,9 @@ const Dashboard = () => {
 
           copyArray(arr2, fet)
          
-
-        
-            console.log(fet)
-
-         
           
-          const totalICSID = retRateKeys.filter( key => arr1[key]['# 2PN'] !== 'n/a')
+          
+          const totalICSID = retRateKeys.filter( key => ret[key]['2pn'] !== 'n/a')
     
          
     
@@ -110,43 +106,42 @@ const Dashboard = () => {
           }
           totalICSID.forEach(key => {
             
-           fData["Total"]['2PN'] += arr1[key]['# 2PN'] 
-           fData["Total"]['1PN'] += arr1[key]['#1PN'] 
-           fData["Total"]['>2PN'] += arr1[key]['# abnormal'] 
-           fData["Total"]['Degen'] += arr1[key]['# deg'] 
-           fData["Total"]['0PN'] += arr1[key]['# 0PN'] 
+           fData["Total"]['2PN'] += ret[key]['2pn'] 
+           fData["Total"]['1PN'] += ret[key]['1pn'] 
+           fData["Total"]['>2PN'] += ret[key]['abnormal'] 
+           fData["Total"]['Degen'] += ret[key]['deg'] 
+           fData["Total"]['0PN'] += ret[key]['0pn'] 
     
           })
     
           
-          const techICSID = retRateKeys.filter( key => !arr1[key]['ICSI Tech'].includes('/'))
+          const techICSID = retRateKeys.filter( key => !ret[key]['icsitech'].includes('/'))
           
           techICSID.forEach(key => {
             
-            if(!fData[arr1[key]['ICSI Tech'].toUpperCase()]) {
+            if(!fData[ret[key]['icsitech'].toUpperCase()]) {
               
-              fData[arr1[key]['ICSI Tech'].toUpperCase()] = {
-                '2PN': arr1[key]['# 2PN'],
-                '1PN':  arr1[key]['#1PN'],
-                '>2PN': arr1[key]['# abnormal'],
-                dgen: arr1[key]['# deg'],
-                '0PN': arr1[key]['# 0PN']
+              fData[ret[key]['icsitech'].toUpperCase()] = {
+                '2PN': ret[key]['2pn'],
+                '1PN':  ret[key]['1pn'],
+                '>2PN': ret[key]['abnormal'],
+                'Degen': ret[key]['deg'],
+                '0PN': ret[key]['0pn']
               }
     
             } else {
-              fData[arr1[key]['ICSI Tech'].toUpperCase()]['2PN'] += arr1[key]['# 2PN']
-              fData[arr1[key]['ICSI Tech'].toUpperCase()]['1PN'] += arr1[key]['#1PN']
-              fData[arr1[key]['ICSI Tech'].toUpperCase()]['>2PN'] += arr1[key]['# abnormal']
-              fData[arr1[key]['ICSI Tech'].toUpperCase()]['dgen'] += arr1[key]['# deg']
-              fData[arr1[key]['ICSI Tech'].toUpperCase()]['0PN'] += arr1[key]['# 0PN']
+              fData[ret[key]['icsitech'].toUpperCase()]['2PN'] += ret[key]['2pn']
+              fData[ret[key]['icsitech'].toUpperCase()]['1PN'] += ret[key]['1pn']
+              fData[ret[key]['icsitech'].toUpperCase()]['>2PN'] += ret[key]['abnormal']
+              fData[ret[key]['icsitech'].toUpperCase()]['Degen'] += ret[key]['deg']
+              fData[ret[key]['icsitech'].toUpperCase()]['0PN'] += ret[key]['0pn']
             }
            
            
           })
     
-          const cleaveDayThree = retRateKeys.filter( key => arr1[key]['# Day 3 Emb'] !== 'n/a')
+          const cleaveDayThree = retRateKeys.filter( key => ret[key]['day3emb'] !== 'n/a')
     
-          
           
           const cData = {
             "Total": {
@@ -158,28 +153,28 @@ const Dashboard = () => {
     
           cleaveDayThree.forEach( key => {
             
-            cData["Total"]["Good"] += arr1[key]['#d3 >=6c']
-            cData["Total"]["Poor"] += (arr1[key]['# Day 3 Emb'] - arr1[key]['#d3 >=6c'])
-            cData["Total"]["Disc"] += (arr1[key]["# 2PN"] - arr1[key]['# Day 3 Emb'])
+            cData["Total"]["Good"] += ret[key]['d36c']
+            cData["Total"]["Poor"] += (ret[key]['day3emb'] - ret[key]['d36c'])
+            cData["Total"]["Disc"] += (ret[key]["2pn"] - ret[key]['day3emb'])
           })
           
          
     
           techICSID.forEach(key => {
             
-            if(!cData[arr1[key]['ICSI Tech']]) {
+            if(!cData[ret[key]['icsitech']]) {
               
-              cData[arr1[key]['ICSI Tech']] = {
-                "Good": arr1[key]['# 2PN'],
-                "Poor":  arr1[key]['#1PN'],
-                "Disc": arr1[key]['# abnormal'],
+              cData[ret[key]['icsitech']] = {
+                "Good": ret[key]['2pn'],
+                "Poor":  ret[key]['1pn'],
+                "Disc": ret[key]['abnormal'],
                 
               }
     
             } else {
-              cData[arr1[key]['ICSI Tech']]['Good'] += arr1[key]['#d3 >=6c']
-              cData[arr1[key]['ICSI Tech']]['Poor'] +=  (arr1[key]['# Day 3 Emb'] - arr1[key]['#d3 >=6c'])
-              cData[arr1[key]['ICSI Tech']]['Disc'] += (arr1[key]["# 2PN"] - arr1[key]['# Day 3 Emb'])
+              cData[ret[key]['icsitech']]['Good'] += ret[key]['d36c']
+              cData[ret[key]['icsitech']]['Poor'] +=  (ret[key]['day3emb'] - ret[key]['d36c'])
+              cData[ret[key]['icsitech']]['Disc'] += (ret[key]["2pn"] - ret[key]['day3emb'])
             }
            
            
@@ -204,19 +199,19 @@ const Dashboard = () => {
             }
           }
           
-          const bioRateKeys = techICSID.filter( key => arr1[key]['No Read'] !== 'n/a')
+          const bioRateKeys = techICSID.filter( key => ret[key]['noread'] !== 'n/a')
     
             bioRateKeys.forEach(key => {
               
-             if(!kpiData['bioRes'][arr1[key]["ICSI Tech"]]) {
-                kpiData['bioRes'][arr1[key]["ICSI Tech"]] = (arr1[key]['Total BX'] - arr1[key]['No Read'])
+             if(!kpiData['bioRes'][ret[key]["icsitech"]]) {
+                kpiData['bioRes'][ret[key]["icsitech"]] = (ret[key]['totalbx'] - ret[key]['noread'])
                 
-                kpiData['bioRes']['Total'] += (arr1[key]['Total BX'] - arr1[key]['No Read'])
+                kpiData['bioRes']['Total'] += (ret[key]['totalbx'] - ret[key]['noread'])
     
                
              } else {
-               kpiData['bioRes'][arr1[key]["ICSI Tech"]] += (arr1[key]['Total BX'] - arr1[key]['No Read'])
-               kpiData['bioRes']['Total'] += (arr1[key]['Total BX'] - arr1[key]['No Read'])
+               kpiData['bioRes'][ret[key]["icsitech"]] += (ret[key]['totalbx'] - ret[key]['noread'])
+               kpiData['bioRes']['Total'] += (ret[key]['totalbx'] - ret[key]['noread'])
              }})
     
     
@@ -255,21 +250,21 @@ const Dashboard = () => {
     
           }
     
-          const bRData = setRate(arr1, techICSID, "ICSI Tech", "Total # Usable Blast", "# 2PN")
+          const bRData = setRate(ret, techICSID, "icsitech", "totalusableblast", "2pn")
           
-          const eupRate = setRate(arr1, bioRateKeys,"ICSI Tech", "# Euploid", "Total BX")
+          const eupRate = setRate(ret, bioRateKeys,"icsitech", "euploid", "totalbx")
     
-          const emWSurvRate = setRate(arr2, fetRateKeys, "thaw tech", "# blast survived", '# blast thawed')
+          const emWSurvRate = setRate(fet, fetRateKeys, "thawtech", "blastsurvived", 'blastthawed')
     
           // once spreadsheet is updated to include a did not survive row, will be added to Pending add below to add this KPI.
-          // const oOcyteKeys = techICSID.filter( key => arr1[key]["Procedure"] === "DE Thaw-GBV")
-          // const ooWSurvRate = setRate(arr1, oOcyteKeys, "ICSI Tech", "Pending add", "Procedure" )
+          // const oOcyteKeys = techICSID.filter( key => ret[key]["Procedure"] === "DE Thaw-GBV")
+          // const ooWSurvRate = setRate(arr1, oOcyteKeys, "icsitech", "Pending add", "Procedure" )
           // kpiData["ooWSurv"] = ooWSurvRate
     
-          for(let key in arr2) {
+          for(let key in fet) {
             
-            let age = arr2[key]['Age Group']
-            let blastTrans = arr2[key]['# blast trans']
+            let age = fet[key]['agegroup']
+            let blastTrans = fet[key]['blasttrans']
             if(!kpiData['aReTaG'][age]) {
               kpiData['aReTaG'][age] = { 
                 "denominator": 1, 
@@ -300,7 +295,7 @@ const Dashboard = () => {
              
           
     
-          const fetPData = fetRateKeys.filter(key => arr2[key]['Age Group'] === '25-34' || arr2[key]['Age Group'] === '35-37')
+          const fetPData = fetRateKeys.filter(key => fet[key]['agegroup'] === '25-34' || fet[key]['agegroup'] === '35-37')
     
           
           const pData = {
@@ -315,38 +310,38 @@ const Dashboard = () => {
           }
     
           fetPData.forEach( key => {
-            arr2[key]["Pos/Neg"] === "POS" ? pData["Total"]["Pos"] +=1 : pData["Total"]["Neg"] +=1
+            fet[key]["posneg"] === "POS" ? pData["Total"]["Pos"] +=1 : pData["Total"]["Neg"] +=1
           })
     
           
     
           const setPDataTech = (tech, keys, hashKey) => {
             keys.forEach(key => {
-              if(!pData[hashKey][arr2[key][tech].toUpperCase()]) {
-                if(arr2[key]['Pos/Neg'] === 'POS') {
-                  pData[hashKey][arr2[key][tech].toUpperCase()] = {
+              if(!pData[hashKey][fet[key][tech].toUpperCase()]) {
+                if(fet[key]['posneg'] === 'POS') {
+                  pData[hashKey][fet[key][tech].toUpperCase()] = {
                     "Pos": 1,
                     "Neg": 0
                   }
                 }
                 else {
-                  pData[hashKey][arr2[key][tech].toUpperCase()] = {
+                  pData[hashKey][fet[key][tech].toUpperCase()] = {
                     "Pos": 0,
                     "Neg": 1
                   }
                 } 
       
               } else {
-                arr2[key]['Pos/Neg'] === 'POS' ? pData[hashKey][arr2[key][tech].toUpperCase()]["Pos"] += 1 : pData[hashKey][arr2[key][tech].toUpperCase()]["Neg"] += 1
+                fet[key]['posneg'] === 'POS' ? pData[hashKey][fet[key][tech].toUpperCase()]["Pos"] += 1 : pData[hashKey][fet[key][tech].toUpperCase()]["Neg"] += 1
               }
             })
           }
         
           
-          setPDataTech("trans MD", fetPData, "Trans Doctor")
-          setPDataTech("trans emb", fetPData, "Trans tech")
-          setPDataTech("Vit Tech", fetPData, "Vit tech")
-          setPDataTech("thaw tech", fetPData, "Thaw tech")
+          setPDataTech("transmd", fetPData, "Trans Doctor")
+          setPDataTech("transemb", fetPData, "Trans tech")
+          setPDataTech("vittech", fetPData, "Vit tech")
+          setPDataTech("thawtech", fetPData, "Thaw tech")
     
           const aPData = {
             "Total": {
@@ -389,9 +384,9 @@ const Dashboard = () => {
          const setAPDataByAge = (keys, ageGroup, age) => {
             keys.forEach(key => {
                 
-              if(arr2[key]['Age Group'].toLowerCase() === ageGroup){
-                if(arr2[key]['Pos/Neg'] === "POS") {
-                  if(arr2[key]['# sacs'] === 0){
+              if(fet[key]['agegroup'].toLowerCase() === ageGroup){
+                if(fet[key]['posneg'] === "POS") {
+                  if(fet[key]['sacs'] === 0){
                     aPData[age]["BC"] ++
                     aPData["Total"]["BC"] ++
                   } else {
@@ -464,10 +459,10 @@ const Dashboard = () => {
         const setUSDataByAge = (keys, ageGroup, age) => {
           keys.forEach(key => {
               
-            if(arr2[key]['Age Group'].toLowerCase() === ageGroup){
-              if(arr2[key]['Pos/Neg'] === "POS") {
-                if(arr2[key]["# blast trans"] > 1){
-                  if(arr2[key]['#HB'] === 0){
+            if(fet[key]['agegroup'].toLowerCase() === ageGroup){
+              if(fet[key]['posneg'] === "POS") {
+                if(fet[key]["blasttrans"] > 1){
+                  if(fet[key]['hb'] === 0){
                     uSData[age]["Mult No HB"] ++
                     uSData["Total"]["Mult No HB"] ++
                   } else {
@@ -475,7 +470,7 @@ const Dashboard = () => {
                     uSData["Total"]["Mult HB"] ++
                   }
                 } else{
-                  if(arr2[key]['#HB'] === 0){
+                  if(fet[key]['hb'] === 0){
                     uSData[age]["No HB"] ++
                     uSData["Total"]["No HB"] ++
                   } else {
