@@ -37,6 +37,7 @@ let total = props.total
 
     const lineOptions = {
         maintainAspectRatio: false,
+        cutoutPercentage: 60,
         tooltips: {
             enabled: true,
             callbacks: {
@@ -47,7 +48,7 @@ let total = props.total
                         return previousValue + currentValue;
                     });
                     let currentValue = dataset.data[tooltipItem.index];
-                    let percentage = Math.floor(((currentValue / total) * 100) + 0.5);
+                    let percentage = (((currentValue / total) * 100) ).toFixed(2);
                     return percentage + "%";
                 },
                 title: function (tooltipItem, data) {
@@ -71,6 +72,7 @@ let total = props.total
            
 
         },
+      
         animation: {
             duration: 1,
             onComplete: function () {
@@ -112,7 +114,7 @@ let total = props.total
                         let centerAngle = bar._model.circumference;
                         radian = radian + centerAngle;
                         middleRadian = radian - centerAngle / 2
-                        dataPercentage = Math.floor(((data / meta.total) * 100) + 0.5)
+                        dataPercentage = (((data / meta.total) * 100) ).toFixed(1)
                         dataName = bar._model.label
 
                         const text = dataName + ':' + dataPercentage + '%'
