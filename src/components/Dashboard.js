@@ -59,31 +59,39 @@ const Dashboard = () => {
           const arr1 = data[0]
           const arr2 = data[1]
 
-          let retRateKeys = []
+          const retRateKeys = []
            for(let key in arr1) {
             retRateKeys.push(key)
           }
 
-          let fetRateKeys = []
+          const fetRateKeys = []
 
           for( let key in arr2) {
             fetRateKeys.push(key)
           }
          
-         let ret = []
-         
-         
-          for (let key in arr1){
-            ret.push({})
-            let row = arr1[key]
-            let headers = Object.keys(row)
-            headers.forEach( header => {
-              let newKey = header.replace(/[^a-z0-9]/gi,'').toLowerCase()
-              ret[key][newKey] = arr1[key][header]
-            })
+         const ret = []
+         const fet = []
+
+          function copyArray(array, newArr) {
+            for (let key in array){
+              newArr.push({})
+              let row = array[key]
+              let headers = Object.keys(row)
+              headers.forEach( header => {
+                let newKey = header.replace(/[^a-z0-9]/gi,'').toLowerCase()
+                newArr[key][newKey] = array[key][header]
+              })
+            }
           }
+         
+          copyArray(arr1, ret)
+
+          copyArray(arr2, fet)
+         
+
         
-            console.log(ret)
+            console.log(fet)
 
          
           
