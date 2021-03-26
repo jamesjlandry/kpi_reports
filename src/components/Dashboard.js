@@ -18,8 +18,8 @@ const Dashboard = () => {
     const [fertData, setFertData] = useState()
     const [pregData, setPregData] = useState()
     const [pregAgeData, setPregAgeData] = useState()
-    const [uSData, setUSData] = useState()
-    const [bRData, setBRData] = useState()
+    const [ultraSoundData, setUltraSoundData] = useState()
+    const [blastRateData, setBlastRateData] = useState()
     const [miscKPIData, setMiscKPIData] = useState()
 
     const data = {}
@@ -95,7 +95,7 @@ const Dashboard = () => {
     
          
     
-          const fData = {
+          const fertRateData = {
             "Total": {
               '2PN': 0,
               '1PN': 0,
@@ -106,11 +106,11 @@ const Dashboard = () => {
           }
           totalICSID.forEach(key => {
             
-           fData["Total"]['2PN'] += ret[key]['2pn'] 
-           fData["Total"]['1PN'] += ret[key]['1pn'] 
-           fData["Total"]['>2PN'] += ret[key]['abnormal'] 
-           fData["Total"]['Degen'] += ret[key]['deg'] 
-           fData["Total"]['0PN'] += ret[key]['0pn'] 
+           fertRateData["Total"]['2PN'] += ret[key]['2pn'] 
+           fertRateData["Total"]['1PN'] += ret[key]['1pn'] 
+           fertRateData["Total"]['>2PN'] += ret[key]['abnormal'] 
+           fertRateData["Total"]['Degen'] += ret[key]['deg'] 
+           fertRateData["Total"]['0PN'] += ret[key]['0pn'] 
     
           })
     
@@ -119,9 +119,9 @@ const Dashboard = () => {
           
           techICSID.forEach(key => {
             
-            if(!fData[ret[key]['icsitech'].toUpperCase()]) {
+            if(!fertRateData[ret[key]['icsitech'].toUpperCase()]) {
               
-              fData[ret[key]['icsitech'].toUpperCase()] = {
+              fertRateData[ret[key]['icsitech'].toUpperCase()] = {
                 '2PN': ret[key]['2pn'],
                 '1PN':  ret[key]['1pn'],
                 '>2PN': ret[key]['abnormal'],
@@ -130,11 +130,11 @@ const Dashboard = () => {
               }
     
             } else {
-              fData[ret[key]['icsitech'].toUpperCase()]['2PN'] += ret[key]['2pn']
-              fData[ret[key]['icsitech'].toUpperCase()]['1PN'] += ret[key]['1pn']
-              fData[ret[key]['icsitech'].toUpperCase()]['>2PN'] += ret[key]['abnormal']
-              fData[ret[key]['icsitech'].toUpperCase()]['Degen'] += ret[key]['deg']
-              fData[ret[key]['icsitech'].toUpperCase()]['0PN'] += ret[key]['0pn']
+              fertRateData[ret[key]['icsitech'].toUpperCase()]['2PN'] += ret[key]['2pn']
+              fertRateData[ret[key]['icsitech'].toUpperCase()]['1PN'] += ret[key]['1pn']
+              fertRateData[ret[key]['icsitech'].toUpperCase()]['>2PN'] += ret[key]['abnormal']
+              fertRateData[ret[key]['icsitech'].toUpperCase()]['Degen'] += ret[key]['deg']
+              fertRateData[ret[key]['icsitech'].toUpperCase()]['0PN'] += ret[key]['0pn']
             }
            
            
@@ -143,7 +143,7 @@ const Dashboard = () => {
           const cleaveDayThree = retRateKeys.filter( key => ret[key]['day3emb'] !== 'n/a')
     
           
-          const cData = {
+          const cleaveRateData = {
             "Total": {
               "Good": 0,
               "Poor": 0,
@@ -153,18 +153,18 @@ const Dashboard = () => {
     
           cleaveDayThree.forEach( key => {
             
-            cData["Total"]["Good"] += ret[key]['d36c']
-            cData["Total"]["Poor"] += (ret[key]['day3emb'] - ret[key]['d36c'])
-            cData["Total"]["Disc"] += (ret[key]["2pn"] - ret[key]['day3emb'])
+            cleaveRateData["Total"]["Good"] += ret[key]['d36c']
+            cleaveRateData["Total"]["Poor"] += (ret[key]['day3emb'] - ret[key]['d36c'])
+            cleaveRateData["Total"]["Disc"] += (ret[key]["2pn"] - ret[key]['day3emb'])
           })
           
          
     
           techICSID.forEach(key => {
             
-            if(!cData[ret[key]['icsitech']]) {
+            if(!cleaveRateData[ret[key]['icsitech']]) {
               
-              cData[ret[key]['icsitech']] = {
+              cleaveRateData[ret[key]['icsitech']] = {
                 "Good": ret[key]['2pn'],
                 "Poor":  ret[key]['1pn'],
                 "Disc": ret[key]['abnormal'],
@@ -172,9 +172,9 @@ const Dashboard = () => {
               }
     
             } else {
-              cData[ret[key]['icsitech']]['Good'] += ret[key]['d36c']
-              cData[ret[key]['icsitech']]['Poor'] +=  (ret[key]['day3emb'] - ret[key]['d36c'])
-              cData[ret[key]['icsitech']]['Disc'] += (ret[key]["2pn"] - ret[key]['day3emb'])
+              cleaveRateData[ret[key]['icsitech']]['Good'] += ret[key]['d36c']
+              cleaveRateData[ret[key]['icsitech']]['Poor'] +=  (ret[key]['day3emb'] - ret[key]['d36c'])
+              cleaveRateData[ret[key]['icsitech']]['Disc'] += (ret[key]["2pn"] - ret[key]['day3emb'])
             }
            
            
@@ -194,7 +194,7 @@ const Dashboard = () => {
             'ooWSurv': {
               'Total': 0,
             },
-            'aReTaG': {
+            'avgRateEmbTrans': {
               'Total': 0,
             }
           }
@@ -222,9 +222,7 @@ const Dashboard = () => {
                 "denominator": 0
               },
             }
-            
               keys.forEach(key => {
-        
                 if(!techs[array[key][techIdentifier].toUpperCase()]) {
                   techs[array[key][techIdentifier].toUpperCase()] = {
                     "numerator": array[key][numerator],
@@ -245,60 +243,57 @@ const Dashboard = () => {
                 let tech = techs[techName]
                 tech.rate = tech.numerator / tech.denominator
               }
-    
               return techs
-    
           }
     
-          const bRData = setRate(ret, techICSID, "icsitech", "totalusableblast", "2pn")
+          const blastRateData = setRate(ret, techICSID, "icsitech", "totalusableblast", "2pn")
           
           const eupRate = setRate(ret, bioRateKeys,"icsitech", "euploid", "totalbx")
     
-          const emWSurvRate = setRate(fet, fetRateKeys, "thawtech", "blastsurvived", 'blastthawed')
+          const embWarmSurvRate = setRate(fet, fetRateKeys, "thawtech", "blastsurvived", 'blastthawed')
     
           // once spreadsheet is updated to include a did not survive row, will be added to Pending add below to add this KPI.
           // const oOcyteKeys = techICSID.filter( key => ret[key]["Procedure"] === "DE Thaw-GBV")
-          // const ooWSurvRate = setRate(arr1, oOcyteKeys, "icsitech", "Pending add", "Procedure" )
+          // const ooWSurvRate = setRate(arr1, oOcyteKeys, "icsitech", "Pending add", "procedure" )
           // kpiData["ooWSurv"] = ooWSurvRate
     
           for(let key in fet) {
-            
             let age = fet[key]['agegroup']
             let blastTrans = fet[key]['blasttrans']
-            if(!kpiData['aReTaG'][age]) {
-              kpiData['aReTaG'][age] = { 
+            if(!kpiData['avgRateEmbTrans'][age]) {
+              kpiData['avgRateEmbTrans'][age] = { 
                 "denominator": 1, 
                 "numerator": blastTrans
             }
-              kpiData['aReTaG']['Total'] = {
+              kpiData['avgRateEmbTrans']['Total'] = {
                 "denominator": 1,
                 "numerator": blastTrans
               }
             } else {
-              kpiData['aReTaG'][age]["denominator"] += 1
-              kpiData['aReTaG'][age]["numerator"] += blastTrans
-              kpiData['aReTaG']['Total']["denominator"] += 1
-              kpiData['aReTaG']['Total']['numerator'] += blastTrans
+              kpiData['avgRateEmbTrans'][age]["denominator"] += 1
+              kpiData['avgRateEmbTrans'][age]["numerator"] += blastTrans
+              kpiData['avgRateEmbTrans']['Total']["denominator"] += 1
+              kpiData['avgRateEmbTrans']['Total']['numerator'] += blastTrans
             }
           }
     
-          for(let key in kpiData['aReTaG']) {
-            let rate = kpiData['aReTaG'][key]['numerator'] / kpiData['aReTaG'][key]['denominator']
-            kpiData['aReTaG'][key].rate = rate
+          for(let key in kpiData['avgRateEmbTrans']) {
+            let rate = kpiData['avgRateEmbTrans'][key]['numerator'] / kpiData['avgRateEmbTrans'][key]['denominator']
+            kpiData['avgRateEmbTrans'][key].rate = rate
           }
     
           
     
           kpiData['eupRate'] = eupRate
     
-          kpiData['embWSurv'] = emWSurvRate
+          kpiData['embWSurv'] = embWarmSurvRate
              
           
     
-          const fetPData = fetRateKeys.filter(key => fet[key]['agegroup'] === '25-34' || fet[key]['agegroup'] === '35-37')
+          const fetPregRateData = fetRateKeys.filter(key => fet[key]['agegroup'] === '25-34' || fet[key]['agegroup'] === '35-37')
     
           
-          const pData = {
+          const pregRateData = {
             "Total": {
               "Pos": 0,
               "Neg": 0
@@ -309,41 +304,41 @@ const Dashboard = () => {
             "Trans tech": {},
           }
     
-          fetPData.forEach( key => {
-            fet[key]["posneg"] === "POS" ? pData["Total"]["Pos"] +=1 : pData["Total"]["Neg"] +=1
+          fetPregRateData.forEach( key => {
+            fet[key]["posneg"] === "POS" ? pregRateData["Total"]["Pos"] +=1 : pregRateData["Total"]["Neg"] +=1
           })
     
           
     
-          const setPDataTech = (tech, keys, hashKey) => {
+          const setPregRateDataByTech = (tech, keys, hashKey) => {
             keys.forEach(key => {
-              if(!pData[hashKey][fet[key][tech].toUpperCase()]) {
+              if(!pregRateData[hashKey][fet[key][tech].toUpperCase()]) {
                 if(fet[key]['posneg'] === 'POS') {
-                  pData[hashKey][fet[key][tech].toUpperCase()] = {
+                  pregRateData[hashKey][fet[key][tech].toUpperCase()] = {
                     "Pos": 1,
                     "Neg": 0
                   }
                 }
                 else {
-                  pData[hashKey][fet[key][tech].toUpperCase()] = {
+                  pregRateData[hashKey][fet[key][tech].toUpperCase()] = {
                     "Pos": 0,
                     "Neg": 1
                   }
                 } 
       
               } else {
-                fet[key]['posneg'] === 'POS' ? pData[hashKey][fet[key][tech].toUpperCase()]["Pos"] += 1 : pData[hashKey][fet[key][tech].toUpperCase()]["Neg"] += 1
+                fet[key]['posneg'] === 'POS' ? pregRateData[hashKey][fet[key][tech].toUpperCase()]["Pos"] += 1 : pregRateData[hashKey][fet[key][tech].toUpperCase()]["Neg"] += 1
               }
             })
           }
         
           
-          setPDataTech("transmd", fetPData, "Trans Doctor")
-          setPDataTech("transemb", fetPData, "Trans tech")
-          setPDataTech("vittech", fetPData, "Vit tech")
-          setPDataTech("thawtech", fetPData, "Thaw tech")
+          setPregRateDataByTech("transmd", fetPregRateData, "Trans Doctor")
+          setPregRateDataByTech("transemb", fetPregRateData, "Trans tech")
+          setPregRateDataByTech("vittech", fetPregRateData, "Vit tech")
+          setPregRateDataByTech("thawtech", fetPregRateData, "Thaw tech")
     
-          const aPData = {
+          const pregDataByAge = {
             "Total": {
               "Neg": 0,
               "BC": 0,
@@ -381,21 +376,21 @@ const Dashboard = () => {
             }, 
           }
     
-         const setAPDataByAge = (keys, ageGroup, age) => {
+         const setPregDataByAge = (keys, ageGroup, age) => {
             keys.forEach(key => {
                 
               if(fet[key]['agegroup'].toLowerCase() === ageGroup){
                 if(fet[key]['posneg'] === "POS") {
                   if(fet[key]['sacs'] === 0){
-                    aPData[age]["BC"] ++
-                    aPData["Total"]["BC"] ++
+                    pregDataByAge[age]["BC"] ++
+                    pregDataByAge["Total"]["BC"] ++
                   } else {
-                    aPData[age]["Pos"] ++
-                    aPData["Total"]["Pos"] ++
+                    pregDataByAge[age]["Pos"] ++
+                    pregDataByAge["Total"]["Pos"] ++
                   }
                 } else {
-                  aPData[age]["Neg"] ++
-                  aPData["Total"]["Neg"] ++
+                  pregDataByAge[age]["Neg"] ++
+                  pregDataByAge["Total"]["Neg"] ++
                 }
               } 
             })
@@ -403,15 +398,15 @@ const Dashboard = () => {
     
          
     
-         setAPDataByAge(fetRateKeys, "35-37", "35-37")
-         setAPDataByAge(fetRateKeys, "donor", "Donor")
-         setAPDataByAge(fetRateKeys, "25-34", "<35")
-         setAPDataByAge(fetRateKeys, "41-42", "41-42")
-         setAPDataByAge(fetRateKeys, "38-40", "38-40")
-         setAPDataByAge(fetRateKeys, "43-50", ">42")
+         setPregDataByAge(fetRateKeys, "35-37", "35-37")
+         setPregDataByAge(fetRateKeys, "donor", "Donor")
+         setPregDataByAge(fetRateKeys, "25-34", "<35")
+         setPregDataByAge(fetRateKeys, "41-42", "41-42")
+         setPregDataByAge(fetRateKeys, "38-40", "38-40")
+         setPregDataByAge(fetRateKeys, "43-50", ">42")
             
     
-         const uSData = {
+         const ultraSoundData = {
           "Total": {
             "HB": 0,
             "No HB": 0,
@@ -456,26 +451,26 @@ const Dashboard = () => {
           }, 
         }
     
-        const setUSDataByAge = (keys, ageGroup, age) => {
+        const setUltraSoundDataByAge = (keys, ageGroup, age) => {
           keys.forEach(key => {
               
             if(fet[key]['agegroup'].toLowerCase() === ageGroup){
               if(fet[key]['posneg'] === "POS") {
                 if(fet[key]["blasttrans"] > 1){
                   if(fet[key]['hb'] === 0){
-                    uSData[age]["Mult No HB"] ++
-                    uSData["Total"]["Mult No HB"] ++
+                    ultraSoundData[age]["Mult No HB"] ++
+                    ultraSoundData["Total"]["Mult No HB"] ++
                   } else {
-                    uSData[age]["Mult HB"] ++
-                    uSData["Total"]["Mult HB"] ++
+                    ultraSoundData[age]["Mult HB"] ++
+                    ultraSoundData["Total"]["Mult HB"] ++
                   }
                 } else{
                   if(fet[key]['hb'] === 0){
-                    uSData[age]["No HB"] ++
-                    uSData["Total"]["No HB"] ++
+                    ultraSoundData[age]["No HB"] ++
+                    ultraSoundData["Total"]["No HB"] ++
                   } else {
-                    uSData[age]["HB"] ++
-                    uSData["Total"]["HB"] ++
+                    ultraSoundData[age]["HB"] ++
+                    ultraSoundData["Total"]["HB"] ++
                   }
                 }
               } 
@@ -483,20 +478,20 @@ const Dashboard = () => {
           })
        }
     
-          setUSDataByAge(fetRateKeys, "35-37", "35-37")
-          setUSDataByAge(fetRateKeys, "donor", "Donor")
-          setUSDataByAge(fetRateKeys, "25-34", "<35")
-          setUSDataByAge(fetRateKeys, "41-42", "41-42")
-          setUSDataByAge(fetRateKeys, "38-40", "38-40")
-          setUSDataByAge(fetRateKeys, "43-50", ">42")
+          setUltraSoundDataByAge(fetRateKeys, "35-37", "35-37")
+          setUltraSoundDataByAge(fetRateKeys, "donor", "Donor")
+          setUltraSoundDataByAge(fetRateKeys, "25-34", "<35")
+          setUltraSoundDataByAge(fetRateKeys, "41-42", "41-42")
+          setUltraSoundDataByAge(fetRateKeys, "38-40", "38-40")
+          setUltraSoundDataByAge(fetRateKeys, "43-50", ">42")
     
     
-          setCleaveData(cData)
-          setFertData(fData)
-          setPregData(pData)
-          setPregAgeData(aPData)
-          setUSData(uSData)
-          setBRData(bRData)
+          setCleaveData(cleaveRateData)
+          setFertData(fertRateData)
+          setPregData(pregRateData)
+          setPregAgeData(pregDataByAge)
+          setUltraSoundData(ultraSoundData)
+          setBlastRateData(blastRateData)
           setMiscKPIData(kpiData)
           
     
@@ -544,14 +539,17 @@ const Dashboard = () => {
             {cleaveData? <div className="kpi_wrapper"><div>  <CleavageRates cleaveData={cleaveData}  /> </div> <div className="text_box"><CustomEditor data={data} tools={{list: list}} /></div></div>: null}
             {pregData? <div className="kpi_wrapper"><div> <PregnancyRates pregData={pregData} /> </div> <div className="text_box"> <CustomEditor data={data} tools={{list: list}} /></div></div> : null}
             {pregAgeData? <div className="kpi_wrapper"> <div><PregRateByAge pregData={pregAgeData} /></div> <div className="text_box"> <CustomEditor data={data} tools={{list: list}} /></div> </div>: null}
-            {uSData? <div className="kpi_wrapper"> <div><USRates uSData={uSData} /> </div> <div className="text_box" > <CustomEditor data={data} tools={{list: list}} /></div> </div>: null}
-            {bRData? <div className="kpi_wrapper"> <div className="chart_header">Blast Rates</div><div><BarChart data={bRData}/> </div> <div className="text_box"> <CustomEditor data={data} tools={{list: list}} /></div></div> : null}
+            {ultraSoundData? <div className="kpi_wrapper"> <div><USRates ultraSoundData={ultraSoundData} /> </div> <div className="text_box" > <CustomEditor data={data} tools={{list: list}} /></div> </div>: null}
+            {blastRateData? <div className="kpi_wrapper"> <div className="chart_header">Blast Rates</div><div><BarChart data={blastRateData}/> </div> <div className="text_box"> <CustomEditor data={data} tools={{list: list}} /></div></div> : null}
             {miscKPIData ? <div className="kpi_wrapper"> <div> <MiscKPIs data={miscKPIData} /> </div> <div className="text_box"> <CustomEditor data={data} tools={{list: list}} /></div> </div> : null}
             </div>
         </div>
     )
 }
 
+
+// editor.js auto sets the margin bottom to 300 and would not let it override in the css file
+// this is the solution that worked to reduce the margin.
 function CustomEditor(props){
   return (
     <div style={{ overflow: 'hidden', marginBottom: -270}}>

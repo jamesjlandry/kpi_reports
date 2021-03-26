@@ -25,17 +25,17 @@ const PregnancyRates = (props) => {
                 
                 {docs.map( doc => <div  key={`${doc}_pregrate`} > <div > {doc} <PieChart  tData={props.pregData["Trans Doctor"][doc]} /> </div>  </div>)}
             </div>
-            <div className="tech_label">Transfer Tech </div>
+            <div className="tech_label">Transfer Emb </div>
             <div className="trans_wrapper">
                 
                 {transTechs.map( tech => <div  key={`${tech}_pregrate`}>  <div >{tech} <PieChart  tData={props.pregData["Trans tech"][tech]} /> </div></div> )}
             </div>
-            <div className="tech_label">Thaw Tech</div>
+            <div className="tech_label">Thaw Emb</div>
             <div className="thaw_wrapper">
                 
                 {thawTechs.map( tech => <div   key={`${tech}_pregrate`}> <div > {tech} <PieChart  tData={props.pregData["Thaw tech"][tech]} /> </div></div> )}
             </div>
-            <div className="tech_label">Vit Tech</div>
+            <div className="tech_label">Vit Emb</div>
             <div className="vit_wrapper">
                 
                 {vitTechs.map( tech => <div  key={`${tech}_pregrate`}>  <div > {tech} <PieChart  tData={props.pregData["Vit tech"][tech]} /> </div></div> )}

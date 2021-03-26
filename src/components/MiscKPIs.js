@@ -7,7 +7,7 @@ let MiscKPIs = (props) => {
     const bioResKeys = Object.keys(props.data.bioRes)
     const eupKeys = Object.keys(props.data.eupRate)
     const emWSurvKeys = Object.keys(props.data.embWSurv)
-    const avgRateTransKeys = Object.keys(props.data.aReTaG)
+    const avgRateTransKeys = Object.keys(props.data.avgRateEmbTrans)
 
    
     return (
@@ -39,7 +39,7 @@ let MiscKPIs = (props) => {
                 Avg Rate of Embryo Transfer
             </div>
             <div>
-                {avgRateTransKeys.map(age => <div key={`${age}_transRate`} > <div className="misc_kpi_tech"> <div className="misc_kpi_tech_identifier">{age}:</div> <div>{props.data.aReTaG[age].rate.toFixed(1)}</div> </div></div>)}
+                {avgRateTransKeys.map(age => <div key={`${age}_transRate`} > <div className="misc_kpi_tech"> <div className="misc_kpi_tech_identifier">{age}:</div> <div>{props.data.avgRateEmbTrans[age].rate.toFixed(1)}</div> </div></div>)}
             </div>
             </div>
         </div>

@@ -8,7 +8,7 @@ let USRates = (props) => {
 
     let ages = []
     
-    for (let key in props.uSData) {
+    for (let key in props.ultraSoundData) {
         if(key !== "Total") {
             ages.push(key)
         }
@@ -24,10 +24,10 @@ let USRates = (props) => {
                     <div className="total_label">
                         Total
                     </div>
-                    <PieChart  tData={props.uSData["Total"]} total={true}/>
+                    <PieChart  tData={props.ultraSoundData["Total"]} total={true}/>
                 </div>
                 <div className="tech_donut" >
-                {ages.map(age => <div key={`${age}_age_rate`}> {age} <PieChart  tData={props.uSData[age]} /> </div>)}
+                {ages.map(age => <div key={`${age}_age_rate`}> {age} <PieChart  tData={props.ultraSoundData[age]} /> </div>)}
                 </div>
             </div>
         </div>
