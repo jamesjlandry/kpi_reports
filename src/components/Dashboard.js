@@ -155,7 +155,11 @@ const Dashboard = () => {
             
             cleaveRateData["Total"]["Good"] += ret[key]['d36c']
             cleaveRateData["Total"]["Poor"] += (ret[key]['day3emb'] - ret[key]['d36c'])
-            cleaveRateData["Total"]["Disc"] += (ret[key]["2pn"] - ret[key]['day3emb'])
+            if(ret[key]["2pn"] > ret[key]['day3emb']){
+              cleaveRateData["Total"]["Disc"] += (ret[key]["2pn"] - ret[key]['day3emb'])
+             
+            }
+            
           })
           
          
@@ -163,18 +167,27 @@ const Dashboard = () => {
           techICSID.forEach(key => {
             
             if(!cleaveRateData[ret[key]['icsitech']]) {
-              
-              cleaveRateData[ret[key]['icsitech']] = {
-                "Good": ret[key]['2pn'],
-                "Poor":  ret[key]['1pn'],
-                "Disc": ret[key]['abnormal'],
-                
+              if(ret[key]["2pn"] > ret[key]['day3emb']) {
+                cleaveRateData[ret[key]['icsitech']] = {
+                  "Good": ret[key]['d36c'],
+                  "Poor":  (ret[key]['day3emb'] - ret[key]['d36c']),
+                  "Disc": (ret[key]["2pn"] - ret[key]['day3emb']),
+                }
+              } else {
+                cleaveRateData[ret[key]['icsitech']] = {
+                  "Good": ret[key]['d36c'],
+                  "Poor":  (ret[key]['day3emb'] - ret[key]['d36c']),
+                  "Disc": 0,
+                }
               }
     
             } else {
               cleaveRateData[ret[key]['icsitech']]['Good'] += ret[key]['d36c']
               cleaveRateData[ret[key]['icsitech']]['Poor'] +=  (ret[key]['day3emb'] - ret[key]['d36c'])
-              cleaveRateData[ret[key]['icsitech']]['Disc'] += (ret[key]["2pn"] - ret[key]['day3emb'])
+              if(ret[key]["2pn"] > ret[key]['day3emb']) {
+                cleaveRateData[ret[key]['icsitech']]['Disc'] += (ret[key]["2pn"] - ret[key]['day3emb'])
+              }
+              
             }
            
            
@@ -279,7 +292,7 @@ const Dashboard = () => {
           
           kpiData['bioRes'] = bioResults
 
-          console.log(kpiData)
+          
           
     
           const fetPregRateData = fetRateKeys.filter(key => fet[key]['agegroup'] === '25-34' || fet[key]['agegroup'] === '35-37')

@@ -11,7 +11,7 @@ const CleavageRates = (props) => {
         }
     }
 
-    // console.log(props.cleaveData)
+    
 
     
 
