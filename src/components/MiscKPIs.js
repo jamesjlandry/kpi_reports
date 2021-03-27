@@ -20,7 +20,7 @@ let MiscKPIs = (props) => {
                 Biopsy Result 
             </div>
             <div>
-                {bioResKeys.map(tech => <div key={`${tech}_bioRes`}  > <div className="misc_kpi_tech"> <div className="misc_kpi_tech_identifier">{tech}:</div> <div>{props.data.bioRes[tech]}</div></div></div>)}
+                {bioResKeys.map(tech => <div key={`${tech}_bioRes`}  > <div className="misc_kpi_tech"> <div className="misc_kpi_tech_identifier">{tech}:</div> <div>{(100 - (props.data.bioRes[tech].rate *100).toFixed(0))}%</div></div></div>)}
             </div>
             <div className="misc_kpi_type">
                 Euploid Rate

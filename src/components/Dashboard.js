@@ -201,18 +201,6 @@ const Dashboard = () => {
           
           const bioRateKeys = techICSID.filter( key => ret[key]['noread'] !== 'n/a')
     
-            bioRateKeys.forEach(key => {
-              
-             if(!kpiData['bioRes'][ret[key]["icsitech"]]) {
-                kpiData['bioRes'][ret[key]["icsitech"]] = (ret[key]['totalbx'] - ret[key]['noread'])
-                
-                kpiData['bioRes']['Total'] += (ret[key]['totalbx'] - ret[key]['noread'])
-    
-               
-             } else {
-               kpiData['bioRes'][ret[key]["icsitech"]] += (ret[key]['totalbx'] - ret[key]['noread'])
-               kpiData['bioRes']['Total'] += (ret[key]['totalbx'] - ret[key]['noread'])
-             }})
     
     
           const setRate = (array, keys, techIdentifier, numerator, denominator) => {
@@ -246,6 +234,7 @@ const Dashboard = () => {
               return techs
           }
     
+          const bioResults = setRate(ret, bioRateKeys, "icsitech", "noread", "totalbx")
           const blastRateData = setRate(ret, techICSID, "icsitech", "totalusableblast", "2pn")
           
           const eupRate = setRate(ret, bioRateKeys,"icsitech", "euploid", "totalbx")
@@ -287,7 +276,10 @@ const Dashboard = () => {
           kpiData['eupRate'] = eupRate
     
           kpiData['embWSurv'] = embWarmSurvRate
-             
+          
+          kpiData['bioRes'] = bioResults
+
+          console.log(kpiData)
           
     
           const fetPregRateData = fetRateKeys.filter(key => fet[key]['agegroup'] === '25-34' || fet[key]['agegroup'] === '35-37')
