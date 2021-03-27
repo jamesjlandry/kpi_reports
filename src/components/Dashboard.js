@@ -557,7 +557,7 @@ const Dashboard = () => {
 // this is the solution that worked to reduce the margin.
 function CustomEditor(props){
   return (
-    <div style={{ overflow: 'hidden', marginBottom: -270}}>
+    <div style={{ overflow: 'hidden', marginBottom: -250}}>
       <EditorJs {...props}/>
     </div>
   )
