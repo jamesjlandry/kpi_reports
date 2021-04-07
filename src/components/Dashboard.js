@@ -9,7 +9,6 @@ import USRates from './USRates'
 import BarChart from './BarChart'
 import MiscKPIs from './MiscKPIs'
 import EditorJs from 'react-editor-js';
-import * as XLSX from 'xlsx';
 import List from '@editorjs/list'
 import { ReadExcel } from '../ReadExcel'
 
@@ -35,6 +34,7 @@ const Dashboard = () => {
     setUltraSoundData(excelFile.ultraSoundData)
     setBlastRateData(excelFile.blastRateData)
     setMiscKPIData(excelFile.miscKPI)
+    e.target.value = null
   }
 
   function logout() {

@@ -4,6 +4,9 @@ import { Doughnut, Chart } from 'react-chartjs-2'
 let PieChart = (props) => {
 
 let total = props.total
+let pieTotal = 900
+
+
 
     const data = {
         labels: [],
@@ -31,6 +34,8 @@ let total = props.total
         data.datasets[0].data.push(props.tData[key])
     })
 
+    
+
 
 
 
@@ -38,6 +43,16 @@ let total = props.total
     const lineOptions = {
         maintainAspectRatio: false,
         cutoutPercentage: 60,
+        plugins: {
+            display: true,
+            backgroundColor: '#ccc',
+            borderRadius: 3,
+            font: {
+                color: 'black',
+                weight: 'bold'
+            }
+        },
+       
         tooltips: {
             enabled: true,
             callbacks: {

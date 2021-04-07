@@ -97,13 +97,13 @@ export const ReadExcel = (file) => {
         })
 
 
-        const techICSID = retRateKeys.filter(key => !ret[key]['icsitech'].includes('/'))
+        const techICSID = retRateKeys.filter(key => !ret[key]['icsiemb'].includes('/'))
 
         techICSID.forEach(key => {
 
-            if (!fertRateData[ret[key]['icsitech'].toUpperCase()]) {
+            if (!fertRateData[ret[key]['icsiemb'].toUpperCase()]) {
 
-                fertRateData[ret[key]['icsitech'].toUpperCase()] = {
+                fertRateData[ret[key]['icsiemb'].toUpperCase()] = {
                     '2PN': ret[key]['2pn'],
                     '1PN': ret[key]['1pn'],
                     '>2PN': ret[key]['abnormal'],
@@ -112,11 +112,11 @@ export const ReadExcel = (file) => {
                 }
 
             } else {
-                fertRateData[ret[key]['icsitech'].toUpperCase()]['2PN'] += ret[key]['2pn']
-                fertRateData[ret[key]['icsitech'].toUpperCase()]['1PN'] += ret[key]['1pn']
-                fertRateData[ret[key]['icsitech'].toUpperCase()]['>2PN'] += ret[key]['abnormal']
-                fertRateData[ret[key]['icsitech'].toUpperCase()]['Degen'] += ret[key]['deg']
-                fertRateData[ret[key]['icsitech'].toUpperCase()]['0PN'] += ret[key]['0pn']
+                fertRateData[ret[key]['icsiemb'].toUpperCase()]['2PN'] += ret[key]['2pn']
+                fertRateData[ret[key]['icsiemb'].toUpperCase()]['1PN'] += ret[key]['1pn']
+                fertRateData[ret[key]['icsiemb'].toUpperCase()]['>2PN'] += ret[key]['abnormal']
+                fertRateData[ret[key]['icsiemb'].toUpperCase()]['Degen'] += ret[key]['deg']
+                fertRateData[ret[key]['icsiemb'].toUpperCase()]['0PN'] += ret[key]['0pn']
             }
 
 
@@ -148,15 +148,15 @@ export const ReadExcel = (file) => {
 
         techICSID.forEach(key => {
 
-            if (!cleaveRateData[ret[key]['icsitech']]) {
+            if (!cleaveRateData[ret[key]['icsiemb']]) {
                 if (ret[key]["2pn"] > ret[key]['day3emb']) {
-                    cleaveRateData[ret[key]['icsitech']] = {
+                    cleaveRateData[ret[key]['icsiemb']] = {
                         "Good": ret[key]['d36c'],
                         "Poor": (ret[key]['day3emb'] - ret[key]['d36c']),
                         "Disc": (ret[key]["2pn"] - ret[key]['day3emb']),
                     }
                 } else {
-                    cleaveRateData[ret[key]['icsitech']] = {
+                    cleaveRateData[ret[key]['icsiemb']] = {
                         "Good": ret[key]['d36c'],
                         "Poor": (ret[key]['day3emb'] - ret[key]['d36c']),
                         "Disc": 0,
@@ -164,10 +164,10 @@ export const ReadExcel = (file) => {
                 }
 
             } else {
-                cleaveRateData[ret[key]['icsitech']]['Good'] += ret[key]['d36c']
-                cleaveRateData[ret[key]['icsitech']]['Poor'] += (ret[key]['day3emb'] - ret[key]['d36c'])
+                cleaveRateData[ret[key]['icsiemb']]['Good'] += ret[key]['d36c']
+                cleaveRateData[ret[key]['icsiemb']]['Poor'] += (ret[key]['day3emb'] - ret[key]['d36c'])
                 if (ret[key]["2pn"] > ret[key]['day3emb']) {
-                    cleaveRateData[ret[key]['icsitech']]['Disc'] += (ret[key]["2pn"] - ret[key]['day3emb'])
+                    cleaveRateData[ret[key]['icsiemb']]['Disc'] += (ret[key]["2pn"] - ret[key]['day3emb'])
                 }
 
             }
@@ -229,16 +229,16 @@ export const ReadExcel = (file) => {
             return techs
         }
 
-        const bioResults = setRate(ret, bioRateKeys, "icsitech", "noread", "totalbx")
-        const blastRateData = setRate(ret, techICSID, "icsitech", "totalusableblast", "2pn")
+        const bioResults = setRate(ret, bioRateKeys, "icsiemb", "noread", "totalbx")
+        const blastRateData = setRate(ret, techICSID, "icsiemb", "totalusableblast", "2pn")
 
-        const eupRate = setRate(ret, bioRateKeys, "icsitech", "euploid", "totalbx")
+        const eupRate = setRate(ret, bioRateKeys, "icsiemb", "euploid", "totalbx")
 
-        const embWarmSurvRate = setRate(fet, fetRateKeys, "thawtech", "blastsurvived", 'blastthawed')
+        const embWarmSurvRate = setRate(fet, fetRateKeys, "thawemb", "blastsurvived", 'blastthawed')
 
         // once spreadsheet is updated to include a did not survive row, will be added to Pending add below to add this KPI.
         // const oOcyteKeys = techICSID.filter( key => ret[key]["Procedure"] === "DE Thaw-GBV")
-        // const ooWSurvRate = setRate(arr1, oOcyteKeys, "icsitech", "Pending add", "procedure" )
+        // const ooWSurvRate = setRate(arr1, oOcyteKeys, "icsiemb", "Pending add", "procedure" )
         // kpiData["ooWSurv"] = ooWSurvRate
 
         for (let key in fet) {
@@ -292,7 +292,7 @@ export const ReadExcel = (file) => {
         }
 
         fetPregRateData.forEach(key => {
-            fet[key]["posneg"] === "POS" ? pregRateData["Total"]["Pos"] += 1 : pregRateData["Total"]["Neg"] += 1
+            fet[key]["betaoutcome"] === "POS" ? pregRateData["Total"]["Pos"] += 1 : pregRateData["Total"]["Neg"] += 1
         })
 
 
@@ -300,7 +300,7 @@ export const ReadExcel = (file) => {
         const setPregRateDataByTech = (tech, keys, hashKey) => {
             keys.forEach(key => {
                 if (!pregRateData[hashKey][fet[key][tech].toUpperCase()]) {
-                    if (fet[key]['posneg'] === 'POS') {
+                    if (fet[key]['betaoutcome'] === 'POS') {
                         pregRateData[hashKey][fet[key][tech].toUpperCase()] = {
                             "Pos": 1,
                             "Neg": 0
@@ -314,16 +314,16 @@ export const ReadExcel = (file) => {
                     }
 
                 } else {
-                    fet[key]['posneg'] === 'POS' ? pregRateData[hashKey][fet[key][tech].toUpperCase()]["Pos"] += 1 : pregRateData[hashKey][fet[key][tech].toUpperCase()]["Neg"] += 1
+                    fet[key]['betaoutcome'] === 'POS' ? pregRateData[hashKey][fet[key][tech].toUpperCase()]["Pos"] += 1 : pregRateData[hashKey][fet[key][tech].toUpperCase()]["Neg"] += 1
                 }
             })
         }
 
 
-        setPregRateDataByTech("transmd", fetPregRateData, "Trans Doctor")
+        setPregRateDataByTech("transphys", fetPregRateData, "Trans Doctor")
         setPregRateDataByTech("transemb", fetPregRateData, "Trans tech")
-        setPregRateDataByTech("vittech", fetPregRateData, "Vit tech")
-        setPregRateDataByTech("thawtech", fetPregRateData, "Thaw tech")
+        setPregRateDataByTech("vitemb", fetPregRateData, "Vit tech")
+        setPregRateDataByTech("thawemb", fetPregRateData, "Thaw tech")
 
         const pregDataByAge = {
             "Total": {
@@ -367,7 +367,7 @@ export const ReadExcel = (file) => {
             keys.forEach(key => {
 
                 if (fet[key]['agegroup'].toLowerCase() === ageGroup) {
-                    if (fet[key]['posneg'] === "POS") {
+                    if (fet[key]['betaoutcome'] === "POS") {
                         if (fet[key]['sacs'] === 0) {
                             pregDataByAge[age]["BC"]++
                             pregDataByAge["Total"]["BC"]++
@@ -442,7 +442,7 @@ export const ReadExcel = (file) => {
             keys.forEach(key => {
 
                 if (fet[key]['agegroup'].toLowerCase() === ageGroup) {
-                    if (fet[key]['posneg'] === "POS") {
+                    if (fet[key]['betaoutcome'] === "POS") {
                         if (fet[key]["blasttrans"] > 1) {
                             if (fet[key]['hb'] === 0) {
                                 ultraSoundData[age]["Mult No HB"]++
