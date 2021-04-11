@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Doughnut, Chart } from 'react-chartjs-2'
 
 let PieChart = (props) => {
 
     let total = props.total
     let pieTotal = 900
-
-
 
     const data = {
         labels: [],
@@ -34,7 +32,6 @@ let PieChart = (props) => {
         data.datasets[0].data.push(props.tData[key])
     })
 
-
     const lineOptions = {
         maintainAspectRatio: false,
         cutoutPercentage: 60,
@@ -47,27 +44,8 @@ let PieChart = (props) => {
                 weight: 'bold'
             }
         },
-
         tooltips: {
-            enabled: true,
-            callbacks: {
-                label: function (tooltipItem, data) {
-
-                    let dataset = data.datasets[tooltipItem.datasetIndex];
-                    let total = dataset.data.reduce(function (previousValue, currentValue, currentIndex, array) {
-                        return previousValue + currentValue;
-                    });
-                    let currentValue = dataset.data[tooltipItem.index];
-                    let percentage = (((currentValue / total) * 100)).toFixed(2);
-                    return percentage + "%";
-                },
-                title: function (tooltipItem, data) {
-                    return data.labels[tooltipItem[0].index];
-                },
-
-
-            },
-
+            enabled: false,
         },
         legend: {
             display: false
@@ -79,81 +57,16 @@ let PieChart = (props) => {
                 top: 30,
                 bottom: 50
             },
-
-
         },
-
         animation: {
-            duration: 1,
+            duration: 0,
             onComplete: function () {
-                let chartInstance = this.chart, radian = 0, middleRadian,
-                    ctx = chartInstance.ctx;
-
-                Chart.defaults.global.defaultFontSize = 12;
-                Chart.defaults.global.defaultFontFamily = 'PingFangTC';
-                Chart.defaults.global.defaultFontStyle = '400';
-                ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'bottom';
-
-
-                let canvasWidth = chartInstance.chartArea.right
-                let canvasHeight = chartInstance.chartArea.bottom
-
-                let chart = {
-                    radius: (chartInstance.chartArea.bottom - chartInstance.chartArea.top) / 2,
-                    labelRadius: (chartInstance.chartArea.bottom - chartInstance.chartArea.top) / 2 + 20,
-                    midPoint: {
-                        y: (canvasHeight + 50) / 2,
-                        x: canvasWidth / 2
-                    }
-                }
-
-                this.data.datasets.forEach(function (dataset, i) {
-                    let meta = chartInstance.controller.getDatasetMeta(i);
-
-                    // Create an object to represent each label
-                    // The object will be used to encapsulate the calculation of the
-                    //      position of the label given the radian of the label
-                    let labels = meta.data.map(function (bar, index) {
-                        let data = dataset.data[index], dataPercentage, dataName;
-                        let centerAngle = bar._model.circumference;
-                        radian = radian + centerAngle;
-                        middleRadian = radian - centerAngle / 2
-                        dataPercentage = (((data / meta.total) * 100)).toFixed(1)
-                        dataName = bar._model.label
-
-                        const text = dataName + ':' + dataPercentage + '%'
-                        const size = ctx.measureText(text)
-
-                        let fillStyle = parseFloat(dataPercentage) > 50 ? 'black' : 'red'
-
-                        return new Label({ chart, radian: middleRadian, text, size, fillStyle })
-                    });
-
-                    // Keep spreading the labels out until they no longer overlap
-                    let overlapping = findOverlapping(labels)
-                    while (overlapping) {
-                        let [label1, label2] = overlapping
-                        label1.radian -= 0.1
-                        label2.radian += 0.1
-                        overlapping = findOverlapping(labels)
-                    }
-
-                    // Draw the labels after we've finalized the label location
-                    labels.forEach(label => {
-
-
-                        ctx.fillStyle = label.fillStyle
-                        ctx.fillText(label.text, label.x, label.y);
-                    })
-
-
-                });
+                renderLabels(this.chart, props.tData)
             }
+        },
+        hover: {
+            animationDuration: 0, // duration of animations when hovering an item
         }
-
-
     }
 
     return (
@@ -163,6 +76,7 @@ let PieChart = (props) => {
                     <Doughnut
                         data={data}
                         options={lineOptions}
+
                     />
 
                     <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -80%)' }}>
@@ -170,10 +84,12 @@ let PieChart = (props) => {
                     </div>
                 </div>
                 :
+
                 <div className="doughnut">
                     <Doughnut
                         data={data}
                         options={lineOptions}
+
                     />
                     <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -100%)' }}>
                         {pieTotal}
@@ -182,11 +98,77 @@ let PieChart = (props) => {
                 </div>}
 
         </div>
-
-
-
     )
 }
+
+
+function renderLabels(chartInstance, data) {
+    let radian = 0;
+    let middleRadian;
+    let ctx = chartInstance.ctx;
+    let dataLabels = Object.keys(data)
+
+    Chart.defaults.global.defaultFontSize = 12;
+    Chart.defaults.global.defaultFontFamily = 'PingFangTC';
+    Chart.defaults.global.defaultFontStyle = '400';
+    ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+
+
+    let canvasWidth = chartInstance.chartArea.right
+    let canvasHeight = chartInstance.chartArea.bottom
+
+    let chart = {
+        radius: (chartInstance.chartArea.bottom - chartInstance.chartArea.top) / 2,
+        labelRadius: (chartInstance.chartArea.bottom - chartInstance.chartArea.top) / 2 + 20,
+        midPoint: {
+            y: (canvasHeight + 50) / 2,
+            x: canvasWidth / 2
+        }
+    }
+
+
+    let meta = chartInstance.controller.getDatasetMeta(0);
+
+    // Create an object to represent each label
+    // The object will be used to encapsulate the calculation of the
+    //      position of the label given the radian of the label
+    let labels = meta.data.map(function (bar, index) {
+        let label = dataLabels[index]
+        let value = data[label];
+        let centerAngle = bar._model.circumference;
+        radian = radian + centerAngle;
+        middleRadian = radian - centerAngle / 2
+        let dataPercentage = (((value / meta.total) * 100)).toFixed(1)
+        let dataName = bar._model.label
+
+        const text = dataName + ':' + dataPercentage + '%'
+        const size = ctx.measureText(text)
+
+        let fillStyle = parseFloat(dataPercentage) > 50 ? 'black' : 'red'
+
+        return new Label({ chart, radian: middleRadian, text, size, fillStyle })
+    });
+
+    // Keep spreading the labels out until they no longer overlap
+    let overlapping = findOverlapping(labels)
+    while (overlapping) {
+        let [label1, label2] = overlapping
+        label1.radian -= 0.1
+        label2.radian += 0.1
+        overlapping = findOverlapping(labels)
+    }
+
+    // Draw the labels after we've finalized the label location
+    labels.forEach(label => {
+        ctx.fillStyle = label.fillStyle
+        ctx.fillText(label.text, label.x, label.y);
+    })
+
+
+}
+
 
 class Label {
 
@@ -196,7 +178,7 @@ class Label {
         this.radian = radian
         this.text = text
         this.size = size
-        
+
         this.fillStyle = fillStyle
     }
 
@@ -256,19 +238,5 @@ function isOverlapping(label1, label2) {
             label1.bottomSide > label2.topSide)
     )
 }
-
-
-// function measureText(text){
-//     const { defaultFontSize, defaultFontFamily } = Chart.defaults.global
-//     const temp = document.createElement('span')
-//     temp.style.fontFamily = defaultFontFamily
-//     temp.style.fontSize = defaultFontSize
-//     // temp.style.opacity = 0
-//     temp.textContent = text
-//     document.body.append(temp)
-//     let size = temp.getBoundingClientRect()
-//     // temp.remove()
-//     return size
-// }
 
 export default PieChart
