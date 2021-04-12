@@ -3,8 +3,15 @@ import { Doughnut, Chart } from 'react-chartjs-2'
 
 let PieChart = (props) => {
 
+    
+    
     let total = props.total
-    let pieTotal = 900
+    let pieTotal = "Total" 
+
+    if(props.totalCount) {
+        pieTotal = props.totalCount
+    }
+    
 
     const data = {
         labels: [],

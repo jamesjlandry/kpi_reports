@@ -83,16 +83,18 @@ export const ReadExcel = (file) => {
                 '1PN': 0,
                 '>2PN': 0,
                 'Degen': 0,
-                '0PN': 0
+                '0PN': 0,
+                
             }
         }
         totalICSID.forEach(key => {
 
             fertRateData["Total"]['2PN'] += ret[key]['2pn']
             fertRateData["Total"]['1PN'] += ret[key]['1pn']
-            fertRateData["Total"]['>2PN'] += ret[key]['abnormal']
+            fertRateData["Total"]['>2PN'] += ret[key]['1pn']
             fertRateData["Total"]['Degen'] += ret[key]['deg']
             fertRateData["Total"]['0PN'] += ret[key]['0pn']
+           
 
         })
 
@@ -102,13 +104,14 @@ export const ReadExcel = (file) => {
         techICSID.forEach(key => {
 
             if (!fertRateData[ret[key]['icsiemb'].toUpperCase()]) {
-
+                
                 fertRateData[ret[key]['icsiemb'].toUpperCase()] = {
                     '2PN': ret[key]['2pn'],
                     '1PN': ret[key]['1pn'],
                     '>2PN': ret[key]['abnormal'],
                     'Degen': ret[key]['deg'],
-                    '0PN': ret[key]['0pn']
+                    '0PN': ret[key]['0pn'], 
+                    
                 }
 
             } else {
@@ -117,6 +120,8 @@ export const ReadExcel = (file) => {
                 fertRateData[ret[key]['icsiemb'].toUpperCase()]['>2PN'] += ret[key]['abnormal']
                 fertRateData[ret[key]['icsiemb'].toUpperCase()]['Degen'] += ret[key]['deg']
                 fertRateData[ret[key]['icsiemb'].toUpperCase()]['0PN'] += ret[key]['0pn']
+                
+
             }
 
 
@@ -129,7 +134,8 @@ export const ReadExcel = (file) => {
             "Total": {
                 "Good": 0,
                 "Poor": 0,
-                "Disc": 0
+                "Disc": 0,
+               
             }
         }
 
@@ -283,7 +289,8 @@ export const ReadExcel = (file) => {
         const pregRateData = {
             "Total": {
                 "Pos": 0,
-                "Neg": 0
+                "Neg": 0,
+               
             },
             "Thaw tech": {},
             "Vit tech": {},
@@ -330,36 +337,43 @@ export const ReadExcel = (file) => {
                 "Neg": 0,
                 "BC": 0,
                 "Pos": 0,
+    
             },
             "<35": {
                 "Neg": 0,
                 "BC": 0,
                 "Pos": 0,
+    
             },
             "35-37": {
                 "Neg": 0,
                 "BC": 0,
                 "Pos": 0,
+    
             },
             "38-40": {
                 "Neg": 0,
                 "BC": 0,
                 "Pos": 0,
+    
             },
             "41-42": {
                 "Neg": 0,
                 "BC": 0,
                 "Pos": 0,
+    
             },
             ">42": {
                 "Neg": 0,
                 "BC": 0,
                 "Pos": 0,
+    
             },
             "Donor": {
                 "Neg": 0,
                 "BC": 0,
                 "Pos": 0,
+    
             },
         }
 
@@ -399,42 +413,49 @@ export const ReadExcel = (file) => {
                 "No HB": 0,
                 "Mult HB": 0,
                 "Mult No HB": 0,
+                
             },
             "<35": {
                 "HB": 0,
                 "No HB": 0,
                 "Mult HB": 0,
                 "Mult No HB": 0,
+                
             },
             "35-37": {
                 "HB": 0,
                 "No HB": 0,
                 "Mult HB": 0,
                 "Mult No HB": 0,
+                
             },
             "38-40": {
                 "HB": 0,
                 "No HB": 0,
                 "Mult HB": 0,
                 "Mult No HB": 0,
+                
             },
             "41-42": {
                 "HB": 0,
                 "No HB": 0,
                 "Mult HB": 0,
                 "Mult No HB": 0,
+                
             },
             ">42": {
                 "HB": 0,
                 "No HB": 0,
                 "Mult HB": 0,
                 "Mult No HB": 0,
+                
             },
             "Donor": {
                 "HB": 0,
                 "No HB": 0,
                 "Mult HB": 0,
                 "Mult No HB": 0,
+                
             },
         }
 
@@ -446,20 +467,25 @@ export const ReadExcel = (file) => {
                         if (fet[key]["blasttrans"] > 1) {
                             if (fet[key]['hb'] === 0) {
                                 ultraSoundData[age]["Mult No HB"]++
+                                
                                 ultraSoundData["Total"]["Mult No HB"]++
                             } else {
                                 ultraSoundData[age]["Mult HB"]++
+                                
                                 ultraSoundData["Total"]["Mult HB"]++
                             }
                         } else {
                             if (fet[key]['hb'] === 0) {
                                 ultraSoundData[age]["No HB"]++
+                                
                                 ultraSoundData["Total"]["No HB"]++
                             } else {
                                 ultraSoundData[age]["HB"]++
+                                
                                 ultraSoundData["Total"]["HB"]++
                             }
                         }
+                        
                     }
                 }
             })

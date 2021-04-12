@@ -13,6 +13,11 @@ let PregRateByAge = (props) => {
         }
     }
 
+
+    ages.forEach(age => {
+
+    })
+
     return (
         <div>
             <div className="chart_header">
