@@ -44,6 +44,7 @@
     "@editorjs/editorjs": "^2.19.1",
     "@editorjs/list": "^1.6.2",
     "@editorjs/paragraph": "^2.8.0",
+    "env-cmd": "^10.1.0",
     "react-editor-js": "^1.9.0"
   }
 }

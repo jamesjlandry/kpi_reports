@@ -18,8 +18,8 @@ const ForgotPassword = () => {
             setLoading(true)
             await resetPassword(emailRef.current.value)
             setMessage("Check your email to continue resetting password")
-        } catch {
-            alert("Password Reset failed")
+        } catch(error) {
+            alert(error.message)
         }
         setLoading(false)
     }
@@ -29,7 +29,7 @@ const ForgotPassword = () => {
         <div>
             
             {message && alert(message)}
-            <h1>Welcome Michael</h1>
+            <h1>Impart Quality Consulting</h1>
             <form onSubmit={e => handleSubmit(e)}>
             <input 
                     ref={emailRef}

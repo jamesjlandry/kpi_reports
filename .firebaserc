@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "kpi-reporting-eba99",
+    "development": "kpi-development",
+    "prod": "kpi-reporting-eba99"
+  }
+}

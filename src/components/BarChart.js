@@ -9,7 +9,7 @@ let BarChart= (props) => {
         labels: [],
        
         datasets: [
-            {   label: "Positive Ultrasound %",
+            {   label: "Usable Blast per 2PN",
                 data: [
 
                 ],
@@ -56,7 +56,7 @@ let BarChart= (props) => {
 
     
     return (
-        <div>
+        <div className="bar_chart">
             <Bar
             data={data}
             options={options}

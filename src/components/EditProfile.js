@@ -41,9 +41,9 @@ const EditProfile = () => {
 
     return (
         <>
+        <div className="profile_wrapper">
         <div>
-        <div>
-            <div>
+            <div className="edit_profile">
                 
                 <h1>Welcome Michael</h1>
                 <h2>Update Profile</h2>
@@ -74,9 +74,9 @@ const EditProfile = () => {
                             <button disabled={loading} type="submit">Make It So</button>
                         </div>
                 </form>
-            </div>
-            <div>
+                <div>
                 <Link to="/">Cancel</Link>
+            </div>
             </div>
         </div>
         </div>

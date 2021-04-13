@@ -26,16 +26,19 @@ const LogIn = () => {
             setLoading(true)
             await login(emailRef.current.value, passwordRef.current.value)
             history.push("/")
-        } catch {
-            alert("Login Failed")
+        } catch(error) {
+            alert(error.message)
         }
         setLoading(false)
     }
 
     return (
         <div className="login_wrapper">
+         
             <div className="login_form">
-                <h1>Welcome, Director</h1>
+                <div className="login_logo">
+                    <img src="/images/impart_logo.png" alt="Impart Quality"/>
+                </div>
                 <form onSubmit={e => handleSubmit(e)}>
                 <input 
                         ref={emailRef}
