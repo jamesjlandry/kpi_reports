@@ -88,6 +88,9 @@ let PieChart = (props) => {
 
                     <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -80%)' }}>
                         {pieTotal}
+                        <p style={{fontSize: 10}}>
+                            Total
+                        </p>
                     </div>
                 </div>
                 :
@@ -98,8 +101,11 @@ let PieChart = (props) => {
                         options={lineOptions}
 
                     />
-                    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -100%)' }}>
+                    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -80%)' }}>
                         {pieTotal}
+                        <p style={{fontSize: 10}}>
+                            Total
+                        </p>
                     </div>
 
                 </div>}
@@ -115,7 +121,7 @@ function renderLabels(chartInstance, data) {
     let ctx = chartInstance.ctx;
     let dataLabels = Object.keys(data)
 
-    Chart.defaults.global.defaultFontSize = 12;
+    Chart.defaults.global.defaultFontSize = 13;
     Chart.defaults.global.defaultFontFamily = 'PingFangTC';
     Chart.defaults.global.defaultFontStyle = '400';
     ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
@@ -153,7 +159,8 @@ function renderLabels(chartInstance, data) {
         const text = dataName + ':' + dataPercentage + '%'
         const size = ctx.measureText(text)
 
-        let fillStyle = parseFloat(dataPercentage) > 50 ? 'black' : 'red'
+        // let fillStyle = parseFloat(dataPercentage) > 50 ? 'black' : 'red'
+        let fillStyle = 'black'
 
         return new Label({ chart, radian: middleRadian, text, size, fillStyle })
     });

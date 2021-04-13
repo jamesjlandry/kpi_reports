@@ -5,11 +5,13 @@ import PieChart from './PieChart'
 let FertRates = (props) => {
 
     let techs = []
+    let techCount = {}
     
     for (let key in props.fertData) {
         if(key !== "Total") {
             techs.push(key)
         }
+        techCount[key] = (props.fertData[key]["2PN"] + props.fertData[key]["0PN"] + props.fertData[key]["1PN"] + props.fertData[key][">2PN"] + props.fertData[key]["Degen"])
     }
     
     
@@ -26,10 +28,10 @@ let FertRates = (props) => {
                     <div className="total_label">
                         Total
                     </div>
-                    <PieChart  tData={props.fertData["Total"]} total={true}/>
+                    <PieChart  totalCount={techCount["Total"]} tData={props.fertData["Total"]} total={true}/>
                 </div>
                 <div className="tech_donut" >
-                    {techs.map(tech => <div key={`${tech}_fert`}> {tech} <PieChart  tData={props.fertData[tech]} /></div>)}
+                    {techs.map(tech => <div key={`${tech}_fert`}> {tech} <PieChart  totalCount={techCount[tech]} tData={props.fertData[tech]} /></div>)}
                 </div>
             </div>
         </div>

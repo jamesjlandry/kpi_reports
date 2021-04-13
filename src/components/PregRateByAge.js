@@ -4,19 +4,19 @@ import PieChart from './PieChart'
 
 let PregRateByAge = (props) => {
 
-   
+   console.log(props)
     let ages = []
+    let ageCount = {}
    
     for (let key in props.pregData) {
         if(key !== "Total") {
             ages.push(key)
         }
+        ageCount[key] = (props.pregData[key]["Neg"] + props.pregData[key]["Pos"] + props.pregData[key]["BC"])
     }
 
 
-    ages.forEach(age => {
-
-    })
+ 
 
     return (
         <div>
@@ -28,10 +28,10 @@ let PregRateByAge = (props) => {
                     <div className="total_label">
                         Total
                     </div>
-                    <PieChart  tData={props.pregData["Total"]} total={true}/>
+                    <PieChart totalCount={ageCount["Total"]} tData={props.pregData["Total"]} total={true}/>
                 </div>
                 <div className="tech_donut" >
-                    {ages.map(age => <div key={`${age}_age_rate`}> {age} <PieChart  tData={props.pregData[age]} /> </div>)}
+                    {ages.map(age => <div key={`${age}_age_rate`}> {age} <PieChart  totalCount={ageCount[age]} tData={props.pregData[age]} /> </div>)}
                 </div>
             </div>
         </div>
