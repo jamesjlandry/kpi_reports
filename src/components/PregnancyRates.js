@@ -1,5 +1,7 @@
 import React from 'react'
 import PieChart from './PieChart'
+import EditorJs from 'react-editor-js'
+import List from '@editorjs/list'
 
 const PregnancyRates = (props) => {
 
@@ -33,45 +35,101 @@ const PregnancyRates = (props) => {
     getCount(transTechs, transCount, "Trans tech")
 
     
-
+    const list = List
     
 
     return(
         <div>
-            <div className="chart_header">
-                Transfer KPIs
+            <div className="kpi_wrapper">
+                <div className="chart_header">
+                    Transfer KPIs by Transfer Doctor
+                </div>
+                <div className="pie_wrapper">
+                    <div className="pie_total" >
+                        <div className="total_label">
+                            Total
+                        </div> 
+                        <PieChart key={"total_pregRate"} totalCount={totalData["Count"]} tData={totalData['Total']} total={true}/>
+                    </div>
+                    <div className="tech_donut" >
+                        {docs.map( doc =>  <div  key={`${doc}_pregrate`} > <div > {doc} <PieChart  totalCount={docCount[doc]} tData={pregData["Trans Doctor"][doc]} /> </div>  </div>)}
+                    </div>
+                </div>
+                <div className="text_box">
+                    <CustomEditor tools={{list: list}}/>
+                </div>
             </div>
-        <div className="transfer_wrapper">
-       
-            <div className="pie_total" >
-               <div className="total_label">Total</div> <div ><PieChart key={"total_pregRate"} totalCount={totalData["Count"]} tData={totalData['Total']} total={true}/></div>
-            </div>
-            <div className="doc_label" >Transfer Doctor</div>
-            <div className="doc_wrapper">
-                
-                {docs.map( doc =>  <div  key={`${doc}_pregrate`} > <div > {doc} <PieChart  totalCount={docCount[doc]} tData={pregData["Trans Doctor"][doc]} /> </div>  </div>)}
-            </div>
-            <div className="tech_label">Transfer Emb </div>
-            <div className="trans_wrapper">
-                
-                {transTechs.map( tech => <div  key={`${tech}_pregrate`}>  <div >{tech} <PieChart  totalCount={transCount[tech]} tData={pregData["Trans tech"][tech]} /> </div></div> )}
-            </div>
-            <div className="tech_label">Thaw Emb</div>
-            <div className="thaw_wrapper">
-                
-                {thawTechs.map( tech => <div   key={`${tech}_pregrate`}> <div > {tech} <PieChart totalCount={thawCount[tech]}  tData={pregData["Thaw tech"][tech]} /> </div></div> )}
-            </div>
-            <div className="tech_label">Vit Emb</div>
-            <div className="vit_wrapper">
-                
-                {vitTechs.map( tech => <div  key={`${tech}_pregrate`}>  <div > {tech} <PieChart totalCount={vitCount[tech]}  tData={pregData["Vit tech"][tech]} /> </div></div> )}
+
+            <div className="kpi_wrapper">
+                <div className="chart_header">
+                    Transfer KPIs by Trans Emb
+                </div>
+                <div className="pie_wrapper">
+                    <div className="pie_total">
+                        <div className="total_label">
+                            Total
+                        </div>
+                        <PieChart totalCount={totalData["Count"]} tData={totalData['Total']} total={true}/>
+                    </div>
+                    <div className="tech_donut">
+                            {transTechs.map( tech => <div  key={`${tech}_pregrate`}>  <div >{tech} <PieChart  totalCount={transCount[tech]} tData={pregData["Trans tech"][tech]} /> </div></div> )}
+                    </div>
+                </div>
+                <div className="text_box">
+                    <CustomEditor tools={{list: list}}/>
+                </div>
+            </div>  
+
+            <div className="kpi_wrapper">
+                <div className="chart_header">
+                    Transfer KPIs by Thaw Emb
+                </div>
+                <div className="pie_wrapper">
+                    <div className="pie_total">
+                        <div className="total_label">
+                            Total
+                        </div>
+                        <PieChart totalCount={totalData["Count"]} tData={totalData['Total']} total={true}/>
+                    </div>
+                    <div className="tech_donut">
+                    {thawTechs.map( tech => <div   key={`${tech}_pregrate`}> <div > {tech} <PieChart totalCount={thawCount[tech]}  tData={pregData["Thaw tech"][tech]} /> </div></div> )}
+                    </div>
+                </div>
+                <div className="text_box">
+                    <CustomEditor tools={{list: list}}/>
+                </div>
+            </div> 
+            
+            <div className="kpi_wrapper"> 
+                <div className="chart_header">
+                    Transfer KPIs by Vit Emb
+                </div>
+                <div className="pie_wrapper">
+                    <div className="pie_total">
+                        <div className="total_label">
+                            Total
+                        </div>
+                        <PieChart totalCount={totalData["Count"]} tData={totalData['Total']} total={true}/>
+                    </div>
+                    <div className="tech_donut">
+                        {vitTechs.map( tech => <div  key={`${tech}_pregrate`}>  <div > {tech} <PieChart totalCount={vitCount[tech]}  tData={pregData["Vit tech"][tech]} /> </div></div> )}
+                    </div>
+                </div>
+                <div className="text_box">
+                    <CustomEditor tools={{list: list}}/>
+                </div>
             </div>
             
         </div>
-        </div>
     )
-
-
 }
+
+function CustomEditor(props) {
+    return (
+      <div style={{ overflow: 'hidden', marginBottom: -270 }}>
+        <EditorJs {...props} />
+      </div>
+    )
+  }
 
 export default PregnancyRates

@@ -4,7 +4,7 @@ import PieChart from './PieChart'
 
 let PregRateByAge = (props) => {
 
-   console.log(props)
+ 
     let ages = []
     let ageCount = {}
    

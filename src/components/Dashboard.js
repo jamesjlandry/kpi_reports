@@ -73,7 +73,7 @@ const Dashboard = () => {
         </div>
         {fertData ? <ChartWrapper><FertRates fertData={fertData} /></ChartWrapper> : null}
         {cleaveData ? <ChartWrapper><CleavageRates cleaveData={cleaveData} /></ChartWrapper> : null}
-        {pregData ? <ChartWrapper><PregnancyRates pregData={pregData} /> </ChartWrapper> : null}
+        {pregData ? <PregnancyRates pregData={pregData} />  : null}
         {pregAgeData ? <ChartWrapper><PregRateByAge pregData={pregAgeData} /></ChartWrapper> : null}
         {ultraSoundData ? <ChartWrapper><USRates ultraSoundData={ultraSoundData} /> </ChartWrapper> : null}
         {blastRateData ? <ChartWrapper><div className="chart_header">Blast Rates</div><div><BarChart data={blastRateData} /></div></ChartWrapper> : null}

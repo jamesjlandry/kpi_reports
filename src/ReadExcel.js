@@ -88,7 +88,7 @@ export const ReadExcel = (file) => {
             }
         }
         totalICSID.forEach(key => {
-
+            console.log(ret[key]['2pn'])
             fertRateData["Total"]['2PN'] += ret[key]['2pn']
             fertRateData["Total"]['1PN'] += ret[key]['1pn']
             fertRateData["Total"]['>2PN'] += ret[key]['1pn']
@@ -119,6 +119,15 @@ export const ReadExcel = (file) => {
                 fertRateData[ret[key]['icsiemb'].toUpperCase()]['Degen'] += ret[key]['deg']
                 fertRateData[ret[key]['icsiemb'].toUpperCase()]['0PN'] += ret[key]['0pn']
             }
+
+            // If the Total needs to exclude the accounts when multiple techs worked on same transfer move the Total calculation here.
+
+            // fertRateData["Total"]['2PN'] += ret[key]['2pn']
+            // fertRateData["Total"]['1PN'] += ret[key]['1pn']
+            // fertRateData["Total"]['>2PN'] += ret[key]['1pn']
+            // fertRateData["Total"]['Degen'] += ret[key]['deg']
+            // fertRateData["Total"]['0PN'] += ret[key]['0pn']
+
         })
 
         const cleaveDayThree = retRateKeys.filter(key => ret[key]['day3emb'] !== 'n/a')
