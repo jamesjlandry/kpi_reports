@@ -34,6 +34,7 @@ const Dashboard = () => {
     setUltraSoundData(excelFile.ultraSoundData)
     setBlastRateData(excelFile.blastRateData)
     setMiscKPIData(excelFile.miscKPI)
+    console.log(excelFile)
     e.target.value = null
   }
 

@@ -72,10 +72,10 @@ export const ReadExcel = (file) => {
         copyArray(arr2, fet)
 
 
+        console.log("file", file, "retrieval tab", ret, "fet's tab", fet)
 
+        // const totalICSID = ret.filter(row => row['2pn'] !== 'n/a')
         const totalICSID = retRateKeys.filter(key => ret[key]['2pn'] !== 'n/a')
-
-
 
         const fertRateData = {
             "Total": {
@@ -84,54 +84,55 @@ export const ReadExcel = (file) => {
                 '>2PN': 0,
                 'Degen': 0,
                 '0PN': 0,
-                
+
             }
         }
+
         totalICSID.forEach(key => {
-            console.log(ret[key]['2pn'])
+
             fertRateData["Total"]['2PN'] += ret[key]['2pn']
             fertRateData["Total"]['1PN'] += ret[key]['1pn']
             fertRateData["Total"]['>2PN'] += ret[key]['1pn']
             fertRateData["Total"]['Degen'] += ret[key]['deg']
             fertRateData["Total"]['0PN'] += ret[key]['0pn']
-           
+
 
         })
 
-
-        const techICSID = retRateKeys.filter(key => !ret[key]['icsiemb'].includes('/'))
-
-        techICSID.forEach(key => {
-
-            if (!fertRateData[ret[key]['icsiemb'].toUpperCase()]) {
-                
-                fertRateData[ret[key]['icsiemb'].toUpperCase()] = {
-                    '2PN': ret[key]['2pn'],
-                    '1PN': ret[key]['1pn'],
-                    '>2PN': ret[key]['abnormal'],
-                    'Degen': ret[key]['deg'],
-                    '0PN': ret[key]['0pn'], 
-                }
-            } else {
-                fertRateData[ret[key]['icsiemb'].toUpperCase()]['2PN'] += ret[key]['2pn']
-                fertRateData[ret[key]['icsiemb'].toUpperCase()]['1PN'] += ret[key]['1pn']
-                fertRateData[ret[key]['icsiemb'].toUpperCase()]['>2PN'] += ret[key]['abnormal']
-                fertRateData[ret[key]['icsiemb'].toUpperCase()]['Degen'] += ret[key]['deg']
-                fertRateData[ret[key]['icsiemb'].toUpperCase()]['0PN'] += ret[key]['0pn']
+        const techICSID = []
+        for (let key in ret) {
+            if (ret[key]["icsiemb"] && !ret[key]["icsiemb"].includes('/')) {
+                techICSID.push(key)
             }
+        }
 
-            // If the Total needs to exclude the accounts when multiple techs worked on same transfer move the Total calculation here.
+        if (techICSID.length > 0) {
+            techICSID.forEach(key => {
 
-            // fertRateData["Total"]['2PN'] += ret[key]['2pn']
-            // fertRateData["Total"]['1PN'] += ret[key]['1pn']
-            // fertRateData["Total"]['>2PN'] += ret[key]['1pn']
-            // fertRateData["Total"]['Degen'] += ret[key]['deg']
-            // fertRateData["Total"]['0PN'] += ret[key]['0pn']
+                if (!fertRateData[ret[key]['icsiemb'].toUpperCase()]) {
 
-        })
+                    fertRateData[ret[key]['icsiemb'].toUpperCase()] = {
+                        '2PN': ret[key]['2pn'],
+                        '1PN': ret[key]['1pn'],
+                        '>2PN': ret[key]['abnormal'],
+                        'Degen': ret[key]['deg'],
+                        '0PN': ret[key]['0pn'],
+                    }
+                } else {
+                    fertRateData[ret[key]['icsiemb'].toUpperCase()]['2PN'] += ret[key]['2pn']
+                    fertRateData[ret[key]['icsiemb'].toUpperCase()]['1PN'] += ret[key]['1pn']
+                    fertRateData[ret[key]['icsiemb'].toUpperCase()]['>2PN'] += ret[key]['abnormal']
+                    fertRateData[ret[key]['icsiemb'].toUpperCase()]['Degen'] += ret[key]['deg']
+                    fertRateData[ret[key]['icsiemb'].toUpperCase()]['0PN'] += ret[key]['0pn']
+                }
+            })
+        }
 
-        const cleaveDayThree = retRateKeys.filter(key => ret[key]['day3emb'] !== 'n/a')
 
+        let cleaveDayThree = []
+        if ("day3emb" in ret[retRateKeys[0]]) {
+            cleaveDayThree = retRateKeys.filter(key => ret[key]['day3emb'] !== 'n/a')
+        }
 
         const cleaveRateData = {
             "Total": {
@@ -140,6 +141,7 @@ export const ReadExcel = (file) => {
                 "Disc": 0,
             }
         }
+
 
         cleaveDayThree.forEach(key => {
             cleaveRateData["Total"]["Good"] += ret[key]['d36c']
@@ -150,34 +152,36 @@ export const ReadExcel = (file) => {
         })
 
 
-
-        techICSID.forEach(key => {
-            if (!cleaveRateData[ret[key]['icsiemb']]) {
-                if (ret[key]["2pn"] > ret[key]['day3emb']) {
-                    cleaveRateData[ret[key]['icsiemb']] = {
-                        "Good": ret[key]['d36c'],
-                        "Poor": (ret[key]['day3emb'] - ret[key]['d36c']),
-                        "Disc": (ret[key]["2pn"] - ret[key]['day3emb']),
+        if (techICSID.length > 0) {
+            techICSID.forEach(key => {
+                if (!cleaveRateData[ret[key]['icsiemb']]) {
+                    if (ret[key]["2pn"] > ret[key]['day3emb']) {
+                        cleaveRateData[ret[key]['icsiemb']] = {
+                            "Good": ret[key]['d36c'],
+                            "Poor": (ret[key]['day3emb'] - ret[key]['d36c']),
+                            "Disc": (ret[key]["2pn"] - ret[key]['day3emb']),
+                        }
+                    } else {
+                        cleaveRateData[ret[key]['icsiemb']] = {
+                            "Good": ret[key]['d36c'],
+                            "Poor": (ret[key]['day3emb'] - ret[key]['d36c']),
+                            "Disc": 0,
+                        }
                     }
+
                 } else {
-                    cleaveRateData[ret[key]['icsiemb']] = {
-                        "Good": ret[key]['d36c'],
-                        "Poor": (ret[key]['day3emb'] - ret[key]['d36c']),
-                        "Disc": 0,
+                    cleaveRateData[ret[key]['icsiemb']]['Good'] += ret[key]['d36c']
+                    cleaveRateData[ret[key]['icsiemb']]['Poor'] += (ret[key]['day3emb'] - ret[key]['d36c'])
+                    if (ret[key]["2pn"] > ret[key]['day3emb']) {
+                        cleaveRateData[ret[key]['icsiemb']]['Disc'] += (ret[key]["2pn"] - ret[key]['day3emb'])
                     }
+
                 }
 
-            } else {
-                cleaveRateData[ret[key]['icsiemb']]['Good'] += ret[key]['d36c']
-                cleaveRateData[ret[key]['icsiemb']]['Poor'] += (ret[key]['day3emb'] - ret[key]['d36c'])
-                if (ret[key]["2pn"] > ret[key]['day3emb']) {
-                    cleaveRateData[ret[key]['icsiemb']]['Disc'] += (ret[key]["2pn"] - ret[key]['day3emb'])
-                }
 
-            }
+            })
+        }
 
-
-        })
 
 
         const kpiData = {
@@ -198,8 +202,8 @@ export const ReadExcel = (file) => {
             }
         }
 
-        const bioRateKeys = techICSID.filter(key => ret[key]['noread'] !== 'n/a')
 
+        const bioRateKeys = techICSID.filter(key => ret[key]['noread'] !== 'n/a')
 
 
         const setRate = (array, keys, techIdentifier, numerator, denominator) => {
@@ -288,7 +292,7 @@ export const ReadExcel = (file) => {
             "Total": {
                 "Pos": 0,
                 "Neg": 0,
-               
+
             },
             "Thaw tech": {},
             "Vit tech": {},
@@ -449,21 +453,21 @@ export const ReadExcel = (file) => {
                         if (fet[key]["blasttrans"] > 1) {
                             if (fet[key]['hb'] === 0) {
                                 ultraSoundData[age]["Mult No HB"]++
-                                
+
                                 ultraSoundData["Total"]["Mult No HB"]++
                             } else {
                                 ultraSoundData[age]["Mult HB"]++
-                                
+
                                 ultraSoundData["Total"]["Mult HB"]++
                             }
                         } else {
                             if (fet[key]['hb'] === 0) {
                                 ultraSoundData[age]["No HB"]++
-                                
+
                                 ultraSoundData["Total"]["No HB"]++
                             } else {
                                 ultraSoundData[age]["HB"]++
-                                
+
                                 ultraSoundData["Total"]["HB"]++
                             }
                         }
