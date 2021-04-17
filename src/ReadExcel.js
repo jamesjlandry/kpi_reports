@@ -17,6 +17,37 @@ async function ReadFile(file) {
     })
 }
 
+let requiredColumnsFets = [
+    
+    "blastsurvived",
+    'blastthawed',
+    'agegroup',
+    'blasttrans',
+    'avgRateEmbTrans',
+    "betaoutcome",
+    'sacs',
+    "transphys",
+    "thawemb",
+    "transemb",
+    "vitemb",
+    'hb'
+]
+
+let requiredColumnsRet = [
+    '2pn',
+    '1pn',
+    '0pn',
+    'deg',
+    'abnormal',
+    'icsiemb',
+    'day3emb',
+    'd36c',
+    'noread',
+    'totalbx',
+    'totalusableblast',
+    'euploid'
+]
+
 
 export const ReadExcel = (file) => {
     return new Promise(async (resolve, reject) => {
@@ -40,6 +71,8 @@ export const ReadExcel = (file) => {
 
         const arr1 = data[0]
         const arr2 = data[1]
+
+
 
         const retRateKeys = []
         for (let key in arr1) {
@@ -70,6 +103,14 @@ export const ReadExcel = (file) => {
         copyArray(arr1, ret)
 
         copyArray(arr2, fet)
+
+        requiredColumnsRet.filter( requiredColumn => {
+            return !(requiredColumn in ret[0])
+        })
+
+        requiredColumnsFets.filter( requiredColumn => {
+            return !(requiredColumn in ret[0])
+        })
 
 
         console.log("file", file, "retrieval tab", ret, "fet's tab", fet)
