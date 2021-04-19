@@ -23,7 +23,6 @@ let requiredColumnsFets = [
     'blastthawed',
     'agegroup',
     'blasttrans',
-    'avgRateEmbTrans',
     "betaoutcome",
     'sacs',
     "transphys",
@@ -104,18 +103,26 @@ export const ReadExcel = (file) => {
 
         copyArray(arr2, fet)
 
-        requiredColumnsRet.filter( requiredColumn => {
+        let missingColumns =  requiredColumnsRet.filter( requiredColumn => {
             return !(requiredColumn in ret[0])
         })
 
-        requiredColumnsFets.filter( requiredColumn => {
-            return !(requiredColumn in ret[0])
-        })
+       
 
+        missingColumns = [...missingColumns, ...requiredColumnsFets.filter( requiredColumn => {
+            return  !(requiredColumn in fet[0])
+        })]
 
-        console.log("file", file, "retrieval tab", ret, "fet's tab", fet)
+        console.log(missingColumns)
 
-        // const totalICSID = ret.filter(row => row['2pn'] !== 'n/a')
+        if(missingColumns.length > 0) {
+            let errorMessage = {
+                missingColumns: missingColumns
+            }
+            return resolve(errorMessage)
+        }
+
+        
         const totalICSID = retRateKeys.filter(key => ret[key]['2pn'] !== 'n/a')
 
         const fertRateData = {

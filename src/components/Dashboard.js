@@ -23,6 +23,7 @@ const Dashboard = () => {
   const [ultraSoundData, setUltraSoundData] = useState()
   const [blastRateData, setBlastRateData] = useState()
   const [miscKPIData, setMiscKPIData] = useState()
+  const [errorMessage, setErrorMessage] = useState()
 
   async function handleFileSelection(e) {
     const file = e.target.files[0]
@@ -34,7 +35,8 @@ const Dashboard = () => {
     setUltraSoundData(excelFile.ultraSoundData)
     setBlastRateData(excelFile.blastRateData)
     setMiscKPIData(excelFile.miscKPI)
-    console.log(excelFile)
+    setErrorMessage(excelFile.missingColumns)
+    console.log(errorMessage)
     e.target.value = null
   }
 
@@ -72,6 +74,7 @@ const Dashboard = () => {
         <div>
 
         </div>
+        {errorMessage ? <div>Excel Sheet is missing the following column headers: {errorMessage.map(error => <div>{error}</div>)} </div>: null}
         {fertData ? <ChartWrapper><FertRates fertData={fertData} /></ChartWrapper> : null}
         {cleaveData ? <ChartWrapper><CleavageRates cleaveData={cleaveData} /></ChartWrapper> : null}
         {pregData ? <PregnancyRates pregData={pregData} />  : null}
