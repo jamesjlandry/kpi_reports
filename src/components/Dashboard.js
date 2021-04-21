@@ -74,10 +74,10 @@ const Dashboard = () => {
         <div>
 
         </div>
-        {errorMessage ? <div>Excel Sheet is missing the following column headers: {errorMessage.map(error => <div>{error}</div>)} </div>: null}
-        {fertData ? <ChartWrapper><FertRates fertData={fertData} /></ChartWrapper> : null}
+        {errorMessage ? <div>Excel Sheet is missing the following column headers: {errorMessage.map(error => <div>{error}</div>)} </div> : null}
+        {fertData ? <ChartWrapper first><FertRates fertData={fertData} /></ChartWrapper> : null}
         {cleaveData ? <ChartWrapper><CleavageRates cleaveData={cleaveData} /></ChartWrapper> : null}
-        {pregData ? <PregnancyRates pregData={pregData} />  : null}
+        {pregData ? <PregnancyRates pregData={pregData} /> : null}
         {pregAgeData ? <ChartWrapper><PregRateByAge pregData={pregAgeData} /></ChartWrapper> : null}
         {ultraSoundData ? <ChartWrapper><USRates ultraSoundData={ultraSoundData} /> </ChartWrapper> : null}
         {blastRateData ? <ChartWrapper><div className="chart_header">Blast Rates</div><div><BarChart data={blastRateData} /></div></ChartWrapper> : null}
@@ -87,10 +87,10 @@ const Dashboard = () => {
   )
 }
 
-function ChartWrapper({ children }) {
+function ChartWrapper({ children, first }) {
   const list = List
   return (
-    <div className="kpi_wrapper">
+    <div className={`kpi_wrapper ${first ? 'first' : ''}`}>
       <div>
         {children}
       </div>
@@ -110,6 +110,52 @@ function CustomEditor(props) {
       <EditorJs {...props} />
     </div>
   )
+}
+
+// turns out printing page numbers with React is hard, so Josh came up with this
+window.addEventListener('beforeprint', function(){
+  addPageNumbers()
+})
+
+window.addEventListener('afterprint', function(){
+  removePageNumbers()
+})
+window.addPageNumbers = addPageNumbers
+function addPageNumbers() {
+  let dpi = calcScreenDPI()
+  let pageHeight = dpi*15
+  let totalPages = Math.ceil(document.body.scrollHeight / (pageHeight));  //842px A4 pageheight for 72dpi, 1123px A4 pageheight for 96dpi, 
+  for (var i = 1; i <= totalPages; i++) {
+    var pageNumberDiv = document.createElement("div");
+    pageNumberDiv.className = "page-number"
+    var pageNumber = document.createTextNode("Page " + i + " of " + totalPages);
+    pageNumberDiv.style.position = "absolute";
+    pageNumberDiv.style.top = i*(pageHeight) // all of the past pages
+      + 130*(i-1)  // some per-page margin bullshit that gets added
+      + 50 // some more margin that I cant add elsewhere  because of some bullshit
+      + 'px'
+    pageNumberDiv.style.height = "16px";
+    pageNumberDiv.appendChild(pageNumber);
+    document.body.append(pageNumberDiv);
+    pageNumberDiv.style.left = "calc(100% - (" + pageNumberDiv.offsetWidth + "px + 40px))";
+  }
+}
+
+function removePageNumbers(){
+  let pageNumbers = document.querySelectorAll('.page-number')
+  pageNumbers.forEach( pageNumber => {
+    pageNumber.remove()
+  })
+}
+
+function calcScreenDPI() {
+  const el = document.createElement('div');
+  el.style = 'width: 1in;'
+  document.body.appendChild(el);
+  const dpi = el.offsetWidth;
+  document.body.removeChild(el);
+
+  return dpi;
 }
 
 export default Dashboard

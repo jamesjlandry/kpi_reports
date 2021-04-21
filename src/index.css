@@ -196,14 +196,25 @@ code {
   display: flex;
 }
 
+
 @media print {
   @page {
     margin: 0px;
     margin-top: 5px;
   }
-  /* html {
-    margin-top: 50px;
-  } */
+
+  .printFooter {
+    position: fixed;
+    bottom: 5%;
+    font-weight: bold;
+    right: 5%;
+  }
+  
+  .pageNumber:before { 
+    counter-increment: page;
+    content: "Page " counter(page); 
+  }
+  
   .menu {
     display: none;
   }
@@ -236,7 +247,7 @@ code {
     
   }
 
-  /* .print_heading {
+  .print_heading {
     position: fixed;
     align-content: center;
     justify-content: space-between;
@@ -244,8 +255,21 @@ code {
     top: 0%;
     background-color: #fff;
     z-index: 2;
-  } */
+  }
+
+  .kpi_wrapper {
+    position: relative;
+    top: 1in;
+  }
+
+  .kpi_wrapper.first {
+    top: 0in;
+  }
+  
 }
+
+
+
 
 .content_wrapper {
   grid-area: c;
@@ -271,7 +295,7 @@ code {
 }
 
 .kpi_wrapper {
-  width: 1130px;
+  width: 1136px;
   border: 1px solid grey;
   margin: 50px;
   padding-bottom: 15px;
