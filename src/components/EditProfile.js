@@ -41,12 +41,12 @@ const EditProfile = () => {
 
     return (
         <>
+        <div >
         <div className="profile_wrapper">
-        <div>
             <div className="edit_profile">
                 
-                <h1>Welcome Michael</h1>
-                <h2>Update Profile</h2>
+                <h1>Hello Michael</h1>
+                <h3>You May Update Your Profile Below</h3>
                 {error}
                 <form onSubmit={e => handleSubmit(e)}>
                 <input 

@@ -154,6 +154,11 @@ code {
 }
 
 .profile_wrapper {
+  position: absolute;
+  top: 0%;
+  bottom: 0%;
+  right: 0%;
+  left: 0%;
   background-color: lightseagreen;
   height: 100%;
   width: 100%;
@@ -171,13 +176,18 @@ code {
   justify-content: center;
   border: 1px solid grey;
   border-radius: 10px;
-  background-color: rgb(243, 226, 226);
+  background-color: rgb(243, 226, 226, 0.5);
 }
 
 .edit_profile form {
   display: flex;
   flex-direction: column;
   padding: 5px;
+}
+
+.edit_profile input {
+  padding: 5px;
+  margin: 3px;
 }
 
 .logout_button {
@@ -230,9 +240,7 @@ code {
     width: 100%;
   }
 
-  /* .text_box{
-    border: 0px;
-  } */
+ 
 
   .content_wrapper {
     margin: 0px;
