@@ -191,14 +191,19 @@ code {
 }
 
 .logout_button {
-  height: 25px;
+  height: 28px;
   font-size: 1.1em;
   border: 1px solid rgb(131, 119, 119, 0.5);
   border-radius: 4px;
-  background-color: rgb(151, 227, 233);
-  padding: 2px;
-  padding-bottom: 3px;
-  
+  background-color: rgb(137, 209, 214);
+  padding: 3px;
+  padding-bottom: 4px;
+  transition: ease-in-out .5s;
+}
+
+.logout_button:hover {
+  background-color: rgb(157, 244, 250);
+  cursor: pointer;
 }
 
 .upload {
@@ -508,4 +513,49 @@ code {
 
 .misc_kpi_tech_identifier {
   font-weight: 500;
+}
+
+.bad_cell_warning {
+  position: fixed;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  top: 1%;
+  margin: 5%;
+  border: 1px solid rgb(46, 45, 45);
+  border-radius: 0.5em;
+  background-color: rgba(255, 255, 255, 0.95);
+  color: rgb(0, 0, 0);
+  padding: 1%;
+  padding-bottom: 3%;
+
+}
+
+.close_bad_cell_warning {
+  position: absolute;
+  bottom: 2%;
+  border: 1px solid black;
+  background-color: lightslategrey;
+  border-radius: 1em;
+  padding: 5px;
+  width: 100px;
+  color: rgb(105, 1, 1);
+  transition: ease-in-out .5s;
+}
+
+.close_bad_cell_warning:hover {
+  cursor: pointer;
+  background-color: rgb(177, 189, 202);
+  color:rgb(139, 7, 7); 
+  
+}
+
+.bad_cell_data {
+  width: 30%;
+}
+
+.warning_message {
+  width: 90%;
 }

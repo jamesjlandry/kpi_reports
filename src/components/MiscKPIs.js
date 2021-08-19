@@ -8,7 +8,7 @@ let MiscKPIs = (props) => {
     const eupKeys = Object.keys(props.data.eupRate)
     const emWSurvKeys = Object.keys(props.data.embWSurv)
     const avgRateTransKeys = Object.keys(props.data.avgRateEmbTrans)
-
+    
    
     return (
         <div>

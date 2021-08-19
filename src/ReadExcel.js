@@ -29,7 +29,7 @@ let requiredColumnsFets = [
     "thawemb",
     "transemb",
     "vitemb",
-    'hb'
+    'hb',
 ]
 
 let requiredColumnsRet = [
@@ -67,16 +67,17 @@ export const ReadExcel = (file) => {
         ]
 
         // after the data is set from sheet.js the following logic is specific to the data for the fertility clinic
-
+        // the first sheet in the workbook must have the retrieval data, the second sheed the FET data
         const arr1 = data[0]
         const arr2 = data[1]
-
 
 
         const retRateKeys = []
         for (let key in arr1) {
             retRateKeys.push(key)
         }
+
+        
 
         const fetRateKeys = []
 
@@ -103,17 +104,21 @@ export const ReadExcel = (file) => {
 
         copyArray(arr2, fet)
 
+        
+
+        
+
         let missingColumns =  requiredColumnsRet.filter( requiredColumn => {
             return !(requiredColumn in ret[0])
         })
 
-       
+        const badCellData = []
 
         missingColumns = [...missingColumns, ...requiredColumnsFets.filter( requiredColumn => {
             return  !(requiredColumn in fet[0])
         })]
 
-        console.log(missingColumns)
+       
 
         if(missingColumns.length > 0) {
             let errorMessage = {
@@ -122,8 +127,16 @@ export const ReadExcel = (file) => {
             return resolve(errorMessage)
         }
 
+        const totalICSID = []
+
+        retRateKeys.forEach( key => {
+            if(typeof(ret[key]['2pn']) === "number") {
+                totalICSID.push(key)
+            }
+        })
         
-        const totalICSID = retRateKeys.filter(key => ret[key]['2pn'] !== 'n/a')
+
+        
 
         const fertRateData = {
             "Total": {
@@ -132,24 +145,25 @@ export const ReadExcel = (file) => {
                 '>2PN': 0,
                 'Degen': 0,
                 '0PN': 0,
-
             }
         }
 
         totalICSID.forEach(key => {
-
             fertRateData["Total"]['2PN'] += ret[key]['2pn']
             fertRateData["Total"]['1PN'] += ret[key]['1pn']
             fertRateData["Total"]['>2PN'] += ret[key]['1pn']
             fertRateData["Total"]['Degen'] += ret[key]['deg']
             fertRateData["Total"]['0PN'] += ret[key]['0pn']
-
-
         })
+
+        
 
         const techICSID = []
         for (let key in ret) {
-            if (ret[key]["icsiemb"] && !ret[key]["icsiemb"].includes('/')) {
+            if (ret[key]["icsiemb"] && typeof(ret[key]["icsiemb"]) !== "string") {
+                if(!badCellData.includes("ICSI Emb")) badCellData.push("ICSI Emb")
+            }
+            else if (ret[key]["icsiemb"] && !ret[key]["icsiemb"].includes('/')) {
                 techICSID.push(key)
             }
         }
@@ -179,7 +193,16 @@ export const ReadExcel = (file) => {
 
         let cleaveDayThree = []
         if ("day3emb" in ret[retRateKeys[0]]) {
-            cleaveDayThree = retRateKeys.filter(key => ret[key]['day3emb'] !== 'n/a')
+            retRateKeys.forEach( key => {
+                if(typeof(ret[key]['day3emb']) === "number") {
+                    cleaveDayThree.push(key)
+                }
+                if(typeof(ret[key]['day3emb']) === "undefined") {
+                    if(!badCellData.includes("Day 3 Emb")) badCellData.push("Day 3 Emb")
+                    
+                }
+            })
+            
         }
 
         const cleaveRateData = {
@@ -223,10 +246,7 @@ export const ReadExcel = (file) => {
                     if (ret[key]["2pn"] > ret[key]['day3emb']) {
                         cleaveRateData[ret[key]['icsiemb']]['Disc'] += (ret[key]["2pn"] - ret[key]['day3emb'])
                     }
-
                 }
-
-
             })
         }
 
@@ -262,22 +282,32 @@ export const ReadExcel = (file) => {
                 },
             }
             keys.forEach(key => {
-                if (!techs[array[key][techIdentifier].toUpperCase()]) {
-                    techs[array[key][techIdentifier].toUpperCase()] = {
-                        "numerator": array[key][numerator],
-                        'denominator': array[key][denominator]
+                
+                if(typeof(array[key][numerator]) === "number" && typeof(array[key][denominator]) === "number" ) {
+                    if (!techs[array[key][techIdentifier].toUpperCase()]) {
+                        techs[array[key][techIdentifier].toUpperCase()] = {
+                            "numerator": array[key][numerator],
+                            'denominator': array[key][denominator]
+                        }
+    
+                        techs["Total"]["numerator"] += array[key][numerator]
+                        techs["Total"]["denominator"] += array[key][denominator]
+                    } else {
+                        techs[array[key][techIdentifier].toUpperCase()]["numerator"] += array[key][numerator]
+                        techs[array[key][techIdentifier].toUpperCase()]["denominator"] += array[key][denominator]
+                        techs["Total"]["numerator"] += array[key][numerator]
+                        techs["Total"]["denominator"] += array[key][denominator]
                     }
-
-                    techs["Total"]["numerator"] += array[key][numerator]
-                    techs["Total"]["denominator"] += array[key][denominator]
-                } else {
-                    techs[array[key][techIdentifier].toUpperCase()]["numerator"] += array[key][numerator]
-                    techs[array[key][techIdentifier].toUpperCase()]["denominator"] += array[key][denominator]
-                    techs["Total"]["numerator"] += array[key][numerator]
-                    techs["Total"]["denominator"] += array[key][denominator]
+                } 
+                if(typeof(array[key][numerator] !== "number")) {
+                    if(!badCellData.includes(numerator)) badCellData.push(numerator)
                 }
+                if(typeof(array[key][denominator] !== "number")) {
+                    if(!badCellData.includes(denominator)) badCellData.push(denominator)
+                } 
+                
             })
-
+            
             for (let techName in techs) {
                 let tech = techs[techName]
                 tech.rate = tech.numerator / tech.denominator
@@ -334,13 +364,13 @@ export const ReadExcel = (file) => {
 
 
         const fetPregRateData = fetRateKeys.filter(key => fet[key]['agegroup'] === '25-34' || fet[key]['agegroup'] === '35-37')
-
+        
+        
 
         const pregRateData = {
             "Total": {
                 "Pos": 0,
                 "Neg": 0,
-
             },
             "Thaw tech": {},
             "Vit tech": {},
@@ -356,21 +386,28 @@ export const ReadExcel = (file) => {
 
         const setPregRateDataByTech = (tech, keys, hashKey) => {
             keys.forEach(key => {
-                if (!pregRateData[hashKey][fet[key][tech].toUpperCase()]) {
-                    if (fet[key]['betaoutcome'] === 'POS') {
-                        pregRateData[hashKey][fet[key][tech].toUpperCase()] = {
-                            "Pos": 1,
-                            "Neg": 0
+                
+                if (typeof(fet[key][tech]) === "string") {
+                    
+                    if (!pregRateData[hashKey][fet[key][tech].toUpperCase()]) {
+                        if (fet[key]['betaoutcome'] === 'POS') {
+                            pregRateData[hashKey][fet[key][tech].toUpperCase()] = {
+                                "Pos": 1,
+                                "Neg": 0
+                            }
                         }
-                    }
-                    else {
-                        pregRateData[hashKey][fet[key][tech].toUpperCase()] = {
-                            "Pos": 0,
-                            "Neg": 1
+                        else {
+                            pregRateData[hashKey][fet[key][tech].toUpperCase()] = {
+                                "Pos": 0,
+                                "Neg": 1
+                            }
                         }
+                    } else {
+                        fet[key]['betaoutcome'] === 'POS' ? pregRateData[hashKey][fet[key][tech].toUpperCase()]["Pos"] += 1 : pregRateData[hashKey][fet[key][tech].toUpperCase()]["Neg"] += 1
                     }
-                } else {
-                    fet[key]['betaoutcome'] === 'POS' ? pregRateData[hashKey][fet[key][tech].toUpperCase()]["Pos"] += 1 : pregRateData[hashKey][fet[key][tech].toUpperCase()]["Neg"] += 1
+                }
+                else {
+                    if(!badCellData.includes(hashKey)) badCellData.push(hashKey)
                 }
             })
         }
@@ -380,6 +417,8 @@ export const ReadExcel = (file) => {
         setPregRateDataByTech("transemb", fetPregRateData, "Trans tech")
         setPregRateDataByTech("vitemb", fetPregRateData, "Vit tech")
         setPregRateDataByTech("thawemb", fetPregRateData, "Thaw tech")
+
+
 
         const pregDataByAge = {
             "Total": {
@@ -421,19 +460,23 @@ export const ReadExcel = (file) => {
 
         const setPregDataByAge = (keys, ageGroup, age) => {
             keys.forEach(key => {
-
-                if (fet[key]['agegroup'].toLowerCase() === ageGroup) {
-                    if (fet[key]['betaoutcome'] === "POS") {
-                        if (fet[key]['sacs'] === 0) {
-                            pregDataByAge[age]["BC"]++
-                            pregDataByAge["Total"]["BC"]++
+                if (typeof(fet[key]['agegroup']) === "string") {
+                    if (fet[key]['agegroup'].toLowerCase() === ageGroup) {
+                        if (fet[key]['betaoutcome'] === "POS") {
+                            if(typeof(fet[key]['sacs']) === "number") {
+                                if (fet[key]['sacs'] === 0) {
+                                    pregDataByAge[age]["BC"]++
+                                    pregDataByAge["Total"]["BC"]++
+                                } else {
+                                    pregDataByAge[age]["Pos"]++
+                                    pregDataByAge["Total"]["Pos"]++
+                                }   
+                            }
+                          
                         } else {
-                            pregDataByAge[age]["Pos"]++
-                            pregDataByAge["Total"]["Pos"]++
+                            pregDataByAge[age]["Neg"]++
+                            pregDataByAge["Total"]["Neg"]++
                         }
-                    } else {
-                        pregDataByAge[age]["Neg"]++
-                        pregDataByAge["Total"]["Neg"]++
                     }
                 }
             })
@@ -448,7 +491,7 @@ export const ReadExcel = (file) => {
         setPregDataByAge(fetRateKeys, "38-40", "38-40")
         setPregDataByAge(fetRateKeys, "43-50", ">42")
 
-
+        
         const ultraSoundData = {
             "Total": {
                 "HB": 0,
@@ -496,27 +539,29 @@ export const ReadExcel = (file) => {
 
         const setUltraSoundDataByAge = (keys, ageGroup, age) => {
             keys.forEach(key => {
-                if (fet[key]['agegroup'].toLowerCase() === ageGroup) {
-                    if (fet[key]['betaoutcome'] === "POS") {
-                        if (fet[key]["blasttrans"] > 1) {
-                            if (fet[key]['hb'] === 0) {
-                                ultraSoundData[age]["Mult No HB"]++
-
-                                ultraSoundData["Total"]["Mult No HB"]++
+                if(typeof(fet[key]['agegroup']) === 'string') {
+                    if (fet[key]['agegroup'].toLowerCase() === ageGroup) {
+                        if (fet[key]['betaoutcome'] === "POS") {
+                            if (fet[key]["blasttrans"] > 1) {
+                                if (fet[key]['hb'] === 0) {
+                                    ultraSoundData[age]["Mult No HB"]++
+    
+                                    ultraSoundData["Total"]["Mult No HB"]++
+                                } else {
+                                    ultraSoundData[age]["Mult HB"]++
+    
+                                    ultraSoundData["Total"]["Mult HB"]++
+                                }
                             } else {
-                                ultraSoundData[age]["Mult HB"]++
-
-                                ultraSoundData["Total"]["Mult HB"]++
-                            }
-                        } else {
-                            if (fet[key]['hb'] === 0) {
-                                ultraSoundData[age]["No HB"]++
-
-                                ultraSoundData["Total"]["No HB"]++
-                            } else {
-                                ultraSoundData[age]["HB"]++
-
-                                ultraSoundData["Total"]["HB"]++
+                                if (fet[key]['hb'] === 0) {
+                                    ultraSoundData[age]["No HB"]++
+    
+                                    ultraSoundData["Total"]["No HB"]++
+                                } else {
+                                    ultraSoundData[age]["HB"]++
+    
+                                    ultraSoundData["Total"]["HB"]++
+                                }
                             }
                         }
                     }
@@ -531,6 +576,7 @@ export const ReadExcel = (file) => {
         setUltraSoundDataByAge(fetRateKeys, "38-40", "38-40")
         setUltraSoundDataByAge(fetRateKeys, "43-50", ">42")
 
+        
         let combinedData = {
             cleaveRate: cleaveRateData,
             fertRate: fertRateData,
@@ -539,6 +585,7 @@ export const ReadExcel = (file) => {
             ultrasoundData: ultraSoundData,
             blastRateData: blastRateData,
             miscKPI: kpiData,
+            badCellData: badCellData
         }
         resolve(combinedData)
     })

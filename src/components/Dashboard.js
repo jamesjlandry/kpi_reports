@@ -24,6 +24,7 @@ const Dashboard = () => {
   const [blastRateData, setBlastRateData] = useState()
   const [miscKPIData, setMiscKPIData] = useState()
   const [errorMessage, setErrorMessage] = useState()
+  const [badCellData, setBadCellData] = useState()
 
   async function handleFileSelection(e) {
     const file = e.target.files[0]
@@ -36,7 +37,7 @@ const Dashboard = () => {
     setBlastRateData(excelFile.blastRateData)
     setMiscKPIData(excelFile.miscKPI)
     setErrorMessage(excelFile.missingColumns)
-    console.log(errorMessage)
+    setBadCellData(excelFile.badCellData)
     e.target.value = null
   }
 
@@ -55,7 +56,7 @@ const Dashboard = () => {
       <div className="upload">
         <input type="file" onChange={handleFileSelection} />
       </div>
-
+      {badCellData ? <div className="bad_cell_warning"> <div className="warning_message">Warning: Possible Bad Cell Data. Cell information is either missing or incorrect in the following cells which may affect report accuracy: </div>{badCellData.map(cell => <div className="bad_cell_data" >{cell}</div>)}<div className="close_bad_cell_warning" onClick={() => setBadCellData(null)}>Close</div></div> : null}
       <div className="content_wrapper">
         <div className="print_heading">
           <div className="logo">
@@ -64,16 +65,15 @@ const Dashboard = () => {
           <div className="title">
             KPI Report
                 </div>
-          <div className="logo_two">
-            <img src='images/denver_fertility_logo.png' />
-          </div>
+          
           <div className="clinic_name">
 
           </div>
         </div>
         <div>
-
+        
         </div>
+       
         {errorMessage ? <div>Excel Sheet is missing the following column headers: {errorMessage.map(error => <div>{error}</div>)} </div> : null}
         {fertData ? <ChartWrapper first><FertRates fertData={fertData} /></ChartWrapper> : null}
         {cleaveData ? <ChartWrapper><CleavageRates cleaveData={cleaveData} /></ChartWrapper> : null}
